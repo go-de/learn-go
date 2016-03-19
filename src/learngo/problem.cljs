@@ -32,38 +32,67 @@
   (js/setTimeout
    (fn []
      (when reply
-       (bd/play! state reply))
+       (bd/play! state reply)
+       (swap! state assoc :marks {reply :circle}))
      (if status
        (swap! state assoc :status status)
        (swap! state dissoc :disabled?)))
    feedback-delay))
 
-(defn after-play-handler [state variations]
+(defn after-play-handler [state info]
   (fn [pos]
+    (swap! state assoc :marks {pos :circle})
     (let [{:keys [path]} @state
           current (->> path
-                       (interpose :next)
-                       (get-in variations))
-          [move info] (get-key-or-any current pos)
+                       (mapcat #(vector :vars %))
+                       (get-in info))
+          [move info] (get-key-or-any (:vars current)
+                                      pos)
           new-path (conj path move)]
       (swap! state assoc
              :disabled? true
              :path new-path)
       (delay-feedback state info))))
 
-(defn problem [info]
-  (let [{:keys [text stones variations]} info
+(defn nav-bar [reset-handler nav-handler]
+  [:div
+   [:button {:type :button :on-click (partial nav-handler :prev)}
+    "Previous"]
+   [:button {:type :button :on-click reset-handler}
+    "Reset"]
+   [:button {:type :button :on-click (partial nav-handler :next)}
+    "Next"]])
+
+(defn problem [info nav-handler]
+  (let [{:keys [text stones marks]} info
         init (-> info
-                 (assoc :width 300)
-                 (dissoc :text :variations))
-        state (r/atom {:stones stones
-                       :path []})
-        handler (after-play-handler state variations)]
+                 (assoc :width 400)
+                 (dissoc :text :vars))
+        initial-state {:stones stones
+                       :marks marks
+                       :path []}
+        state (r/atom initial-state)
+        handler (after-play-handler state info)]
     (fn []
       [:div
        [bd/board init state handler]
+       [nav-bar #(reset! state initial-state) nav-handler]
        (if-let [status (:status @state)]
          [:p (-> status
                  name
                  str/capitalize)]
          [:p text])])))
+
+(defn collection [descriptions]
+  (let [nav-state (r/atom 0)
+        nav-handler (fn [event]
+                      (reset! nav-state
+                              (case event
+                                :next (min (inc @nav-state)
+                                           (dec (count descriptions)))
+                                :prev (max (dec @nav-state)
+                                           0))))]
+    (fn [descriptions]
+      [(problem
+         (nth descriptions @nav-state)
+         nav-handler)])))
