@@ -5,7 +5,7 @@
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.228"]
                  [devcards "0.2.1-6"]
-                 [reagent "0.5.1"]]
+                 [reagent "0.6.0-alpha"]]
 
   :plugins [[lein-cljsbuild "1.1.1"]
             [lein-figwheel "0.5.0-1"]]
@@ -26,7 +26,7 @@
                        {:id "dev"
                         :source-paths ["src"]
                         :figwheel true
-                        :compiler {:main       "learngo.core"
+                        :compiler {:main       "learngo.main"
                                    :asset-path "js/compiled/out"
                                    :output-to  "resources/public/js/compiled/learngo.js"
                                    :output-dir "resources/public/js/compiled/out"
@@ -40,7 +40,7 @@
                                    :optimizations :advanced}}
                        {:id "prod"
                         :source-paths ["src"]
-                        :compiler {:main       "learngo.core"
+                        :compiler {:main       "learngo.main"
                                    :asset-path "js/compiled/out"
                                    :output-to  "resources/public/js/compiled/learngo.js"
                                    :optimizations :advanced}}]}
