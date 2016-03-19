@@ -8,7 +8,8 @@
                  [reagent "0.6.0-alpha"]]
 
   :plugins [[lein-cljsbuild "1.1.1"]
-            [lein-figwheel "0.5.0-1"]]
+            [lein-figwheel "0.5.0-1"]
+            [lein-externs "0.1.6"]]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled"
                                     "target"]
@@ -35,12 +36,14 @@
                         :source-paths ["src" "test"]
                         :compiler {:main "learngo.cards"
                                    :devcards true
+                                   :externs ["externs/app.js"]
                                    :asset-path "js/compiled/out"
                                    :output-to  "resources/public/js/compiled/learngo_cards.js"
                                    :optimizations :advanced}}
                        {:id "prod"
                         :source-paths ["src"]
                         :compiler {:main       "learngo.main"
+                                   :externs ["externs/app.js"]
                                    :asset-path "js/compiled/out"
                                    :output-to  "resources/public/js/compiled/learngo.js"
                                    :optimizations :advanced}}]}
