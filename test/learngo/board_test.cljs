@@ -13,7 +13,7 @@
 (defn board-example []
   [bd/board
    {:width 400}
-   (atom nil)
+   (r/atom nil)
    print-on-click])
 
 (defcard-rg board

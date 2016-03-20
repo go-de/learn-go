@@ -6,16 +6,6 @@
             [reagent.core    :as r]
             [reagent.ratom   :refer-macros [reaction]]))
 
-(defn current-board [{:keys [stones size path]}]
-  {:stones
-   (dissoc
-    (reduce (fn [board [color move]]
-              (rules/play board color move))
-            (merge stones {:size size})
-            (map vector (cycle [:black :white]) path))
-    :size
-    :ko)})
-
 (defn var-path [path]
   (->> path
        (interleave (repeat :vars))
@@ -129,17 +119,18 @@
 
 (defn make [init-state]
   (let [state (r/atom (assoc init-state
+                             :width 400
                              :tool :black
                              :path []
                              :history []))
         board-state (r/atom (root-board-state state))
         after-play (after-play-handler state board-state)]
-    (fn [board-settings]
+    (fn []
       (let [resulting-problem (dissoc @state :path :history :status :tool)]
         [:div
          [:h3 "Editor"]
          [bd/board
-          (merge board-settings {:width 400})
+          @state
           board-state
           after-play]
          [button "Add Black" (select-tool-handler state board-state :black)]

@@ -8,11 +8,11 @@
 (defn make-object [[x y] item]
   (let [pos-map {:x x
                  :y y}
-        item-map (cond (= item :black)  {:c js/WGo.B}
-                       (= item :white)  {:c js/WGo.W}
-                       (= item :circle) {:type "CR"}
+        item-map (cond (= item :black)    {:c js/WGo.B}
+                       (= item :white)    {:c js/WGo.W}
+                       (= item :circle)   {:type "CR"}
                        (= item :triangle) {:type "TR"}
-                       (string? item)   {:type "LB" :text item})]
+                       (string? item)     {:type "LB" :text item})]
     (clj->js
      (merge pos-map item-map))))
 
@@ -41,17 +41,14 @@
 (defn play! [state move]
   (let [player (or (:player @state)
                    :black)
-        stones (:stones @state)
-        board (rules/play (assoc stones :size 19)
-                          player
-                          move)]
+        board (rules/play @state player move)]
     (when board
-      (swap! state assoc
-             :stones (dissoc board :size :ko)
-             :player (rules/other-color player)))))
+      (reset! state
+              (assoc board :player (rules/other-color player))))))
 
-(defn play-handler [state after-play]
+(defn play-handler [size state after-play]
   (fn [x y]
+    (swap! state assoc :size size)
     (when-not (:disabled? @state)
       (when (play! state [x y])
         (after-play [x y])))))
@@ -83,7 +80,7 @@
           (reset! last-state @state)
           (.addEventListener
            bd "click"
-           (play-handler state after-play))))
+           (play-handler size state after-play))))
       :component-will-update
       (fn [_ [_ init state on-click]]
         (update-board @bd-ref @last-state @state)

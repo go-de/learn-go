@@ -26,9 +26,8 @@
 (defn put
   "A board with stones added at points. For removing stones, use dissoc."
   [board color & points]
-  (merge board
-         (zipmap points
-                 (repeat color))))
+  (update board :stones merge
+          (zipmap points (repeat color))))
 
 (defn make-board
   "Creates a go board of a given size.
@@ -42,18 +41,18 @@
 (def board-points (comp points :size))
 
 (defn board-stones [board]
-  (filter vector? (keys board)))
+  (keys (:stones board)))
 
 (defn neighb-fn [board]
   #(neighbours (:size board) %))
 
 (defn of-col?-fn [board color]
-  #(= (board %) color))
+  #(= (get-in board [:stones %]) color))
 
 (defn chain
   "The set of all points connected to the chain at point"
   [board point]
-  (let [color (board point)
+  (let [color (get-in board [:stones point])
         neighbs (neighb-fn board)
         right-color? (of-col?-fn board color)]
     (loop [current #{point}
@@ -120,15 +119,11 @@
                            (assoc new-board :ko ko)
                            (dissoc new-board :ko))]
     (when (and ((points size) point)
-               (not (board point))
+               (not (get-in board [:stones point]))
                (not (and ko
                          (= (:ko board)
                             point)))
                (not suicide?))
-      (apply dissoc new-board (mapcat #(chain board %)
-                                      captured-neighbs)))))
-
-(defn legal-moves [board color]
-  (->> (board-points board)
-       (remove board)
-       (filter #(play board color %))))
+      (apply update new-board :stones dissoc
+             (mapcat #(chain board %)
+                     captured-neighbs)))))
