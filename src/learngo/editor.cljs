@@ -1,10 +1,12 @@
 (ns learngo.editor
-  (:require [cljs.pprint     :refer [pprint]]
-            [learngo.board   :as bd]
-            [learngo.problem :as pr]
-            [learngo.rules   :as rules]
-            [reagent.core    :as r]
-            [reagent.ratom   :refer-macros [reaction]]))
+  (:require [cljs.pprint        :refer [pprint]]
+            [learngo.board      :as bd]
+            [learngo.forms      :as forms]
+            [learngo.problem    :as pr]
+            [learngo.rules      :as rules]
+            [reagent.core       :as r]
+            [reagent-forms.core :refer [bind-fields]]
+            [reagent.ratom      :refer-macros [reaction]]))
 
 (defn var-path [path]
   (->> path
@@ -117,34 +119,53 @@
         (swap! board-state assoc :player tool))
       (reset! board-state (root-board-state state)))))
 
+(def editor-defaults
+  {:width 400
+   :tool :black
+   :path []
+   :history []
+   :size 9
+   :top 0
+   :left 0
+   :right 0
+   :bottom 0})
+
+(defn board-wrapper [init state after-play]
+  (fn []
+    [bd/board init state after-play]))
+
 (defn make [init-state]
-  (let [state (r/atom (assoc init-state
-                             :width 400
-                             :tool :black
-                             :path []
-                             :history []))
+  (let [state (r/atom (merge editor-defaults init-state))
         board-state (r/atom (root-board-state state))
         after-play (after-play-handler state board-state)]
     (fn []
       (let [resulting-problem (dissoc @state :path :history :status :tool)]
         [:div
-         [:h3 "Editor"]
-         [bd/board
-          @state
-          board-state
-          after-play]
-         [button "Add Black" (select-tool-handler state board-state :black)]
-         [button "Add White" (select-tool-handler state board-state :white)]
-         [button "Play" (select-tool-handler state board-state :play)]
-         [button "Up" (up-handler state board-state)]
-         [button "Top" (top-handler state
-                                    board-state)]
-         [button "Win" (result-handler state :right)]
-         [button "Lose" (result-handler state :wrong)]
-         [button "Any Black" (any-handler state board-state)]
-         [:h3 "Debug Info"]
-         [:pre (with-out-str (pprint resulting-problem))]
-         [:h3 "Problem Preview"]
-         [(pr/problem
-           resulting-problem
-           identity)]]))))
+         [:h3 "Board Geometry"]
+         [bind-fields (forms/geometry)
+          state]
+         [:div.row
+          [:div.col-md-6
+           [:h3 "Editor"]
+           [(board-wrapper
+             @state
+             board-state
+             after-play)]
+           [button "Add Black" (select-tool-handler state board-state :black)]
+           [button "Add White" (select-tool-handler state board-state :white)]
+           [button "Play" (select-tool-handler state board-state :play)]
+           [button "Up" (up-handler state board-state)]
+           [button "Top" (top-handler state
+                                      board-state)]
+           [:br]
+           [button "Win" (result-handler state :right)]
+           [button "Lose" (result-handler state :wrong)]
+           [button "Any Black" (any-handler state board-state)]]
+          [:div.col-md-6
+           [:h3 "Preview"]
+           [(pr/problem
+             resulting-problem
+             identity)]]]
+         [:h3 "Problem Data"]
+         [:pre (with-out-str (pprint (dissoc resulting-problem
+                                             :width)))]]))))

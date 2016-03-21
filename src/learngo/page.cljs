@@ -82,6 +82,7 @@
    [:a {:href "https://github.com/go-de/learn-go"}
     (translate :fork-us-on-github)]
    [:p (translate :or-build-and-send-a-problem)]
+   [:h2 "Problem Editor"]
    [editor/make {:size 9
                  :text "Problem description comes here..."}]])
 
