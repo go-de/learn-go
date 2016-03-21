@@ -1,5 +1,6 @@
 (ns learngo.main
   (:require [learngo.editor   :as editor]
+            [learngo.page     :as page]
             [learngo.problem  :as problem]
             [learngo.problems :as problems]
             [reagent.core     :as r]))
@@ -19,3 +20,10 @@
 (defn ^:export editor []
   (when-let [node (.getElementById js/document "container")]
     (r/render editor-component node)))
+
+(defn page-component []
+  [page/content])
+
+(defn ^:export learngo []
+  (when-let [node (.getElementById js/document "container")]
+    (r/render page-component node)))

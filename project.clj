@@ -5,7 +5,8 @@
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.228"]
                  [devcards "0.2.1-6"]
-                 [reagent "0.6.0-alpha"]]
+                 [reagent "0.6.0-alpha"]
+                 [secretary "1.2.3"]]
 
   :plugins [[lein-cljsbuild "1.1.1"]
             [lein-figwheel "0.5.0-1"]
