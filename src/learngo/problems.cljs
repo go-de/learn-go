@@ -15,6 +15,169 @@
           :any  {:status :wrong
                  :reply  [4 3]}}})
 
+(def capture-2
+  {:stones
+   {[3 4] :black,
+    [4 6] :black,
+    [5 5] :black,
+    [4 5] :white,
+    [5 4] :black,
+    [3 5] :black,
+    [4 4] :white},
+   :bottom 0,
+   :top 0,
+   :size 9,
+   :right 0,
+   :vars
+   {[4 3] {:status :right, :vars {}},
+    :any {:reply [4 3], :vars {}, :status :wrong}},
+   :left 0,
+   :text "Capture two stones"})
+
+(def capture-3
+  {:stones
+   {[3 4] :white,
+    [4 6] :black,
+    [2 4] :black,
+    [5 5] :white,
+    [5 6] :black,
+    [4 5] :white,
+    [3 3] :black,
+    [3 5] :white,
+    [6 5] :black,
+    [3 6] :black,
+    [4 4] :black,
+    [2 5] :black},
+   :bottom 0,
+   :top 0,
+   :size 9,
+   :right 0,
+   :vars {[5 4] {}, :any {:reply [5 4], :vars {}, :status :wrong}},
+   :left 0,
+   :text "Capture in one move"})
+
+(def capture-4
+  {:stones
+   {[4 3] :black,
+    [4 6] :black,
+    [5 5] :black,
+    [5 6] :white,
+    [4 7] :black,
+    [4 5] :white,
+    [5 4] :black,
+    [2 6] :white,
+    [3 5] :black,
+    [6 6] :white,
+    [3 6] :white,
+    [4 4] :white},
+   :bottom 0,
+   :top 0,
+   :size 9,
+   :right 0,
+   :vars
+   {[3 4] {:status :right, :vars {}}, :any {:status :wrong, :vars {}}},
+   :left 0,
+   :text "Capture two stones in one move"})
+
+(def capture-5
+  {:stones
+   {[3 4] :black,
+    [4 6] :white,
+    [2 4] :white,
+    [5 6] :white,
+    [2 7] :white,
+    [4 5] :black,
+    [2 6] :white,
+    [3 5] :white,
+    [3 6] :black,
+    [3 7] :black},
+   :bottom 0,
+   :top 0,
+   :size 9,
+   :right 0,
+   :vars
+   {:any {:reply [2 5], :vars {}, :status :wrong},
+    [2 5] {:status :right, :vars {}}},
+   :left 0,
+   :text "Capture the white stone and connect yours"})
+
+(def capture-side
+  {:stones
+   {[4 8] :white,
+    [5 8] :black,
+    [3 8] :white,
+    [3 7] :black,
+    [2 8] :black},
+   :bottom 0,
+   :top 0,
+   :size 9,
+   :right 0,
+   :vars
+   {[5 7]
+    {:reply [4 7],
+     :vars
+     {[4 6] {:status :right, :vars {}},
+      :any {:reply [4 6], :vars {}, :status :wrong}},
+     :status nil},
+    [4 6] {:reply [4 7], :vars {[5 7] {}}, :status nil},
+    [4 7] {:status :right, :vars {}},
+    :any {:reply [5 7], :vars {}, :status :wrong}},
+   :left 0,
+   :text "Capture the two stones at the side"})
+
+
+(def capture-side2
+  {:stones
+   {[0 8] :white,
+    [0 7] :white,
+    [0 6] :black,
+    [1 8] :white,
+    [2 8] :black},
+   :bottom 0,
+   :top 0,
+   :size 9,
+   :right 0,
+   :vars
+   {[1 7] {:status :right, :vars {}}, :any {:status :wrong, :vars {}}},
+   :left 0,
+   :text "Capture the white stones in one move"})
+
+(def capture-side3
+  {:stones
+   {[5 7] :white,
+    [4 6] :white,
+    [5 6] :black,
+    [4 7] :black,
+    [2 7] :white,
+    [7 7] :black,
+    [6 6] :black,
+    [6 7] :white,
+    [3 6] :white,
+    [3 7] :black,
+    [2 5] :white,
+    [7 6] :black},
+   :bottom 0,
+   :top 0,
+   :size 9,
+   :right 0,
+   :vars
+   {[6 8]
+    {:reply [3 8],
+     :vars
+     {[5 8] {:status :right, :vars {}},
+      :any {:reply [4 8], :vars {}, :status :wrong},
+      [4 8] {:reply [5 8], :vars {}, :status :wrong}},
+     :status nil},
+    [5 8]
+    {:reply [3 8],
+     :vars
+     {[6 8] {:status :right, :vars {}},
+      :any {:reply [4 8], :vars {}, :status :wrong},
+      [4 8] {:reply [6 8], :vars {}, :status :wrong}},
+     :status nil}},
+   :left 0,
+   :text "Capture the two white stones at the side"})
+
 (def geta-1
   {:text "Capture the stone marked \"A\""
    :size 9
@@ -58,4 +221,11 @@
 
 (def all
   [capture-1
+   capture-2
+   capture-3
+   capture-4
+   capture-5
+   capture-side
+   capture-side2
+   capture-side3
    geta-1])
