@@ -1,6 +1,6 @@
 # learn-go #
 
-An interactive Go tutorial in ClojureScript
+An interactive Go tutorial, written in ClojureScript
 
 ## Developer Setup
 
