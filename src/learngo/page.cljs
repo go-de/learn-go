@@ -3,6 +3,7 @@
             [goog.events            :as events]
             [goog.history.EventType :as EventType]
             [learngo.editor         :as editor]
+            [learngo.i18n           :as i18n]
             [learngo.problem        :as problem]
             [learngo.problems       :as problems]
             [reagent.core           :as r]
@@ -43,14 +44,12 @@
       (.pushState js/history #js {} "" url)
       (secretary/dispatch! url))))
 
-(def translate (comp #(str/replace % #"-" " ") name))
-
 (defn home-page []
   [:div.container-fluid
-   [:h1 (translate :go-is-awesome)]
+   [:h1 (i18n/translate :welcome-text)]
    [:button.btn.btn-primary {:type :button
                              :on-click #(navigate :tutorial)}
-    (translate :learn!)]])
+    (i18n/translate :start-tutorial)]])
 
 (defn navbar [page-name & items]
   [:nav {:class "navbar navbar-default"}
@@ -65,7 +64,7 @@
                        "active")
               :style {:cursor :pointer}}
          [:a {:on-click #(navigate item)}
-          (name item)]]))]]])
+          (i18n/translate item)]]))]]])
 
 (defn problem-page []
   [problem/collection
@@ -73,27 +72,28 @@
 
 (defn history-page []
   [:div.container-fluid
-   [:h1 (translate :go-history)]
-   [:p (translate :lorem-ipsum)]])
+   [:h1 (i18n/translate :go-history)]
+   [:p (i18n/translate :lorem-ipsum)]])
 
 (defn contribute-page []
   [:div.container-fluid
-   [:h1 (translate :contribute)]
+   [:h1 (i18n/translate :contribute)]
    [:a {:href "https://github.com/go-de/learn-go"}
-    (translate :fork-us-on-github)]
-   [:p (translate :or-build-and-send-a-problem)]
+    (i18n/translate :fork-us-on-github)]
+   [:p (i18n/translate :or-build-and-send-a-problem)]
    [:h2 "Problem Editor"]
    [editor/make {:size 9
                  :text "Problem description comes here..."}]])
 
 (defn links-page []
   [:div.container-fluid
-   [:h1 (translate :useful-links)]
-   [:a {:href "http://www.dgob.de"} (translate :dgob)]])
+   [:h1 (i18n/translate :useful-links)]
+   [:a {:href "http://www.dgob.de"} (i18n/translate :dgob)]])
 
 (defn content []
   [:div
-   [navbar "Learn Go" :home :tutorial :history :links :contribute]
+   [navbar (i18n/translate :learn-go)
+    :home :tutorial :history :links :contribute]
    [:div
     (case @current-page
       :home [home-page]
