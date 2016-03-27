@@ -1,6 +1,7 @@
 (ns learngo.editor
   (:require [cljs.pprint        :refer [pprint]]
             [learngo.board      :as bd]
+            [learngo.buttons    :as buttons]
             [learngo.forms      :as forms]
             [learngo.problem    :as pr]
             [learngo.rules      :as rules]
@@ -139,8 +140,22 @@
         board-state (r/atom (root-board-state state))
         after-play (after-play-handler state board-state)]
     (fn []
-      (let [resulting-problem (dissoc @state :path :history :status :tool)]
-        [:div
+      (let [resulting-problem (dissoc @state :path :history :status :tool)
+            tool->button {:black :add-black
+                          :white :add-white
+                          :play :play}
+            button-state (reaction
+                          (let [active-btn (-> @state
+                                               :tool
+                                               tool->button)
+                                disable-any-black?
+                                (or (= (:player @board-state) :white)
+                                     (not= active-btn :play))]
+                            (merge
+                             {active-btn :active}
+                             (when disable-any-black?
+                               {:any-black :disabled}))))]
+        [:div.container-fluid
          [:h3 "Board Geometry"]
          [bind-fields (forms/geometry)
           state]
@@ -151,16 +166,17 @@
              @state
              board-state
              after-play)]
-           [button "Add Black" (select-tool-handler state board-state :black)]
-           [button "Add White" (select-tool-handler state board-state :white)]
-           [button "Play" (select-tool-handler state board-state :play)]
-           [button "Up" (up-handler state board-state)]
-           [button "Top" (top-handler state
-                                      board-state)]
-           [:br]
-           [button "Win" (result-handler state :right)]
-           [button "Lose" (result-handler state :wrong)]
-           [button "Any Black" (any-handler state board-state)]]
+           [buttons/group
+            [[:add-black (select-tool-handler state board-state :black)]
+             [:add-white (select-tool-handler state board-state :white)]
+             [:play (select-tool-handler state board-state :play)]
+             [:up (up-handler state board-state)]
+             [:top (top-handler state
+                                board-state)]
+             [:win (result-handler state :right)]
+             [:lose (result-handler state :wrong)]
+             [:any-black (any-handler state board-state)]]
+            button-state]]
           [:div.col-md-6
            [:h3 "Preview"]
            [(pr/problem
