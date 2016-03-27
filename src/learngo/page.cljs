@@ -61,12 +61,15 @@
      [:a.navbar-brand page-name]]
     [:ul {:class "nav navbar-nav"}
      (doall
-      (for [item items]
+      (for [[item icon] items]
         [:li {:key item
               :class (when (= @current-page item)
                        "active")
               :style {:cursor :pointer}}
          [:a {:on-click #(navigate item)}
+          (when icon
+            [ui/glyphicon icon])
+          " "
           (i18n/translate item)]]))]]])
 
 (defn problem-page []
@@ -97,7 +100,11 @@
 (defn content []
   [:div
    [navbar (i18n/translate :learn-go)
-    :home :tutorial :history :links :contribute]
+    [:home :home]
+    [:tutorial :education]
+    [:history :globe]
+    [:links :link]
+    [:contribute :scissors]]
    [:div
     (case @current-page
       :home [home-page]
