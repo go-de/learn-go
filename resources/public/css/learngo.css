@@ -1,0 +1,17 @@
+p.status-icon {
+  margin-left: 360px;
+  font-size: 40px;
+}
+
+p.status-icon.wrong {
+  color: red;
+}
+
+p.status-icon.right {
+  color: green;
+}
+
+.problem-nav {
+  position: absolute;
+  margin-top: 5px;
+}

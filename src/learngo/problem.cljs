@@ -1,9 +1,10 @@
 (ns learngo.problem
-  (:require [clojure.string  :as str]
-            [learngo.board   :as bd]
-            [learngo.buttons :as btn]
-            [reagent.core    :as r]
-            [learngo.i18n    :as i18n]))
+  (:require [clojure.string   :as str]
+            [learngo.board    :as bd]
+            [learngo.buttons  :as btn]
+            [learngo.i18n     :as i18n]
+            [learngo.ui-utils :as ui]
+            [reagent.core     :as r]))
 
 (def feedback-delay 400)
 
@@ -57,9 +58,8 @@
       (delay-feedback state info))))
 
 (defn nav-bar [reset-handler nav-handler]
-  [:div.btn-group {:role :group
-                   :style {:position :absolute
-                           :margin-top "5px"}}
+  [:div.btn-group.problem-nav
+   {:role :group}
    [btn/icon
     :arrow-left
     :previous-problem
@@ -74,16 +74,10 @@
     (partial nav-handler :next)]])
 
 (defn result-icon [status]
-  [:p {:style {:margin-left 360
-               :font-size "40px"}}
-   [:span.result-icon.glyphicon
-    {:title (i18n/translate status)
-     :class (case status
-              :right :glyphicon-ok
-              :wrong :glyphicon-remove)
-     :style {:color (case status
-                      :right :green
-                      :wrong :red)}}]])
+  [:p.status-icon {:class status}
+   [ui/glyphicon (case status
+                   :right :ok
+                   :wrong :remove)]])
 
 (defn problem [info nav-handler]
   (let [{:keys [text stones marks]} info
