@@ -89,7 +89,7 @@
 (defn links-page []
   [:div.container-fluid
    [:h1 (translate :useful-links)]
-   [:a {:href "https://www.dgob.de/intern/index.htm"} (translate :dgob)]])
+   [:a {:href "http://www.dgob.de"} (translate :dgob)]])
 
 (defn content []
   [:div
