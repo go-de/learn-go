@@ -6,6 +6,7 @@
             [learngo.i18n           :as i18n]
             [learngo.problem        :as problem]
             [learngo.problems       :as problems]
+            [learngo.ui-utils       :as ui]
             [reagent.core           :as r]
             [secretary.core         :as secretary :refer-macros [defroute]])
   (:import goog.History))
@@ -47,9 +48,11 @@
 (defn home-page []
   [:div.container-fluid
    [:h1 (i18n/translate :welcome-text)]
-   [:button.btn.btn-primary {:type :button
-                             :on-click #(navigate :tutorial)}
-    (i18n/translate :start-tutorial)]])
+   [:button.btn.btn-primary.btn-lg
+    {:type :button
+     :on-click #(navigate :tutorial)}
+    (i18n/translate :start-tutorial)
+    " " [ui/glyphicon :play-circle]]])
 
 (defn navbar [page-name & items]
   [:nav {:class "navbar navbar-default"}
