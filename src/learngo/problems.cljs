@@ -5,10 +5,10 @@
    :text {:de "Fange den weißen Stein"
           :en "Capture the white stone"}
    :size 9
-   :top 1
-   :left 1
-   :bottom 1
-   :right 1
+   :top 0
+   :left 0
+   :bottom 0
+   :right 0
    :stones {[3 4] :black
             [5 4] :black
             [4 5] :black
@@ -200,10 +200,10 @@
    :text {:de "Fange den mit \"A\" markierten Stein"
           :en "Capture the stone marked \"A\""}
    :size 9
-   :top 1
-   :left 1
-   :bottom 1
-   :right 1
+   :top 0
+   :left 0
+   :bottom 0
+   :right 0
    :marks {[4 4] "A"}
    :stones
    {[3 4] :black,
