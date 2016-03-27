@@ -1,7 +1,9 @@
 (ns learngo.problem
-  (:require [clojure.string :as str]
-            [learngo.board  :as bd]
-            [reagent.core   :as r]))
+  (:require [clojure.string  :as str]
+            [learngo.board   :as bd]
+            [learngo.buttons :as btn]
+            [reagent.core    :as r]
+            [learngo.i18n    :as i18n]))
 
 (def feedback-delay 400)
 
@@ -55,13 +57,33 @@
       (delay-feedback state info))))
 
 (defn nav-bar [reset-handler nav-handler]
-  [:div
-   [:button {:type :button :on-click (partial nav-handler :prev)}
-    "Previous"]
-   [:button {:type :button :on-click reset-handler}
-    "Reset"]
-   [:button {:type :button :on-click (partial nav-handler :next)}
-    "Next"]])
+  [:div.btn-group {:role :group
+                   :style {:position :absolute
+                           :margin-top "5px"}}
+   [btn/icon
+    :arrow-left
+    :previous-problem
+    (partial nav-handler :prev)]
+   [btn/icon
+    :repeat
+    :restart-problem
+    reset-handler]
+   [btn/icon
+    :arrow-right
+    :next-problem
+    (partial nav-handler :next)]])
+
+(defn result-icon [status]
+  [:p {:style {:margin-left 360
+               :font-size "40px"}}
+   [:span.result-icon.glyphicon
+    {:title (i18n/translate status)
+     :class (case status
+              :right :glyphicon-ok
+              :wrong :glyphicon-remove)
+     :style {:color (case status
+                      :right :green
+                      :wrong :red)}}]])
 
 (defn problem [info nav-handler]
   (let [{:keys [text stones marks]} info
@@ -74,14 +96,14 @@
         state (r/atom initial-state)
         handler (after-play-handler state info)]
     (fn []
-      [:div
-       [bd/board init state handler]
-       [nav-bar #(reset! state initial-state) nav-handler]
-       (if-let [status (:status @state)]
-         [:p (-> status
-                 name
-                 str/capitalize)]
-         [:p text])])))
+      (let [status (:status @state)]
+        [:div.row
+         [:div.col-xs-12
+          [:p.lead text]
+          [bd/board init state handler]
+          [nav-bar #(reset! state initial-state) nav-handler]
+          (when status
+            [result-icon status])]]))))
 
 (defn collection [descriptions]
   (let [nav-state (r/atom 0)
