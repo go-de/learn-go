@@ -80,7 +80,7 @@
                    :wrong :remove)]])
 
 (defn problem [info nav-handler]
-  (let [{:keys [text stones marks]} info
+  (let [{:keys [title stones marks]} info
         init (-> info
                  (assoc :width 400)
                  (dissoc :text :vars))
@@ -93,7 +93,7 @@
       (let [status (:status @state)]
         [:div.row
          [:div.col-xs-12
-          [:p.lead text]
+          [:h3 (title @i18n/language)]
           [bd/board init state handler]
           [nav-bar #(reset! state initial-state) nav-handler]
           (when status

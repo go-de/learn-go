@@ -83,7 +83,8 @@
    [:p (i18n/translate :or-build-and-send-a-problem)]
    [:h2 "Problem Editor"]
    [editor/make {:size 9
-                 :text "Problem description comes here..."}]])
+                 :title {:de "Vorschau"}
+                 :text {:de "Problembeschreibung hier.."}}]])
 
 (defn links-page []
   [:div.container-fluid

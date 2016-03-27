@@ -178,7 +178,6 @@
              [:any-black (any-handler state board-state)]]
             button-state]]
           [:div.col-md-6
-           [:h3 "Preview"]
            [(pr/problem
              resulting-problem
              identity)]]]

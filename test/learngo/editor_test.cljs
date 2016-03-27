@@ -8,7 +8,8 @@
 
 (defn example-editor-test []
   [editor/make {:size 9
-                :text "Problem description comes here..."}])
+                :title {:de "Problemtitel"}
+                :text {:de "Problemtext"}}])
 
 (defcard-rg example-editor
   [example-editor-test])

@@ -1,7 +1,9 @@
 (ns learngo.problems)
 
 (def capture-1
-  {:text "Capture the white stone"
+  {:title {:de "Aller Anfang ist leicht"}
+   :text {:de "Fange den weißen Stein"
+          :en "Capture the white stone"}
    :size 9
    :top 1
    :left 1
@@ -32,7 +34,9 @@
    {[4 3] {:status :right, :vars {}},
     :any {:reply [4 3], :vars {}, :status :wrong}},
    :left 0,
-   :text "Capture two stones"})
+   :title {:de "Nimm zwei"}
+   :text {:de "Fange zwei Steine mit einem Zug"
+          :en "Capture two stones in one move"}})
 
 (def capture-3
   {:stones
@@ -52,9 +56,12 @@
    :top 0,
    :size 9,
    :right 0,
-   :vars {[5 4] {}, :any {:reply [5 4], :vars {}, :status :wrong}},
+   :vars {[5 4] {:status :right},
+          :any {:reply [5 4], :vars {}, :status :wrong}},
    :left 0,
-   :text "Capture in one move"})
+   :title {:de "Vier gewinnt"}
+   :text {:de "Fange in einem Zug",
+          :en "Capture in one move"}})
 
 (def capture-4
   {:stones
@@ -77,7 +84,9 @@
    :vars
    {[3 4] {:status :right, :vars {}}, :any {:status :wrong, :vars {}}},
    :left 0,
-   :text "Capture two stones in one move"})
+   :title {:de "Die Zwei"}
+   :text {:de "Fange zwei Steine in einem Zug"
+          :en "Capture two stones in one move"}})
 
 (def capture-5
   {:stones
@@ -99,7 +108,9 @@
    {:any {:reply [2 5], :vars {}, :status :wrong},
     [2 5] {:status :right, :vars {}}},
    :left 0,
-   :text "Capture the white stone and connect yours"})
+   :title {:de "Eine schlagende Verbindung"}
+   :text {:de "Fange den weißen Stein und verbinde deine"
+          :en "Capture the white stone and connect yours"}})
 
 (def capture-side
   {:stones
@@ -123,7 +134,9 @@
     [4 7] {:status :right, :vars {}},
     :any {:reply [5 7], :vars {}, :status :wrong}},
    :left 0,
-   :text "Capture the two stones at the side"})
+   :title {:de "Randfang"}
+   :text {:de "Fange zwei Steine am Rand"
+          :en "Capture the two stones at the side"}})
 
 
 (def capture-side2
@@ -140,7 +153,9 @@
    :vars
    {[1 7] {:status :right, :vars {}}, :any {:status :wrong, :vars {}}},
    :left 0,
-   :text "Capture the white stones in one move"})
+   :title {:de "Tödliche Ecke"}
+   :text {:de "Fange die weißen Steine mit einem Zug"
+          :en "Capture the white stones in one move"}})
 
 (def capture-side3
   {:stones
@@ -176,10 +191,14 @@
       [4 8] {:reply [6 8], :vars {}, :status :wrong}},
      :status nil}},
    :left 0,
-   :text "Capture the two white stones at the side"})
+   :title {:de "Wettlauf"}
+   :text {:de "Fange die zwei weißen Steine am Rand (3 Züge)"
+          :en "Capture the two white stones at the side (3 moves)"}})
 
 (def geta-1
-  {:text "Capture the stone marked \"A\""
+  {:title {:de "Im Netz der Spinne"}
+   :text {:de "Fange den mit \"A\" markierten Stein"
+          :en "Capture the stone marked \"A\""}
    :size 9
    :top 1
    :left 1
