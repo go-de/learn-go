@@ -20,4 +20,12 @@
    :useful-links "Nützliche Links"
    :welcome-text "Willkommen bei go-lernen.de"
    :wrong "falsch"
+   :add-black "Schwarz setzen"
+   :add-white "Weiß setzen"
+   :play "Spielen"
+   :up "Zurück"
+   :top "Anfang"
+   :win "Richtig"
+   :lose "Falsch"
+   :any-black "Jeder andere Zug"
    })
