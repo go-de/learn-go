@@ -1,3 +1,7 @@
+.board {
+  margin: 10px 0;
+}
+
 p.status-icon {
   position: absolute;
   margin-left: 360px;
