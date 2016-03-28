@@ -1,4 +1,5 @@
 p.status-icon {
+  position: absolute;
   margin-left: 360px;
   font-size: 40px;
 }
@@ -12,6 +13,10 @@ p.status-icon.right {
 }
 
 .problem-nav {
-  position: absolute;
   margin-top: 5px;
+}
+
+p.problem-text {
+  margin-top: 5px;
+  font-size: 17px;
 }

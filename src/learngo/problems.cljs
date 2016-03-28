@@ -13,8 +13,10 @@
             [5 4] :black
             [4 5] :black
             [4 4] :white}
-   :vars {[4 3] {:status :right}
+   :vars {[4 3] {:status :right
+                 :text {:de "Gut gemacht!"}}
           :any  {:status :wrong
+                 :text {:de "Probier's nochmal"}
                  :reply  [4 3]}}})
 
 (def capture-2

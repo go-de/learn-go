@@ -31,12 +31,13 @@
     [k v]
     [:any (:any m)]))
 
-(defn delay-feedback [state {:keys [reply status]}]
+(defn delay-feedback [state {:keys [reply status text]}]
   (js/setTimeout
    (fn []
      (when reply
        (bd/play! state reply)
        (swap! state assoc :marks {reply :circle}))
+     (swap! state assoc :text (@i18n/language text))
      (if status
        (swap! state assoc :status status)
        (swap! state dissoc :disabled?)))
@@ -80,24 +81,28 @@
                    :wrong :remove)]])
 
 (defn problem [info nav-handler]
-  (let [{:keys [title stones marks]} info
+  (let [{:keys [text title stones marks]} info
         init (-> info
                  (assoc :width 400)
                  (dissoc :text :vars))
         initial-state {:stones stones
                        :marks marks
+                       :text (@i18n/language text)
                        :path []}
         state (r/atom initial-state)
         handler (after-play-handler state info)]
     (fn []
-      (let [status (:status @state)]
-        [:div.row
-         [:div.col-xs-12
-          [:h3 (title @i18n/language)]
-          [bd/board init state handler]
-          [nav-bar #(reset! state initial-state) nav-handler]
-          (when status
-            [result-icon status])]]))))
+      (let [{:keys [status text]} @state]
+        [:div.problem
+         [:h3 (title @i18n/language)]
+         [:div.row
+          [:div.col-md-6
+           [bd/board init state handler]
+           (when status
+             [result-icon status])
+           [nav-bar #(reset! state initial-state) nav-handler]]
+          [:div.col-md-6
+           [:p.problem-text text]]]]))))
 
 (defn collection [descriptions]
   (let [nav-state (r/atom 0)

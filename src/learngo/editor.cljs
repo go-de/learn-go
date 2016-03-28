@@ -159,13 +159,14 @@
          [:h3 "Board Geometry"]
          [bind-fields (forms/geometry)
           state]
+         [:h3 "Editor"]
          [:div.row
           [:div.col-md-6
-           [:h3 "Editor"]
            [(board-wrapper
              @state
              board-state
-             after-play)]
+             after-play)]]
+          [:div.col-md-6
            [buttons/group
             [[:add-black (select-tool-handler state board-state :black)]
              [:add-white (select-tool-handler state board-state :white)]
@@ -176,11 +177,10 @@
              [:win (result-handler state :right)]
              [:lose (result-handler state :wrong)]
              [:any-black (any-handler state board-state)]]
-            button-state]]
-          [:div.col-md-6
-           [(pr/problem
-             resulting-problem
-             identity)]]]
+            button-state]]]
+         [(pr/problem
+           resulting-problem
+           identity)]
          [:h3 "Problem Data"]
          [:pre (with-out-str (pprint (dissoc resulting-problem
                                              :width)))]]))))
