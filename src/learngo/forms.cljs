@@ -21,3 +21,11 @@
    (size-slider :left "Left cutoff" :max 15)
    (size-slider :bottom "Bottom cutoff" :max 15)
    (size-slider :right "Right cutoff" :max 15)])
+
+(defn input [id caption]
+  [:div.row
+   [:div.col-sm-4
+    [:label {:for id} caption]]
+   [:div.col-sm-4
+    [:input.form-control {:field :text
+                          :id id}]]])

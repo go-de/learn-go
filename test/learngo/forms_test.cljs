@@ -21,3 +21,18 @@
 
 (defcard-rg sample-form
   [sample-form])
+
+(defn sample-input []
+  (let [state (r/atom {:text "Some Text"
+                       :title "Some Title"})]
+    (fn []
+      [:div.container
+       [bind-fields
+        [:div
+         (forms/input :text "Text")
+         (forms/input :title "Title")]
+        state]
+       [:pre (str @state)]])))
+
+(defcard-rg sample-input
+  [sample-input])
