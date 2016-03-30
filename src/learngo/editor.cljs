@@ -153,32 +153,49 @@
                              (when disable-any-black?
                                {:any-black :disabled}))))
             width @(r/track layout/board-width)]
-        [:div
-         [:h3 (i18n/translate :board-geometry)]
-         [bind-fields (forms/geometry)
-          state]
-         [:h3 (i18n/translate :editor)]
-         [:div.row
-          [:div.col-md-6
-           [(bd/board-wrapper
-             (assoc @state :width width)
-             board-state
-             after-play)]]
-          [:div.col-md-6
-           [buttons/group
-            [[:add-black (select-tool-handler state board-state :black)]
-             [:add-white (select-tool-handler state board-state :white)]
-             [:play (select-tool-handler state board-state :play)]
-             [:up (up-handler state board-state)]
-             [:top (top-handler state
-                                board-state)]
-             [:win (result-handler state :right)]
-             [:lose (result-handler state :wrong)]
-             [:any-black (any-handler state board-state)]]
-            button-state]]]
-         [:h2 (i18n/translate :preview)]
-         [(pr/problem
-           resulting-problem
-           identity)]
-         [:h3 (i18n/translate :problem-data)]
-         [:pre (with-out-str (pprint resulting-problem))]]))))
+        [:div.panel-group
+         [:div.panel.panel-default
+          [:div.panel-heading
+           [:h4.panel-title
+            [:a (i18n/translate :board-geometry)]]]
+          [:div.panel-body
+           [bind-fields (forms/geometry)
+            state]]]
+         [:div.panel.panel-default
+          [:div.panel-heading
+           [:h4.panel-title
+            [:a (i18n/translate :editor)]]]
+          [:div.panel-body
+           [:div.row
+            [:div.col-md-6.col-lg-5
+             [(bd/board-wrapper
+               (assoc @state :width width)
+               board-state
+               after-play)]]
+            [:div.col-md-6.col-sm-8.col-xs-9
+             [buttons/group
+              [[:add-black (select-tool-handler state board-state :black)]
+               [:add-white (select-tool-handler state board-state :white)]
+               [:play (select-tool-handler state board-state :play)]
+               [:up (up-handler state board-state)]
+               [:top (top-handler state
+                                  board-state)]
+               [:win (result-handler state :right)]
+               [:lose (result-handler state :wrong)]
+               [:any-black (any-handler state board-state)]]
+              button-state]]]
+           ]]
+         [:div.panel.panel-default
+          [:div.panel-heading
+           [:h4.panel-title
+            [:a (i18n/translate :preview)]]]
+          [:div.panel-body
+           [(pr/problem
+             resulting-problem
+             identity)]]]
+         [:div.panel.panel-default
+          [:div.panel-heading
+           [:h4.panel-title
+            [:a (i18n/translate :problem-data)]]]
+          [:div.panel-body
+           [:pre (with-out-str (pprint resulting-problem))]]]]))))

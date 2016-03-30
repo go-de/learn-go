@@ -84,10 +84,13 @@
 (defn contribute-page []
   [:div
    [:h1 (i18n/translate :contribute)]
-   [:a {:href "https://github.com/go-de/learn-go"}
-    (i18n/translate :fork-us-on-github)]
-   [:p (i18n/translate :or-build-and-send-a-problem)]
-   [:h2 (i18n/translate :problem-editor)]
+   [:ul
+    [:li
+     [:a {:href "https://github.com/go-de/learn-go"}
+      (i18n/translate :fork-us-on-github)]]
+    [:li
+     [:p (i18n/translate :or-build-and-send-a-problem) ":"]]]
+   [:h3 (i18n/translate :problem-editor)]
    [editor/make {:size 9
                  :title {:de "Problemtitel ..."}}]])
 

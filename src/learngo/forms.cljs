@@ -5,14 +5,14 @@
                                  :or {min 0
                                       max 19}}]
   [:div.row
-   [:div.col-sm-4
+   [:div.col-xs-4.col-md-3.col-lg-2
     [:label {:for id} caption]]
-   [:div.col-sm-4
+   [:div.col-xs-6.col-md-4
     [:input.form-control {:field :range
                           :min min
                           :max max
                           :id id}]]
-   [:div.col-sm-2
+   [:div.col-xs-2
     [:label {:field :label :id id}]]])
 
 (defn geometry []
