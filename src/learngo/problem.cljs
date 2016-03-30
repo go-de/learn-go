@@ -75,8 +75,10 @@
     :next-problem
     (partial nav-handler :next)]])
 
-(defn result-icon [status]
-  [:p.status-icon {:class status}
+(defn result-icon [status board-width]
+  [:p.status-icon {:class status
+                   :style {:margin-left (str (- board-width 40)
+                                             "px")}}
    [ui/glyphicon (case status
                    :right :ok
                    :wrong :remove)]])
@@ -101,7 +103,7 @@
           [:div.col-md-6.col-lg-5
            [(bd/board-wrapper board-opts state handler)]
            (when status
-             [result-icon status])
+             [result-icon status width])
            [nav-bar #(reset! state initial-state) nav-handler]]
           [:div.col-md-6
            [:p.problem-text text]]]]))))
