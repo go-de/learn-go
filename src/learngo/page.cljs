@@ -87,10 +87,9 @@
    [:a {:href "https://github.com/go-de/learn-go"}
     (i18n/translate :fork-us-on-github)]
    [:p (i18n/translate :or-build-and-send-a-problem)]
-   [:h2 "Problem Editor"]
+   [:h2 (i18n/translate :problem-editor)]
    [editor/make {:size 9
-                 :title {:de "Vorschau"}
-                 :text {:de "Problembeschreibung hier.."}}]])
+                 :title {:de "Problemtitel ..."}}]])
 
 (defn links-page []
   [:div
@@ -112,4 +111,4 @@
       :history [history-page]
       :contribute [contribute-page]
       :links [links-page]
-      [:h1 "Or else..."])]])
+      [:h1 "Page not found"])]])

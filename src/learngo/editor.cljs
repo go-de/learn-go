@@ -3,6 +3,7 @@
             [learngo.board      :as bd]
             [learngo.buttons    :as buttons]
             [learngo.forms      :as forms]
+            [learngo.i18n       :as i18n]
             [learngo.layout     :as layout]
             [learngo.problem    :as pr]
             [learngo.rules      :as rules]
@@ -153,10 +154,10 @@
                                {:any-black :disabled}))))
             width @(r/track layout/board-width)]
         [:div
-         [:h3 "Board Geometry"]
+         [:h3 (i18n/translate :board-geometry)]
          [bind-fields (forms/geometry)
           state]
-         [:h3 "Editor"]
+         [:h3 (i18n/translate :editor)]
          [:div.row
           [:div.col-md-6
            [(bd/board-wrapper
@@ -175,8 +176,9 @@
              [:lose (result-handler state :wrong)]
              [:any-black (any-handler state board-state)]]
             button-state]]]
+         [:h2 (i18n/translate :preview)]
          [(pr/problem
            resulting-problem
            identity)]
-         [:h3 "Problem Data"]
+         [:h3 (i18n/translate :problem-data)]
          [:pre (with-out-str (pprint resulting-problem))]]))))

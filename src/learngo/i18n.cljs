@@ -1,5 +1,5 @@
 (ns learngo.i18n
-  (:require [clojure.string :as str]
+  (:require [clojure.string              :as str]
             [learngo.translations.german :as de]))
 
 (def language (atom :de))
