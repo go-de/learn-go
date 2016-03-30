@@ -1,0 +1,15 @@
+* Editor
+** Edit title and node texts
+** Show Status in button state - add button to unset
+** Show variations
+** Delete node
+** "Refute all other" button
+** Edit collection, not one problem
+** Load and save as .edn
+* Problem Collection
+** Concept
+** More Problems
+* Page Content
+** About Go
+** History
+* Page Design
