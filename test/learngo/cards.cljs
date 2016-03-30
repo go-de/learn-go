@@ -4,6 +4,7 @@
             [learngo.editor-test]
             [learngo.forms-test]
             [learngo.i18n-test]
+            [learngo.layout-test]
             [learngo.page-test]
             [learngo.problem-test]
             [learngo.rules-test]))

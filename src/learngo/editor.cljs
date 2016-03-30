@@ -3,6 +3,7 @@
             [learngo.board      :as bd]
             [learngo.buttons    :as buttons]
             [learngo.forms      :as forms]
+            [learngo.layout     :as layout]
             [learngo.problem    :as pr]
             [learngo.rules      :as rules]
             [reagent.core       :as r]
@@ -121,8 +122,7 @@
       (reset! board-state (root-board-state state)))))
 
 (def editor-defaults
-  {:width 400
-   :tool :black
+  {:tool :black
    :path []
    :history []
    :size 9
@@ -130,10 +130,6 @@
    :left 0
    :right 0
    :bottom 0})
-
-(defn board-wrapper [init state after-play]
-  (fn []
-    [bd/board init state after-play]))
 
 (defn make [init-state]
   (let [state (r/atom (merge editor-defaults init-state))
@@ -154,7 +150,8 @@
                             (merge
                              {active-btn :active}
                              (when disable-any-black?
-                               {:any-black :disabled}))))]
+                               {:any-black :disabled}))))
+            width @(r/track layout/board-width)]
         [:div
          [:h3 "Board Geometry"]
          [bind-fields (forms/geometry)
@@ -162,8 +159,8 @@
          [:h3 "Editor"]
          [:div.row
           [:div.col-md-6
-           [(board-wrapper
-             @state
+           [(bd/board-wrapper
+             (assoc @state :width width)
              board-state
              after-play)]]
           [:div.col-md-6
@@ -182,5 +179,4 @@
            resulting-problem
            identity)]
          [:h3 "Problem Data"]
-         [:pre (with-out-str (pprint (dissoc resulting-problem
-                                             :width)))]]))))
+         [:pre (with-out-str (pprint resulting-problem))]]))))

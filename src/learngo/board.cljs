@@ -89,3 +89,7 @@
       (fn [init state on-click]
         @state
         [:div.board])})))
+
+(defn board-wrapper [init state after-play]
+  (fn []
+    [board init state after-play]))

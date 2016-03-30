@@ -3,6 +3,7 @@
             [learngo.board    :as bd]
             [learngo.buttons  :as btn]
             [learngo.i18n     :as i18n]
+            [learngo.layout   :as layout]
             [learngo.ui-utils :as ui]
             [reagent.core     :as r]))
 
@@ -83,7 +84,6 @@
 (defn problem [info nav-handler]
   (let [{:keys [text title stones marks]} info
         init (-> info
-                 (assoc :width 400)
                  (dissoc :text :vars))
         initial-state {:stones stones
                        :marks marks
@@ -92,12 +92,14 @@
         state (r/atom initial-state)
         handler (after-play-handler state info)]
     (fn []
-      (let [{:keys [status text]} @state]
+      (let [{:keys [status text]} @state
+            width @(r/track layout/board-width)
+            board-opts (assoc init :width width)]
         [:div.problem
          [:h3 (title @i18n/language)]
          [:div.row
           [:div.col-md-6
-           [bd/board init state handler]
+           [(bd/board-wrapper board-opts state handler)]
            (when status
              [result-icon status])
            [nav-bar #(reset! state initial-state) nav-handler]]
@@ -113,7 +115,7 @@
                                            (dec (count descriptions)))
                                 :prev (max (dec @nav-state)
                                            0))))]
-    (fn [descriptions]
+    (fn []
       [(problem
          (nth descriptions @nav-state)
          nav-handler)])))
