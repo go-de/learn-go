@@ -4,6 +4,8 @@
   {
    :board-geometry "Brettausschnitt"
    :board-size "Brettgröße"
+   :contact "Kontakt"
+   :contact-us "Kontaktinformationen"
    :top-cutoff "oben abschneiden"
    :left-cutoff "links abschneiden"
    :bottom-cutoff "unten abschneiden"

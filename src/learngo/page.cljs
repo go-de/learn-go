@@ -34,6 +34,9 @@
 (defroute contribute "/contribute" []
   (reset! current-page :contribute))
 
+(defroute contact "/contact" []
+  (reset! current-page :contact))
+
 (defroute "*" []
   (reset! current-page :not-found))
 
@@ -99,6 +102,10 @@
    [:h1 (i18n/translate :useful-links)]
    [:a {:href "http://www.dgob.de"} (i18n/translate :dgob)]])
 
+(defn contact-page []
+  [:div
+   [:h1 (i18n/translate :contact-us)]])
+
 (defn content []
   [:div
    [navbar (i18n/translate :learn-go)
@@ -106,7 +113,8 @@
     [:tutorial :education]
     [:history :globe]
     [:links :link]
-    [:contribute :scissors]]
+    [:contribute :scissors]
+    [:contact :envelope]]
    [:div
     (case @current-page
       :home [home-page]
@@ -114,4 +122,5 @@
       :history [history-page]
       :contribute [contribute-page]
       :links [links-page]
+      :contact [contact-page]
       [:h1 "Page not found"])]])
