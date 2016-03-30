@@ -98,7 +98,7 @@
         [:div.problem
          [:h3 (title @i18n/language)]
          [:div.row
-          [:div.col-md-6
+          [:div.col-md-6.col-lg-5
            [(bd/board-wrapper board-opts state handler)]
            (when status
              [result-icon status])
