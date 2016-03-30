@@ -46,7 +46,7 @@
       (secretary/dispatch! url))))
 
 (defn home-page []
-  [:div.container-fluid
+  [:div
    [:h1 (i18n/translate :welcome-text)]
    [:button.btn.btn-primary.btn-lg
     {:type :button
@@ -77,12 +77,12 @@
    problems/all])
 
 (defn history-page []
-  [:div.container-fluid
+  [:div
    [:h1 (i18n/translate :go-history)]
    [:p (i18n/translate :lorem-ipsum)]])
 
 (defn contribute-page []
-  [:div.container-fluid
+  [:div
    [:h1 (i18n/translate :contribute)]
    [:a {:href "https://github.com/go-de/learn-go"}
     (i18n/translate :fork-us-on-github)]
@@ -93,7 +93,7 @@
                  :text {:de "Problembeschreibung hier.."}}]])
 
 (defn links-page []
-  [:div.container-fluid
+  [:div
    [:h1 (i18n/translate :useful-links)]
    [:a {:href "http://www.dgob.de"} (i18n/translate :dgob)]])
 

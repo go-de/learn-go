@@ -155,7 +155,7 @@
                              {active-btn :active}
                              (when disable-any-black?
                                {:any-black :disabled}))))]
-        [:div.container-fluid
+        [:div
          [:h3 "Board Geometry"]
          [bind-fields (forms/geometry)
           state]
