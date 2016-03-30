@@ -138,18 +138,34 @@
         after-play (after-play-handler state board-state)]
     (fn []
       (let [resulting-problem (dissoc @state :path :history :status :tool)
+            path (:path @state)
+            node-state (r/cursor state (var-path path))
+            parent-state (when-not (empty? path)
+                           (r/cursor state (var-path (pop path))))
             tool->button {:black :add-black
                           :white :add-white
                           :play :play}
+            result->button {:right :win
+                            :wrong :lose
+                            nil :no-result-yet}
             button-state (reaction
-                          (let [active-btn (-> @state
+                          (let [active-tool-btn (-> @state
                                                :tool
                                                tool->button)
+                                active-status-btn (-> @node-state
+                                                      :status
+                                                      result->button)
                                 disable-any-black?
                                 (or (= (:player @board-state) :white)
-                                     (not= active-btn :play))]
+                                     (not= active-tool-btn :play))]
                             (merge
-                             {active-btn :active}
+                             {active-tool-btn :active
+                              active-status-btn :active
+                              :refutes-other-moves :disabled}
+                             (when (empty? path)
+                               {:up :disabled
+                                :top :disabled
+                                :delete-node :disabled})
                              (when disable-any-black?
                                {:any-black :disabled}))))
             width @(r/track layout/board-width)]
@@ -176,15 +192,35 @@
              [buttons/group
               [[:add-black (select-tool-handler state board-state :black)]
                [:add-white (select-tool-handler state board-state :white)]
-               [:play (select-tool-handler state board-state :play)]
-               [:up (up-handler state board-state)]
+               [:play (select-tool-handler state board-state :play)]]
+              button-state]
+             [:br]
+             [buttons/group
+              [[:up (up-handler state board-state)]
                [:top (top-handler state
                                   board-state)]
+               [:delete-node identity]]
+              button-state]
+             [:br]
+             [buttons/group
+              [[:any-black (any-handler state board-state)]
+               [:refutes-other-moves identity]]
+              button-state]
+             [:br]
+             [buttons/group
+              [[:no-result-yet (result-handler state nil)]
                [:win (result-handler state :right)]
-               [:lose (result-handler state :wrong)]
-               [:any-black (any-handler state board-state)]]
-              button-state]]]
-           ]]
+               [:lose (result-handler state :wrong)]]
+              button-state]
+             [:br]
+             [:br]
+             [bind-fields
+              (forms/input :de (i18n/translate :title))
+              (r/cursor state [:title])]
+             [:br]
+             [bind-fields
+              (forms/input :de (i18n/translate :node-text))
+              (r/cursor node-state [:text])]]]]]
          [:div.panel.panel-default
           [:div.panel-heading
            [:h4.panel-title

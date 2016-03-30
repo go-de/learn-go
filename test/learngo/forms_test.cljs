@@ -1,7 +1,7 @@
 (ns learngo.forms-test
   (:require [cljs.test          :refer-macros [is]]
             [devcards.core      :refer-macros [defcard-rg
-                                           deftest
+                                               deftest
                                                start-devcard-ui!]]
             [learngo.forms      :as forms]
             [reagent.core       :as r]
