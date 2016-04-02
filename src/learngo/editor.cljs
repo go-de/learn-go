@@ -96,6 +96,15 @@
     (let [handler (tool-handler (:tool @state))]
       ((handler state board-state) pos))))
 
+(defn on-click-handler [state board-state]
+  (fn [pos]
+    (let [tool (:tool @state)
+          color (get-in @state [:stones pos])]
+      (when (and (not= tool :play)
+                 color)
+        (swap! state update :stones dissoc pos)
+        (swap! board-state update :stones dissoc pos)))))
+
 (defn result-handler [state result]
   (fn []
     (assoc-in-var! state
@@ -147,7 +156,8 @@
 (defn make [init-state]
   (let [state (r/atom (merge editor-defaults init-state))
         board-state (r/atom (root-board-state state))
-        after-play (after-play-handler state board-state)]
+        after-play (after-play-handler state board-state)
+        on-click (on-click-handler state board-state)]
     (fn []
       (let [resulting-problem (dissoc @state :path :history :status :tool)
             path (:path @state)
@@ -197,7 +207,8 @@
              [(bd/board-wrapper
                (assoc @state :width width)
                board-state
-               after-play)]]
+               after-play
+               on-click)]]
             [:div.col-md-6.col-sm-8.col-xs-9
              [buttons/group
               [[:add-black (select-tool-handler state board-state :black)]

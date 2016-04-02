@@ -46,12 +46,14 @@
       (reset! state
               (assoc board :player (rules/other-color player))))))
 
-(defn play-handler [size state after-play]
+(defn play-handler [size state after-play on-click]
   (fn [x y]
     (swap! state assoc :size size)
     (when-not (:disabled? @state)
-      (when (play! state [x y])
-        (after-play [x y])))))
+      (when-not (when on-click
+                  (on-click [x y]))
+        (when (play! state [x y])
+          (after-play [x y]))))))
 
 (defn board [{:keys [size width height top left right bottom]
               :or {size 19
@@ -60,7 +62,8 @@
                    right 0
                    bottom 0}}
              state
-             after-play]
+             after-play
+             & [on-click]]
   (let [bd-ref (atom nil)
         last-state (atom nil)]
     (r/create-class
@@ -80,16 +83,16 @@
           (reset! last-state @state)
           (.addEventListener
            bd "click"
-           (play-handler size state after-play))))
+           (play-handler size state after-play on-click))))
       :component-will-update
-      (fn [_ [_ init state on-click]]
+      (fn [_ _]
         (update-board @bd-ref @last-state @state)
         (reset! last-state @state))
       :reagent-render
-      (fn [init state on-click]
+      (fn []
         @state
         [:div.board])})))
 
-(defn board-wrapper [init state after-play]
+(defn board-wrapper [init state after-play & [on-click]]
   (fn []
-    [board init state after-play]))
+    [board init state after-play on-click]))
