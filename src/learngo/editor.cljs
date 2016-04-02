@@ -214,13 +214,11 @@
               button-state]
              [:br]
              [:br]
-             [bind-fields
-              (forms/input :de (i18n/translate :title))
-              (r/cursor state [:title])]
+             [forms/atom-input (i18n/translate :title)
+              (r/cursor state [:title :de])]
              [:br]
-             [bind-fields
-              (forms/input :de (i18n/translate :node-text))
-              (r/cursor node-state [:text])]]]]]
+             [forms/atom-input (i18n/translate :node-text)
+              (r/cursor node-state [:text :de])]]]]]
          [:div.panel.panel-default
           [:div.panel-heading
            [:h4.panel-title
