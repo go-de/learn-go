@@ -1,5 +1,6 @@
 (ns learngo.editor
   (:require [cljs.pprint        :refer [pprint]]
+            [debux.cs.core      :refer-macros [clog]]
             [learngo.board      :as bd]
             [learngo.buttons    :as buttons]
             [learngo.forms      :as forms]
@@ -122,6 +123,17 @@
         (swap! board-state assoc :player tool))
       (reset! board-state (root-board-state state)))))
 
+(defn delete-handler [state board-state]
+  (let [up (up-handler state board-state)]
+    (fn []
+      (let [path (:path @state)
+            move (peek path)
+            parent-path (var-path (pop path))
+            delete-path (conj parent-path :vars)]
+        (up)
+        (when (= :black (:player @board-state))
+          (swap! state update-in delete-path dissoc move))))))
+
 (def editor-defaults
   {:tool :black
    :path []
@@ -140,8 +152,6 @@
       (let [resulting-problem (dissoc @state :path :history :status :tool)
             path (:path @state)
             node-state (r/cursor state (var-path path))
-            parent-state (when-not (empty? path)
-                           (r/cursor state (var-path (pop path))))
             tool->button {:black :add-black
                           :white :add-white
                           :play :play}
@@ -197,9 +207,8 @@
              [:br]
              [buttons/group
               [[:up (up-handler state board-state)]
-               [:top (top-handler state
-                                  board-state)]
-               [:delete-node identity]]
+               [:top (top-handler state board-state)]
+               [:delete-node (delete-handler state board-state)]]
               button-state]
              [:br]
              [buttons/group

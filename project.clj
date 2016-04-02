@@ -4,6 +4,7 @@
 
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.228"]
+                 [philoskim/debux "0.2.0"]
                  [devcards "0.2.1-6"]
                  [reagent "0.6.0-alpha"]
                  [secretary "1.2.3"]
