@@ -1,4 +1,4 @@
-(ns learngo.layout
+(ns learngo.view.layout
   (:require [reagent.core :as reagent]))
 
 (defn calc-dimensions []

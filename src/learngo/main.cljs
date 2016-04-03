@@ -1,12 +1,14 @@
 (ns learngo.main
-  (:require [learngo.editor   :as editor]
-            [learngo.page     :as page]
-            [learngo.problem  :as problem]
-            [learngo.problems :as problems]
-            [reagent.core     :as r]))
+  (:require [learngo.view.editor  :as editor-view]
+            [learngo.view.page    :as page-view]
+            [learngo.view.problem :as problem-view]
+            [learngo.problems     :as problems]
+            [reagent.core         :as r]))
+
+(enable-console-print!)
 
 (defn problems-component []
-  [problem/collection
+  [problem-view/collection
    problems/all])
 
 (defn ^:export problems []
@@ -14,15 +16,15 @@
     (r/render problems-component node)))
 
 (defn editor-component []
-  [editor/make {:size 9
-                :text "Problem description comes here..."}])
+  [editor-view/editor {:size 9
+                       :text "Problem description comes here..."}])
 
 (defn ^:export editor []
   (when-let [node (.getElementById js/document "container")]
     (r/render editor-component node)))
 
 (defn page-component []
-  [page/content])
+  [page-view/content])
 
 (defn ^:export learngo []
   (when-let [node (.getElementById js/document "container")]

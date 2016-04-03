@@ -1,18 +1,17 @@
-(ns learngo.page
+(ns learngo.view.page
   (:require [clojure.string         :as str]
             [goog.events            :as events]
             [goog.history.EventType :as EventType]
-            [learngo.editor         :as editor]
             [learngo.i18n           :as i18n]
-            [learngo.problem        :as problem]
             [learngo.problems       :as problems]
-            [learngo.ui-utils       :as ui]
+            [learngo.view.editor    :as editor-view]
+            [learngo.view.problem   :as problem-view]
+            [learngo.view.utils     :as ui]
             [reagent.core           :as r]
             [secretary.core         :as secretary :refer-macros [defroute]])
   (:import goog.History))
 
 (defonce current-page (r/atom :home))
-
 
 (secretary/set-config! :prefix "#")
 
@@ -76,7 +75,7 @@
           (i18n/translate item)]]))]]])
 
 (defn problem-page []
-  [problem/collection
+  [problem-view/collection
    problems/all])
 
 (defn history-page []
@@ -94,8 +93,7 @@
     [:li
      [:p (i18n/translate :or-build-and-send-a-problem) ":"]]]
    [:h3 (i18n/translate :problem-editor)]
-   [editor/make {:size 9
-                 :title {:de "Problemtitel ..."}}]])
+   [editor-view/editor {:size 9}]])
 
 (defn links-page []
   [:div

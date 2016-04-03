@@ -6,7 +6,7 @@
    :board-size "Brettgröße"
    :contact "Kontakt"
    :contact-us "Kontaktinformationen"
-   :delete-node "Knoten löschen"
+   :delete-move "Zug löschen"
    :top-cutoff "oben abschneiden"
    :left-cutoff "links abschneiden"
    :bottom-cutoff "unten abschneiden"

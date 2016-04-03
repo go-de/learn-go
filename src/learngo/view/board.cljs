@@ -1,9 +1,7 @@
-(ns learngo.board
-  (:require [clojure.data  :as data]
-            [learngo.rules :as rules]
-            [reagent.core  :as r]))
-
-(enable-console-print!)
+(ns learngo.view.board
+  (:require [clojure.data    :as data]
+            [reagent.core    :as r]
+            [taoensso.timbre :refer-macros [debug]]))
 
 (defn make-object [[x y] item]
   (let [pos-map {:x x
@@ -38,61 +36,56 @@
     (add-all bd stones-to-add)
     (add-all bd marks-to-add)))
 
-(defn play! [state move]
-  (let [player (or (:player @state)
-                   :black)
-        board (rules/play @state player move)]
-    (when board
-      (reset! state
-              (assoc board :player (rules/other-color player))))))
+(defn deep-merge [a b]
+  (merge-with (fn [x y]
+                (cond (map? y) (deep-merge x y)
+                      (vector? y) (concat x y)
+                      :else y))
+              a b))
 
-(defn play-handler [size state after-play on-click]
-  (fn [x y]
-    (swap! state assoc :size size)
-    (when-not (:disabled? @state)
-      (when-not (when on-click
-                  (on-click [x y]))
-        (when (play! state [x y])
-          (after-play [x y]))))))
+(def geometry-defaults
+  {:size 9
+   :section {:top 0
+             :left 0
+             :right 0
+             :bottom 0}})
 
-(defn board [{:keys [size width height top left right bottom]
-              :or {size 19
-                   top 0
-                   left 0
-                   right 0
-                   bottom 0}}
-             state
-             after-play
-             & [on-click]]
+;; The component needs to be remounted on geometry change
+;; so it's a different argument in raw-board
+(defn raw-board [geometry
+                 state
+                 on-click]
   (let [bd-ref (atom nil)
-        last-state (atom nil)]
+        last-state (atom nil)
+        geometry (deep-merge geometry-defaults geometry)]
+    (debug "rendering board")
     (r/create-class
      {:component-did-mount
       (fn [obj]
         (let [node (js/ReactDOM.findDOMNode obj)
               bd (js/WGo.Board. node
-                                (clj->js {:height height
-                                          :width width
-                                          :size size
-                                          :section {:top top
-                                                    :left left
-                                                    :right right
-                                                    :bottom bottom}}))]
+                                (clj->js geometry))
+              click-handler (fn [x y]
+                              (on-click [x y]))]
           (reset! bd-ref bd)
           (update-board bd nil @state)
           (reset! last-state @state)
-          (.addEventListener
-           bd "click"
-           (play-handler size state after-play on-click))))
+          (when on-click
+            (.addEventListener bd "click" click-handler))))
       :component-will-update
       (fn [_ _]
         (update-board @bd-ref @last-state @state)
         (reset! last-state @state))
       :reagent-render
       (fn []
+        (debug "updating board" @state)
         @state
         [:div.board])})))
 
-(defn board-wrapper [init state after-play & [on-click]]
-  (fn []
-    [board init state after-play on-click]))
+(defn geometry [board]
+  (select-keys board [:size :section :width]))
+
+(defn board [state {:keys [on-click]}]
+  (let [geom (r/track #(geometry @state))]
+    (fn []
+      [(raw-board @geom state on-click)])))
