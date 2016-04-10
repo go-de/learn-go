@@ -56,8 +56,8 @@
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla non ex lacinia, euismod turpis vitae, placerat ante. Aenean faucibus diam risus, imperdiet feugiat justo dapibus eget. Vivamus iaculis metus lacus, mollis placerat nisl gravida sed. Nulla facilisi. Sed hendrerit mi porttitor, pharetra leo a, ultricies justo. Mauris quis quam sit amet nibh vehicula accumsan quis eu libero. Duis egestas ipsum eu eros gravida consectetur. Cras molestie erat in metus laoreet aliquam. Nunc blandit ligula nec risus rutrum fermentum. Aenean vitae iaculis turpis."
      ]
      [:div {:class "col-sm-4"}
-       [:button.btn.btn-default.btn-block
-        {:type :button
+       [:button.btn.btn-primary.btn-block
+        {:type :button :class "attention"
          :on-click #(navigate :tutorial)}
         [:span {:class "btn-header"}(i18n/translate :start-tutorial)]
         [:span {:class "btn-subtext"} (i18n/translate :start-tutorial-subtext)]
