@@ -1,3 +1,18 @@
+@font-face {
+  font-family: 'Simonetta';
+    src:  url('fonts/Simonetta.ttf.woff') format('woff'),
+    url('fonts/Simonetta.ttf.svg#Simonetta') format('svg'),
+    url('fonts/Simonetta.ttf.eot'),
+    url('fonts/Simonetta.eot?#iefix') format('embedded-opentype'); 
+    font-weight: normal;
+    font-style: normal;
+}
+
+body
+{
+	font-family: 'Simonetta';
+}
+
 .board {
   margin: 10px 0;
 }
@@ -23,3 +38,172 @@ p.problem-text {
   margin-top: 5px;
   font-size: 19px;
 }
+
+.navbar-default
+{
+    border:none;
+    background-color:transparent;
+}
+
+li a span {
+    border-bottom:2xp solid rgba(0,0,0,0.25);
+}
+
+.navbar-header
+{
+    background-image: url(../graphics/logo.png);
+    background-repeat:no-repeat;
+    width: 263px;
+    height:116px;
+    margin-top:25px;
+}
+
+.navbar-brand
+{
+    visibility:hidden;
+}
+
+.navbar-nav
+{
+    padding-top:70px;    
+    margin-left:30px;
+}
+
+.navbar-nav:before
+{
+    width:150px;
+    position:relative;
+    left:-150px;
+    top:31px;
+    border-bottom: 2px solid rgba(0,0,0,0.1);
+}
+
+.navbar-nav li
+{
+    background-color:white;
+}
+
+.navbar-default .navbar-nav>.active>a
+{
+    background:transparent;
+    background-image:url(../graphics/highlight.png);
+    background-repeat:no-repeat;
+    background-position:bottom right;
+    
+    padding:8px 15px;
+    border-bottom:none;
+}
+
+.navbar-default .navbar-nav>.active>a:focus
+{
+    background:#e0b862;
+    background-image:url(../graphics/highlight.png);
+    background-repeat:no-repeat;
+    background-position:bottom right;
+    color:#000000;
+}
+
+.navbar-default .navbar-nav>.active>a:hover
+{
+    background:transparent;
+    background-image:url(../graphics/highlight.png);
+    background-repeat:no-repeat;
+    background-position:bottom right;
+    color:#e0b862;
+}
+
+.navbar-default .navbar-nav>li>a
+{
+    padding:8px 15px;
+    border-bottom: 2px solid rgba(0,0,0,0.1);
+    padding-bottom:1px;
+}
+
+.navbar-default .navbar-nav>li>a:focus
+{
+
+}
+
+.navbar-default .navbar-nav>li>a:hover
+{
+    background:transparent;
+    color:#e0b862;
+}
+@media(max-width:992px)
+{
+    .navbar-nav
+    {
+        padding-top:0px;
+        margin-top:30px;
+        margin-left:-15px;
+    }    
+    
+    .navbar-nav:before
+    {
+        display:none;
+    }
+}
+
+@media(max-width:767px)
+{
+    .navbar-nav
+    {
+        padding-top:0px;
+        margin-top:30px;
+        margin-left:-15px;
+    }    
+    
+    .navbar-nav:before
+    {
+        display:none;
+    }
+    
+
+    .navbar-default .navbar-nav>.active>a
+    {
+        background:#e0b862;
+        background-image:url(../graphics/highlight.png);
+        background-repeat:no-repeat;
+        background-position:bottom right;
+        color:black;
+        padding:8px 15px;
+        border-bottom:none;
+        margin-bottom:-5px;
+        z-index:9;
+    }    
+        
+    .navbar-default .navbar-nav>.active>a:hover
+    {
+        background:#e0b862;
+        background-image:url(../graphics/highlight.png);
+        background-repeat:no-repeat;
+        background-position:bottom right;
+        color:black;
+    }
+
+    .navbar-default .navbar-nav>li>a
+    {
+        padding:8px 15px;
+        border-bottom: 2px solid rgba(0,0,0,0.1);
+        padding-bottom:1px;
+        background-color:white;
+        z-index:1;
+    }
+
+    .navbar-default .navbar-nav>li>a:focus
+    {
+
+    }
+
+    .navbar-default .navbar-nav>li>a:hover
+    {
+        background:transparent;
+        color:#e0b862;
+    }
+}
+
+.glyphicon
+{
+    margin-right:5px;
+}
+
