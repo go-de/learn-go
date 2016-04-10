@@ -24,8 +24,8 @@
 (defroute tutorial "/tutorial" []
   (reset! current-page :tutorial))
 
-(defroute history "/history" []
-  (reset! current-page :history))
+(defroute history "/about-go" []
+  (reset! current-page :about-go))
 
 (defroute links "/links" []
   (reset! current-page :links))
@@ -63,9 +63,9 @@
        ]
        [:button.btn.btn-default.btn-block
          {:type :button
-          :on-click #(navigate :history)}
-         [:span {:class "btn-header"}(i18n/translate :start-history)]
-         [:span {:class "btn-subtext"} (i18n/translate :start-history-subtext)]
+          :on-click #(navigate :about-go)}
+         [:span {:class "btn-header"}(i18n/translate :start-about-go)]
+         [:span {:class "btn-subtext"} (i18n/translate :start-about-go-subtext)]
        ]
      ]
    ]
@@ -95,9 +95,9 @@
   [problem-view/collection
    problems/all]])
 
-(defn history-page []
+(defn about-go-page []
   [:div {:class "content"}
-   [:h1 (i18n/translate :go-history)]
+   [:h1 (i18n/translate :about-go)]
    [:img {:class "img-rounded flow-right" :src "graphics/external/gostobobo.gif"}]
    [:p {:class "justify"} "Go hat - unter dem Namen 'Wei-qi' - seinen Ursprung im alten China des zweiten vorchristlichen Jahrtausends und ist damit mehr als 4000 Jahre alt. Vor ungefähr 1300 Jahren hat Wei-qi seinen Weg nach Japan gefunden. Seitdem wurde die antike Form des Wei-qi von den Japanern zu der heute vornehmlich bekannten Form des Go verändert und weiterentwickelt. Auch heute haben Go bzw. Wei-qi in Japan und China einen großen Stellenwert, man findet kaum eine Zeitung oder ein Magazin ohne eine Spalte über das Spiel. Ebenso populär ist das Spiel unter dem Namen 'Baduk' in Korea. Außerhalb von China, Japan und Korea wird ebenfalls Go gespielt. Weltweit dürfte die Zahl der Go-Spieler mehrere Millionen betragen."]
    [:img {:class "img-rounded flow-left" :src "graphics/external/goplaying.jpg"}]
@@ -137,7 +137,7 @@ Für alle, die nun Interesse bekommen haben und die Go-Regeln sofort erklärt be
    [navbar (i18n/translate :learn-go)
     [:home :home]
     [:tutorial :education]
-    [:history :globe]
+    [:about-go :question-sign]
     [:links :link]
     [:contribute :scissors]
     [:contact :envelope]]
@@ -145,7 +145,7 @@ Für alle, die nun Interesse bekommen haben und die Go-Regeln sofort erklärt be
     (case @current-page
       :home [home-page]
       :tutorial [problem-page]
-      :history [history-page]
+      :about-go [about-go-page]
       :contribute [contribute-page]
       :links [links-page]
       :contact [contact-page]
