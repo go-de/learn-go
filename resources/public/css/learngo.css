@@ -290,3 +290,30 @@ li a span {
     margin-right:5px;
 }
 
+.btn-primary
+{
+    background-color:#e0b862;
+    border:1px solid rgba(0,0,0,0.25);
+    color:black;
+}
+
+.attention {
+  animation: pulse 10s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: rotate(0deg); }
+  
+  16% { transform: rotate(0deg); }
+  20% { transform: rotate(5deg) scale(1.2); }
+  21% { transform: rotate(-3deg) scale(1.2); }
+  22% { transform: rotate(12deg) scale(1.2); }
+  23% { transform: rotate(-7deg) scale(1.2); }
+  24% { transform: rotate(14deg) scale(1.2); }  
+  25% { transform: rotate(-4deg) scale(1.2); }
+  26% { transform: rotate(8deg) scale(1.2); }
+  28% { transform: rotate(8deg) scale(1.2); }
+  
+  30% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
+}
