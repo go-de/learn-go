@@ -50,11 +50,27 @@
 (defn home-page []
   [:div
    [:h1 (i18n/translate :welcome-text)]
-   [:button.btn.btn-primary.btn-lg
-    {:type :button
-     :on-click #(navigate :tutorial)}
-    (i18n/translate :start-tutorial)
-    " " [ui/glyphicon :play-circle]]])
+   [:div {:class "row"}
+     [:div {:class "col-sm-6"}
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla non ex lacinia, euismod turpis vitae, placerat ante. Aenean faucibus diam risus, imperdiet feugiat justo dapibus eget. Vivamus iaculis metus lacus, mollis placerat nisl gravida sed. Nulla facilisi. Sed hendrerit mi porttitor, pharetra leo a, ultricies justo. Mauris quis quam sit amet nibh vehicula accumsan quis eu libero. Duis egestas ipsum eu eros gravida consectetur. Cras molestie erat in metus laoreet aliquam. Nunc blandit ligula nec risus rutrum fermentum. Aenean vitae iaculis turpis."
+     ]
+     [:div {:class "col-sm-4"}
+       [:button.btn.btn-default.btn-block
+        {:type :button
+         :on-click #(navigate :tutorial)}
+        [:span {:class "btn-header"}(i18n/translate :start-tutorial)]
+        [:span {:class "btn-subtext"} (i18n/translate :start-tutorial-subtext)]
+        [ui/glyphicon :play-circle]]
+       [:button.btn.btn-default.btn-block
+         {:type :button
+          :on-click #(navigate :history)}         
+         [:span {:class "btn-header"}(i18n/translate :start-history)]
+         [:span {:class "btn-subtext"} (i18n/translate :start-history-subtext)]
+         [ui/glyphicon :play-circle]]
+     ]
+   ]
+
+  ])
 
 (defn navbar [page-name & items]
   [:nav {:class "navbar navbar-default"}
