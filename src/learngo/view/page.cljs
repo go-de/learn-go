@@ -48,10 +48,10 @@
       (secretary/dispatch! url))))
 
 (defn home-page []
-  [:div
+  [:div {:class "content"}
    [:h1 (i18n/translate :welcome-text)]
    [:div {:class "row"}
-     [:div {:class "col-sm-6"}
+     [:div {:class "col-sm-6 justify"}
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla non ex lacinia, euismod turpis vitae, placerat ante. Aenean faucibus diam risus, imperdiet feugiat justo dapibus eget. Vivamus iaculis metus lacus, mollis placerat nisl gravida sed. Nulla facilisi. Sed hendrerit mi porttitor, pharetra leo a, ultricies justo. Mauris quis quam sit amet nibh vehicula accumsan quis eu libero. Duis egestas ipsum eu eros gravida consectetur. Cras molestie erat in metus laoreet aliquam. Nunc blandit ligula nec risus rutrum fermentum. Aenean vitae iaculis turpis."
      ]
      [:div {:class "col-sm-4"}
@@ -60,13 +60,13 @@
          :on-click #(navigate :tutorial)}
         [:span {:class "btn-header"}(i18n/translate :start-tutorial)]
         [:span {:class "btn-subtext"} (i18n/translate :start-tutorial-subtext)]
-        [ui/glyphicon :play-circle]]
+       ]
        [:button.btn.btn-default.btn-block
          {:type :button
-          :on-click #(navigate :history)}         
+          :on-click #(navigate :history)}
          [:span {:class "btn-header"}(i18n/translate :start-history)]
          [:span {:class "btn-subtext"} (i18n/translate :start-history-subtext)]
-         [ui/glyphicon :play-circle]]
+       ]
      ]
    ]
 
@@ -91,13 +91,14 @@
           (i18n/translate item)]]))]]])
 
 (defn problem-page []
+  [:div {:class "content"}
   [problem-view/collection
-   problems/all])
+   problems/all]])
 
 (defn history-page []
-  [:div
+  [:div {:class "content"}
    [:h1 (i18n/translate :go-history)]
-   [:p (i18n/translate :lorem-ipsum)]])
+   [:p {:class "justify"} (i18n/translate :lorem-ipsum)]])
 
 (defn contribute-page []
   [:div
@@ -112,12 +113,12 @@
    [editor-view/editor {:size 9}]])
 
 (defn links-page []
-  [:div
+  [:div {:class "content"}
    [:h1 (i18n/translate :useful-links)]
    [:a {:href "http://www.dgob.de"} (i18n/translate :dgob)]])
 
 (defn contact-page []
-  [:div
+  [:div {:class "content"}
    [:h1 (i18n/translate :contact-us)]])
 
 (defn content []
