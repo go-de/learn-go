@@ -133,7 +133,8 @@ li a span {
 .content
 {
     padding:10px 75px;    
-    padding-right:125px;
+    padding-right:275px;
+    font-size:16px;
 }
 
 .justify
@@ -158,6 +159,24 @@ li a span {
     display:block;
     text-align:left;
     white-space:normal;
+}
+
+.flow-left
+{
+    float:right;
+    padding-right:0px;
+    padding-top:4px;
+    padding-left:25px;
+    padding-bottom:10px;
+}
+
+.flow-right
+{
+    float:left;
+    padding-left:0px;
+    padding-top:4px;
+    padding-right:25px;
+    padding-bottom:10px;    
 }
 
 @media(max-width:992px)
@@ -204,7 +223,7 @@ li a span {
         background-repeat:no-repeat;
         background-position:bottom right;
         color:black;
-        padding:8px 15px;
+        padding:7px 15px;
         border-bottom:none;
         margin-bottom:-5px;
         z-index:9;
@@ -248,6 +267,21 @@ li a span {
     {
         margin-top:30px;
         margin-bottom:30px;
+    }
+    
+        
+    .flow-left
+    {
+        float:none;
+        padding:20px 0px;
+        width:100%;
+    }
+
+    .flow-right
+    {
+        float:none;
+        padding:20px 0px;
+        width:100%;
     }
 }
 
