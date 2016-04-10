@@ -129,6 +129,37 @@ li a span {
     background:transparent;
     color:#e0b862;
 }
+
+.content
+{
+    padding:10px 75px;    
+    padding-right:125px;
+}
+
+.justify
+{
+    text-align: justify;
+    -moz-hyphens: auto;
+    -o-hyphens: auto;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto; 
+}
+
+.btn-header
+{
+    display:block;
+    text-align:left;
+    font-size:24px;
+}
+
+.btn-subtext
+{
+    display:block;
+    text-align:left;
+    white-space:normal;
+}
+
 @media(max-width:992px)
 {
     .navbar-nav
@@ -141,7 +172,14 @@ li a span {
     .navbar-nav:before
     {
         display:none;
+    }    
+    
+    .content
+    {
+        padding:0px;  
+        padding-top:10px;  
     }
+
 }
 
 @media(max-width:767px)
@@ -199,6 +237,17 @@ li a span {
     {
         background:transparent;
         color:#e0b862;
+    }
+    
+    .content
+    {
+        padding:0px;    
+    }
+    
+    .btn 
+    {
+        margin-top:30px;
+        margin-bottom:30px;
     }
 }
 
