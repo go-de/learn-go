@@ -3,7 +3,7 @@
     src:  url('fonts/Simonetta.ttf.woff') format('woff'),
     url('fonts/Simonetta.ttf.svg#Simonetta') format('svg'),
     url('fonts/Simonetta.ttf.eot'),
-    url('fonts/Simonetta.eot?#iefix') format('embedded-opentype'); 
+    url('fonts/Simonetta.eot?#iefix') format('embedded-opentype');
     font-weight: normal;
     font-style: normal;
 }
@@ -65,7 +65,7 @@ li a span {
 
 .navbar-nav
 {
-    padding-top:70px;    
+    padding-top:70px;
     margin-left:30px;
 }
 
@@ -89,7 +89,7 @@ li a span {
     background-image:url(../graphics/highlight.png);
     background-repeat:no-repeat;
     background-position:bottom right;
-    
+
     padding:8px 15px;
     border-bottom:none;
 }
@@ -132,7 +132,7 @@ li a span {
 
 .content
 {
-    padding:10px 75px;    
+    padding:10px 75px;
     padding-right:275px;
     font-size:16px;
 }
@@ -144,7 +144,7 @@ li a span {
     -o-hyphens: auto;
     -webkit-hyphens: auto;
     -ms-hyphens: auto;
-    hyphens: auto; 
+    hyphens: auto;
 }
 
 .btn-header
@@ -176,7 +176,7 @@ li a span {
     padding-left:0px;
     padding-top:4px;
     padding-right:25px;
-    padding-bottom:10px;    
+    padding-bottom:10px;
 }
 
 @media(max-width:992px)
@@ -186,17 +186,17 @@ li a span {
         padding-top:0px;
         margin-top:30px;
         margin-left:-15px;
-    }    
-    
+    }
+
     .navbar-nav:before
     {
         display:none;
-    }    
-    
+    }
+
     .content
     {
-        padding:0px;  
-        padding-top:10px;  
+        padding:0px;
+        padding-top:10px;
     }
 
 }
@@ -208,13 +208,13 @@ li a span {
         padding-top:0px;
         margin-top:30px;
         margin-left:-15px;
-    }    
-    
+    }
+
     .navbar-nav:before
     {
         display:none;
     }
-    
+
 
     .navbar-default .navbar-nav>.active>a
     {
@@ -227,8 +227,8 @@ li a span {
         border-bottom:none;
         margin-bottom:-5px;
         z-index:9;
-    }    
-        
+    }
+
     .navbar-default .navbar-nav>.active>a:hover
     {
         background:#e0b862;
@@ -257,19 +257,19 @@ li a span {
         background:transparent;
         color:#e0b862;
     }
-    
+
     .content
     {
-        padding:0px;    
+        padding:0px;
     }
-    
-    .btn 
+
+    .btn
     {
         margin-top:30px;
         margin-bottom:30px;
     }
-    
-        
+
+
     .flow-left
     {
         float:none;
@@ -290,11 +290,18 @@ li a span {
     margin-right:5px;
 }
 
-.btn-primary
+.btn-wood
 {
     background-color:#e0b862;
+    background-image:url(../graphics/wood_texture.jpg);
+    background-size:100%;
     border:1px solid rgba(0,0,0,0.25);
     color:black;
+}
+
+.btn-wood:hover
+{
+    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.2);
 }
 
 .attention {
@@ -303,17 +310,17 @@ li a span {
 
 @keyframes pulse {
   0% { transform: rotate(0deg); }
-  
+
   16% { transform: rotate(0deg); }
   20% { transform: rotate(5deg) scale(1.2); }
   21% { transform: rotate(-3deg) scale(1.2); }
   22% { transform: rotate(12deg) scale(1.2); }
   23% { transform: rotate(-7deg) scale(1.2); }
-  24% { transform: rotate(14deg) scale(1.2); }  
+  24% { transform: rotate(14deg) scale(1.2); }
   25% { transform: rotate(-4deg) scale(1.2); }
   26% { transform: rotate(8deg) scale(1.2); }
   28% { transform: rotate(8deg) scale(1.2); }
-  
+
   30% { transform: rotate(0deg); }
   100% { transform: rotate(0deg); }
 }

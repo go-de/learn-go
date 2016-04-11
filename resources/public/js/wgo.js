@@ -1,39 +1,39 @@
 ﻿/*!
  * Copyright (c) 2013 Jan Prokop
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this 
- * software and associated documentation files (the "Software"), to deal in the Software 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this
+ * software and associated documentation files (the "Software"), to deal in the Software
  * without restriction, including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons 
+ * publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons
  * to whom the Software is furnished to do so, subject to the following conditions:
- *  
- * The above copyright notice and this permission notice shall be included in all copies or 
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING 
- * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND 
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
- * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
- 
+
 (function(window, undefined) {
 
 "use strict";
 
 var scripts= document.getElementsByTagName('script');
 var path= scripts[scripts.length-1].src.split('?')[0];      // remove any ?query
-var mydir= path.split('/').slice(0, -1).join('/')+'/';  
+var mydir= path.split('/').slice(0, -1).join('/')+'/';
 
 /**
- * Main namespace - it initializes WGo in first run and then execute main function. 
+ * Main namespace - it initializes WGo in first run and then execute main function.
  * You must call WGo.init() if you want to use library, without calling WGo.
  */
- 
+
 var WGo = {
 	// basic information
 	version: "2.0",
-	
+
 	// constants for colors (rather use WGo.B or WGo.W)
 	B: 1,
 	W: -1,
@@ -41,11 +41,11 @@ var WGo = {
 	// if true errors will be shown in dialog window, otherwise they will be ignored
 	ERROR_REPORT: true,
 	DIR: mydir,
-	
+
 	// Language of player, you can change this global variable any time. Object WGo.i18n.<your lang> must exist.
 	lang: "en",
-	
-	// Add terms for each language here 
+
+	// Add terms for each language here
 	i18n: {
 		en: {}
 	}
@@ -74,7 +74,7 @@ WGo.extendClass = function(parent, child) {
 	child.prototype = Object.create(parent.prototype);
 	child.prototype.constructor = child;
 	child.prototype.super = parent;
-	
+
 	return child;
 };
 
@@ -87,12 +87,12 @@ WGo.abstractMethod = function() {
 WGo.clone = function(obj) {
 	if(obj && typeof obj == "object") {
 		var n_obj = obj.constructor == Array ? [] : {};
-		
+
 		for(var key in obj) {
 			if(obj[key] == obj) n_obj[key] = obj;
 			else n_obj[key] = WGo.clone(obj[key]);
 		}
-		
+
 		return n_obj;
 	}
 	else return obj;
@@ -129,31 +129,31 @@ WGo.filterHTML = function(text) {
  *     bottom: number,
  *     left: number
  *   }
- *   It defines a section of board to be displayed. You can set a number of rows(or cols) to be skipped on each side. 
+ *   It defines a section of board to be displayed. You can set a number of rows(or cols) to be skipped on each side.
  *   Numbers can be negative, in that case there will be more empty space. In default all values are zeros.
  */
- 
+
 var Board = function(elem, config) {
 	var config = config || {};
-	
+
 	// set user configuration
 	for(var key in config) this[key] = config[key];
-	
+
 	// add default configuration
 	for(var key in WGo.Board.default) if(this[key] === undefined) this[key] = WGo.Board.default[key];
-	
+
 	// set section if set
 	this.tx = this.section.left;
 	this.ty = this.section.top;
 	this.bx = this.size-1-this.section.right;
 	this.by = this.size-1-this.section.bottom;
-	
+
 	// init board
 	this.init();
-	
+
 	// append to element
 	elem.appendChild(this.element);
-	
+
 	// set initial dimensions
 	if(this.width && this.height) this.setDimensions(this.width, this.height);
 	else if(this.width) this.setWidth(this.width);
@@ -165,7 +165,7 @@ var shadow_handler = {
 		var xr = board.getX(args.x),
 			yr = board.getY(args.y),
 			sr = board.stoneRadius;
-		
+
 		this.beginPath();
 		this.fillStyle = 'rgba(32,32,32,0.5)';
 		this.arc(xr-0.5, yr-0.5, sr-0.5, 0, 2*Math.PI, true);
@@ -174,31 +174,31 @@ var shadow_handler = {
 }
 
 var get_markup_color = function(board, x, y) {
-	if(board.obj_arr[x][y][0].c == WGo.B) return "white"; 
+	if(board.obj_arr[x][y][0].c == WGo.B) return "white";
 	return "black";
 }
 
 var redraw_layer = function(board, layer) {
 	var handler;
-	
+
 	board[layer].clear();
 	board[layer].draw(board);
-	
+
 	for(var x = 0; x < board.size; x++) {
 		for(var y = 0; y < board.size; y++) {
 			for(var key in board.obj_arr[x][y]) {
 				if(!board.obj_arr[x][y][key].type) handler = board.stoneHandler;
 				else if(typeof board.obj_arr[x][y][key].type == "string") handler = Board.drawHandlers[board.obj_arr[x][y][key].type];
 				else handler = board.obj_arr[x][y][key].type;
-		
+
 				if(handler[layer]) handler[layer].draw.call(board[layer].context, board.obj_arr[x][y][key], board);
 			}
 		}
 	}
-	
+
 	for(var key in board.obj_list) {
 		var handler = board.obj_list[key].handler;
-		
+
 		if(handler[layer]) handler[layer].draw.call(board[layer].context, board.obj_list[key].args, board);
 	}
 }
@@ -217,7 +217,7 @@ Board.drawHandlers = {
 					yr = board.getY(args.y),
 					sr = board.stoneRadius,
 					radgrad;
-				
+
 				// set stone texture
 				if(args.c == WGo.W) {
 					radgrad = this.createRadialGradient(xr-2*sr/5,yr-2*sr/5,sr/3,xr-sr/5,yr-sr/5,5*sr/5);
@@ -230,7 +230,7 @@ Board.drawHandlers = {
 					radgrad.addColorStop(0, '#666');
 					radgrad.addColorStop(1, '#000');
 				}
-				
+
 				// paint stone
 				this.beginPath();
 				this.fillStyle = radgrad;
@@ -241,7 +241,7 @@ Board.drawHandlers = {
 		// adding shadow handler
 		shadow: shadow_handler,
 	},
-	
+
 	PAINTED: {
 		stone: {
 			draw: function(args, board) {
@@ -249,7 +249,7 @@ Board.drawHandlers = {
 					yr = board.getY(args.y),
 					sr = board.stoneRadius,
 					radgrad;
-					
+
 				if(args.c == WGo.W) {
 					radgrad = this.createRadialGradient(xr-2*sr/5,yr-2*sr/5,2,xr-sr/5,yr-sr/5,4*sr/5);
 					radgrad.addColorStop(0, '#fff');
@@ -258,17 +258,17 @@ Board.drawHandlers = {
 				else {
 					radgrad = this.createRadialGradient(xr-2*sr/5,yr-2*sr/5,1,xr-sr/5,yr-sr/5,4*sr/5);
 					radgrad.addColorStop(0, '#111');
-					radgrad.addColorStop(1, '#000');				
+					radgrad.addColorStop(1, '#000');
 				}
-				
+
 				this.beginPath();
 				this.fillStyle = radgrad;
 				this.arc(xr-0.5, yr-0.5, sr-0.5, 0, 2*Math.PI, true);
 				this.fill();
-				
+
 				this.beginPath();
 				this.lineWidth = sr/6;
-				
+
 				if(args.c == WGo.W) {
 					this.strokeStyle = '#999';
 					this.arc(xr+sr/8, yr+sr/8, sr/2, 0, Math.PI/2, false);
@@ -277,20 +277,20 @@ Board.drawHandlers = {
 					this.strokeStyle = '#ccc';
 					this.arc(xr-sr/8, yr-sr/8, sr/2, Math.PI, 1.5*Math.PI);
 				}
-				
+
 				this.stroke();
 			}
 		},
 		shadow: shadow_handler,
 	},
-	
+
 	GLOW: {
 		stone: {
 			draw: function(args, board) {
 				var xr = board.getX(args.x),
 					yr = board.getY(args.y),
 					sr = board.stoneRadius;
-					
+
 				var radgrad;
 				if(args.c == WGo.W) {
 					radgrad = this.createRadialGradient(xr-2*sr/5,yr-2*sr/5,sr/3,xr-sr/5,yr-sr/5,8*sr/5);
@@ -302,7 +302,7 @@ Board.drawHandlers = {
 					radgrad.addColorStop(0, '#555');
 					radgrad.addColorStop(1, '#000');
 				}
-				
+
 				this.beginPath();
 				this.fillStyle = radgrad;
 				this.arc(xr-0.5, yr-0.5, sr-0.5, 0, 2*Math.PI, true);
@@ -311,7 +311,7 @@ Board.drawHandlers = {
 		},
 		shadow: shadow_handler,
 	},
-	
+
 	MONO: {
 		stone: {
 			draw: function(args, board) {
@@ -319,28 +319,28 @@ Board.drawHandlers = {
 					yr = board.getY(args.y),
 					sr = board.stoneRadius,
 					lw = board.lineWidth || 1;
-					
+
 				if(args.c == WGo.W) this.fillStyle = "white";
-				else this.fillStyle = "black";			
-				
+				else this.fillStyle = "black";
+
 				this.beginPath();
 				this.arc(xr, yr, sr-lw, 0, 2*Math.PI, true);
 				this.fill();
-				
+
 				this.lineWidth = lw;
 				this.strokeStyle = "black";
 				this.stroke();
 			}
 		},
 	},
-	
+
 	CR: {
 		stone: {
 			draw: function(args, board) {
 				var xr = board.getX(args.x),
 					yr = board.getY(args.y),
 					sr = board.stoneRadius;
-					
+
 				this.strokeStyle = args.c || get_markup_color(board, args.x, args.y);
 				this.lineWidth = args.lineWidth || board.lineWidth || 1;
 				this.beginPath();
@@ -349,7 +349,7 @@ Board.drawHandlers = {
 			},
 		},
 	},
-	
+
 	// Label drawing handler
 	LB: {
 		stone: {
@@ -358,23 +358,23 @@ Board.drawHandlers = {
 					yr = board.getY(args.y),
 					sr = board.stoneRadius,
 					font = args.font || board.font || "";
-				
+
 				if(board.obj_arr[args.x][args.y][0].c == WGo.W) this.fillStyle = "black";
 				else if(board.obj_arr[args.x][args.y][0].c == WGo.B) this.fillStyle = "white";
 				else this.fillStyle = "#1C1C1C";
-				
+
 				if(args.text.length == 1) this.font = Math.round(sr*1.5)+"px "+font;
 				else if(args.text.length == 2) this.font = Math.round(sr*1.2)+"px "+font;
 				else this.font = Math.round(sr)+"px "+font;
-				
+
 				this.beginPath();
 				this.textBaseline="middle";
 				this.textAlign="center";
 				this.fillText(args.text, xr, yr, 2*sr);
-				
+
 			},
 		},
-		
+
 		// modifies grid layer too
 		grid: {
 			draw: function(args, board) {
@@ -394,14 +394,14 @@ Board.drawHandlers = {
 			}
 		},
 	},
-	
+
 	SQ: {
 		stone: {
 			draw: function(args, board) {
 				var xr = board.getX(args.x),
 					yr = board.getY(args.y),
 					sr = Math.round(board.stoneRadius);
-					
+
 				this.strokeStyle = args.c || get_markup_color(board, args.x, args.y);
 				this.lineWidth = args.lineWidth || board.lineWidth || 1;
 				this.beginPath();
@@ -410,14 +410,14 @@ Board.drawHandlers = {
 			}
 		}
 	},
-	
+
 	TR: {
 		stone: {
 			draw: function(args, board) {
 				var xr = board.getX(args.x),
 					yr = board.getY(args.y),
 					sr = board.stoneRadius;
-					
+
 				this.strokeStyle = args.c || get_markup_color(board, args.x, args.y);
 				this.lineWidth = args.lineWidth || board.lineWidth || 1;
 				this.beginPath();
@@ -429,14 +429,14 @@ Board.drawHandlers = {
 			}
 		}
 	},
-	
+
 	MA: {
 		stone: {
 			draw: function(args, board) {
 				var xr = board.getX(args.x),
 					yr = board.getY(args.y),
 					sr = board.stoneRadius;
-				
+
 				this.strokeStyle = args.c || get_markup_color(board, args.x, args.y);
 				this.lineWidth = (args.lineWidth || board.lineWidth || 1) * 2;
 				this.beginPath();
@@ -448,14 +448,14 @@ Board.drawHandlers = {
 			}
 		}
 	},
-	
+
 	SL: {
 		stone: {
 			draw: function(args, board) {
 				var xr = board.getX(args.x),
 					yr = board.getY(args.y),
 					sr = board.stoneRadius;
-					
+
 				this.fillStyle = args.c || get_markup_color(board, args.x, args.y);
 				this.beginPath();
 				this.rect(xr-sr/2, yr-sr/2, sr, sr);
@@ -463,14 +463,14 @@ Board.drawHandlers = {
 			}
 		}
 	},
-	
+
 	SM: {
 		stone: {
 			draw: function(args, board) {
 				var xr = board.getX(args.x),
 					yr = board.getY(args.y),
 					sr = board.stoneRadius;
-					
+
 				this.strokeStyle = args.c || get_markup_color(board, args.x, args.y);
 				this.lineWidth = (args.lineWidth || board.lineWidth || 1)*2;
 				this.beginPath();
@@ -486,7 +486,7 @@ Board.drawHandlers = {
 			}
 		}
 	},
-	
+
 	outline: {
 		stone: {
 			draw: function(args, board) {
@@ -497,7 +497,7 @@ Board.drawHandlers = {
 			}
 		}
 	},
-	
+
 	mini: {
 		stone: {
 			draw: function(args, board) {
@@ -517,14 +517,14 @@ Board.CanvasLayer = function() {
 
 Board.CanvasLayer.prototype = {
 	constructor: Board.CanvasLayer,
-	
+
 	setDimensions: function(width, height) {
 		this.element.width = width;
 		this.element.height = height;
 	},
-	
+
 	draw: function(board) {	},
-	
+
 	clear: function() {
 		this.context.clearRect(0,0,this.element.width,this.element.height);
 	}
@@ -541,29 +541,29 @@ Board.GridLayer.prototype.draw = function(board) {
 	this.context.beginPath();
 	this.context.lineWidth = 1;
 	this.context.strokeStyle = "#000";
-	
+
 	var tx = Math.round(board.left),
 		ty = Math.round(board.top),
 		bw = Math.round(board.fieldWidth*(board.size-1)),
 		bh = Math.round(board.fieldHeight*(board.size-1));
-	
+
 	this.context.strokeRect(tx-0.5, ty-0.5, bw, bh);
 
 	for(var i = 1; i < board.size-1; i++) {
 		tmp = Math.round(board.getX(i))-0.5;
 		this.context.moveTo(tmp, ty);
 		this.context.lineTo(tmp, ty+bh);
-		
+
 		tmp = Math.round(board.getY(i))-0.5;
 		this.context.moveTo(tx, tmp);
 		this.context.lineTo(tx+bw, tmp);
 	}
 
 	this.context.stroke();
-	
+
 	// draw stars
 	this.context.fillStyle = "#000";
-	
+
 	if(board.starPoints[board.size]) {
 		for(var key in board.starPoints[board.size]) {
 			this.context.beginPath();
@@ -615,7 +615,7 @@ var clearField = function(x,y) {
 		if(!this.obj_arr[x][y][key].type) handler = this.stoneHandler;
 		else if(typeof this.obj_arr[x][y][key].type == "string") handler = Board.drawHandlers[this.obj_arr[x][y][key].type];
 		else handler = this.obj_arr[x][y][key].type;
-		
+
 		for(var layer in handler) {
 			if(handler[layer].clear) handler[layer].clear.call(this[layer].context, this.obj_arr[x][y][key], this);
 			else default_field_clear.call(this[layer].context, this.obj_arr[x][y][key], this);
@@ -629,7 +629,7 @@ var drawField = function(x,y) {
 		if(!this.obj_arr[x][y][key].type) handler = this.stoneHandler;
 		else if(typeof this.obj_arr[x][y][key].type == "string") handler = Board.drawHandlers[this.obj_arr[x][y][key].type];
 		else handler = this.obj_arr[x][y][key].type;
-		
+
 		for(var layer in handler) {
 			handler[layer].draw.call(this[layer].context, this.obj_arr[x][y][key], this);
 		}
@@ -637,17 +637,17 @@ var drawField = function(x,y) {
 }
 
 var getMousePos = function(e) {
-    var top = 0, 
-		left = 0, 
+    var top = 0,
+		left = 0,
 		obj = this.grid.element,
 		x, y;
-    
+
 	while (obj && obj.tagName != 'BODY') {
         top += obj.offsetTop;
         left += obj.offsetLeft;
         obj = obj.offsetParent;
     }
-	
+
 	x = Math.round((e.pageX-left-this.left)/this.fieldWidth);
 	y = Math.round((e.pageY-top-this.top)/this.fieldHeight);
 
@@ -660,11 +660,11 @@ var getMousePos = function(e) {
 var updateDim = function() {
 	this.element.style.width = this.width+"px";
 	this.element.style.height = this.height+"px";
-	
+
 	this.stoneRadius = this.stoneSize*Math.min(this.fieldWidth, this.fieldHeight)/2;
-	
+
 	for(var key in this.layers) {
-		this.layers[key].setDimensions(this.width, this.height); 
+		this.layers[key].setDimensions(this.width, this.height);
 	}
 }
 
@@ -672,32 +672,32 @@ var updateDim = function() {
 
 Board.prototype = {
 	constructor: Board,
-	
+
 	/**
      * Initialization method, it is called in constructor. You shouldn't call it, but you can alter it.
 	 */
-	 
+
 	init: function() {
-		
+
 		// placement of objects (in 3D array)
-		this.obj_arr = []; 
+		this.obj_arr = [];
 		for(var i = 0; i < this.size; i++) {
 			this.obj_arr[i] = [];
 			for(var j = 0; j < this.size; j++) this.obj_arr[i][j] = [];
 		}
-		
+
 		// other objects, stored in list
-		this.obj_list = []; 
-		
+		this.obj_list = [];
+
 		// layers
 		this.layers = [];
-		
+
 		// event listeners, binded to board
 		this.listeners = [];
-		
+
 		this.element = document.createElement('div');
 		this.element.className = 'wgo-board';
-		
+
 		if(this.background) {
 			if(this.background[0] == "#") this.element.style.backgroundColor = this.background;
 			else {
@@ -705,84 +705,84 @@ Board.prototype = {
 				/*this.element.style.backgroundRepeat = "repeat";*/
 			}
 		}
-		
+
 		this.grid = new Board.GridLayer();
 		this.shadow = new Board.ShadowLayer(this.shadowSize);
 		this.stone = new Board.CanvasLayer();
-		
+
 		this.addLayer(this.grid, 100);
 		this.addLayer(this.shadow, 200);
 		this.addLayer(this.stone, 300);
 	},
-	
+
 	/**
 	 * Set new width of board, height is computed to keep aspect ratio.
-	 * 
+	 *
 	 * @param {number} width
 	 */
-	
+
 	setWidth: function(width) {
 		this.width = width;
 		this.fieldHeight = this.fieldWidth = calcFieldWidth.call(this);
 		this.left = calcLeftMargin.call(this);
-		
+
 		this.height = (this.by-this.ty+1.5)*this.fieldHeight;
 		this.top = calcTopMargin.call(this);
-		
+
 		updateDim.call(this);
 		this.redraw();
 	},
-	
+
 	/**
 	 * Set new height of board, width is computed to keep aspect ratio.
-	 * 
+	 *
 	 * @param {number} height
 	 */
-	
+
 	setHeight: function(height) {
 		this.height = height;
 		this.fieldWidth = this.fieldHeight = calcFieldHeight.call(this);
 		this.top = calcTopMargin.call(this);
-		
+
 		this.width = (this.bx-this.tx+1.5)*this.fieldWidth;
 		this.left = calcLeftMargin.call(this);
-		
+
 		updateDim.call(this);
 		this.redraw();
 	},
-	
+
 	/**
 	 * Set both dimensions.
-	 * 
+	 *
 	 * @param {number} width
 	 * @param {number} height
 	 */
-	
+
 	setDimensions: function(width, height) {
 		this.width = width || this.width;
 		this.height = height || this.height;
-		
+
 		this.fieldWidth = calcFieldWidth.call(this);
 		this.fieldHeight = calcFieldHeight.call(this);
-		this.left = calcLeftMargin.call(this);			
+		this.left = calcLeftMargin.call(this);
 		this.top = calcTopMargin.call(this);
-		
+
 		updateDim.call(this);
 		this.redraw();
 	},
-	
+
 	/**
 	 * Get currently visible section of the board
 	 */
-	
+
 	getSection: function() {
 		return this.section;
 	},
-	
+
 	/**
 	 * Set section of the board to be displayed
 	 */
-	
+
 	setSection: function(section_or_top, right, bottom, left) {
 		if(typeof section_or_top == "object") {
 			this.section = section_or_top;
@@ -795,41 +795,41 @@ Board.prototype = {
 				left: left,
 			}
 		}
-		
+
 		this.tx = this.section.left;
 		this.ty = this.section.top;
 		this.bx = this.size-1-this.section.right;
 		this.by = this.size-1-this.section.bottom;
-		
+
 		this.setDimensions();
 	},
-	
+
 	/**
 	 * Set board size (eg: 9, 13 or 19), this will clear board's objects.
 	 */
-	 
+
 	setSize: function(size) {
 		var size = size || 19;
-		
+
 		if(size != this.size) {
 			this.size = size;
-			
+
 			this.obj_arr = [];
 			for(var i = 0; i < this.size; i++) {
 				this.obj_arr[i] = [];
 				for(var j = 0; j < this.size; j++) this.obj_arr[i][j] = [];
 			}
-		
+
 			this.bx = this.size-1-this.section.right;
 			this.by = this.size-1-this.section.bottom;
 			this.setDimensions();
 		}
 	},
-	
+
 	/**
 	 * Redraw everything.
 	 */
-	
+
 	redraw: function() {
 		this.grid.clear();
 		this.stone.clear();
@@ -842,40 +842,40 @@ Board.prototype = {
 		}
 		for(var key in this.obj_list) {
 			var handler = this.obj_list[key].handler;
-			
+
 			for(var layer in handler) {
 				handler[layer].draw.call(this[layer].context, this.obj_list[key].args, this);
 			}
 		}
 	},
-	
+
 	/**
 	 * Get absolute X coordinate
 	 *
 	 * @param {number} x relative coordinate
 	 */
-	
+
 	getX: function(x) {
 		return this.left+x*this.fieldWidth;
 	},
-	
+
 	/**
 	 * Get absolute Y coordinate
 	 *
 	 * @param {number} y relative coordinate
 	 */
-	
+
 	getY: function(y) {
 		return this.top+y*this.fieldHeight;
 	},
-	
+
 	/**
 	 * Add layer to the board. It is meant to be only for canvas layers.
 	 *
 	 * @param {Board.CanvasLayer} layer to add
-	 * @param {number} weight layer with biggest weight is on the top 
+	 * @param {number} weight layer with biggest weight is on the top
 	 */
-	
+
 	addLayer: function(layer, weight) {
 		layer.element.style.position = 'absolute';
 		layer.element.style.zIndex = weight;
@@ -883,13 +883,13 @@ Board.prototype = {
 		this.element.appendChild(layer.element);
 		this.layers.push(layer);
 	},
-	
+
 	/**
 	 * Remove layer from the board.
 	 *
 	 * @param {Board.CanvasLayer} layer to remove
 	 */
-	
+
 	removeLayer: function(layer) {
 		var i = this.layers.indexOf(layer);
 		if(i >= 0) {
@@ -897,28 +897,28 @@ Board.prototype = {
 			this.element.removeChild(layer.element);
 		}
 	},
-	
+
 	update: function(changes) {
 		if(changes.remove && changes.remove == "all") this.removeAllObjects();
 		else if(changes.remove) {
 			for(var key in changes.remove) this.removeObject(changes.remove[key]);
 		}
-		
+
 		if(changes.add) {
 			for(var key in changes.add) this.addObject(changes.add[key]);
 		}
 	},
-	
+
 	addObject: function(obj) {
 		// handling multiple objects
 		if(obj.constructor == Array) {
 			for(var key in obj) this.addObject(obj[key]);
 			return;
 		}
-		
+
 		// clear all objects on object's coordinates
 		clearField.call(this, obj.x, obj.y);
-		
+
 		// if object of this type is on the board, replace it
 		for(var key in this.obj_arr[obj.x][obj.y]) {
 			if(this.obj_arr[obj.x][obj.y][key].type == obj.type) {
@@ -926,23 +926,23 @@ Board.prototype = {
 				drawField.call(this, obj.x, obj.y);
 				return;
 			}
-		}	
-		
+		}
+
 		// if object is a stone, add it at the beginning, otherwise at the end
 		if(!obj.type) this.obj_arr[obj.x][obj.y].unshift(obj);
 		else this.obj_arr[obj.x][obj.y].push(obj);
-		
+
 		// draw all objects
 		drawField.call(this, obj.x, obj.y);
 	},
-	
+
 	removeObject: function(obj) {
 		// handling multiple objects
 		if(obj.constructor == Array) {
 			for(var key in obj) this.removeObject(obj[key]);
 			return;
 		}
-		
+
 		var i;
 		for(var j = 0; j < this.obj_arr[obj.x][obj.y].length; j++) {
 			if(this.obj_arr[obj.x][obj.y][j].type == obj.type) {
@@ -951,36 +951,36 @@ Board.prototype = {
 			}
 		}
 		if(i === undefined) return;
-		
+
 		// clear all objects on object's coordinates
 		clearField.call(this, obj.x, obj.y);
-		
+
 		this.obj_arr[obj.x][obj.y].splice(i,1);
-		
+
 		drawField.call(this, obj.x, obj.y);
 	},
 
 	removeObjectsAt: function(x, y) {
 		if(!this.obj_arr[x][y].length) return;
-		
+
 		clearField.call(this, x, y);
 		this.obj_arr[x][y] = [];
 	},
 
 	removeAllObjects: function() {
-		this.obj_arr = []; 
+		this.obj_arr = [];
 		for(var i = 0; i < this.size; i++) {
 			this.obj_arr[i] = [];
 			for(var j = 0; j < this.size; j++) this.obj_arr[i][j] = [];
 		}
 		this.redraw();
 	},
-	
+
 	addCustomObject: function(handler, args) {
 		this.obj_list.push({handler: handler, args: args});
 		this.redraw();
 	},
-	
+
 	removeCustomObject: function(handler, args) {
 		for(var key in this.obj_list) {
 			if(this.obj_list[key].handler == handler && this.obj_list[key].args == args) {
@@ -991,7 +991,7 @@ Board.prototype = {
 		}
 		return false;
 	},
-	
+
 	addEventListener: function(type, callback) {
 		var _this = this,
 			evListener = {
@@ -1002,11 +1002,11 @@ Board.prototype = {
 					callback(coo.x, coo.y, e);
 				}
 			};
-			
+
 		this.element.addEventListener(type, evListener, true);
 		this.listeners.push(evListener);
 	},
-	
+
 	removeEventListener: function(type, callback) {
 		for(var key in this.listeners) {
 			if(this.listeners[key].type == type && this.listeners[key].callback == callback) {
@@ -1017,18 +1017,18 @@ Board.prototype = {
 		}
 		return false;
 	},
-	
+
 	getState: function() {
 		return {
 			objects: WGo.clone(this.obj_arr),
 			custom: WGo.clone(this.obj_list)
 		};
 	},
-	
+
 	restoreState: function(state) {
 		this.obj_arr = state.objects || this.obj_arr;
 		this.obj_list = state.custom || this.obj_list;
-		
+
 		this.redraw();
 	}
 }
@@ -1065,7 +1065,7 @@ Board.default = {
 		bottom: 0,
 		left: 0,
 	},
-	background: WGo.DIR+"wood1.jpg"
+	background: WGo.DIR+"../graphics/wood_texture.jpg"
 }
 
 // save Board
@@ -1076,7 +1076,7 @@ WGo.Board = Board;
 /**
  * Creates instance of position object.
  *
- * @class 
+ * @class
  * <p>WGo.Position is simple object storing position of go game. It is implemented as matrix <em>size</em> x <em>size</em> with values WGo.BLACK, WGo.WHITE or 0. It can be used by any extension.</p>
  *
  * @param {number} size of the board
@@ -1092,7 +1092,7 @@ var Position = function(size) {
 
 Position.prototype = {
 	constructor: WGo.Position,
-	
+
 	/**
 	 * Returns value of given coordinates.
 	 *
@@ -1130,7 +1130,7 @@ Position.prototype = {
 
 	/**
 	 * Clones the whole position.
-	 * 
+	 *
 	 * @return {WGo.Position} copy of position
 	 */
 
@@ -1146,14 +1146,14 @@ WGo.Position = Position;
 /**
  * Creates instance of game class.
  *
- * @class 
- * This class implements game logic. It basically analyses given moves and returns capture stones. 
+ * @class
+ * This class implements game logic. It basically analyses given moves and returns capture stones.
  * WGo.Game also stores every position from beginning, so it has ability to check repeating positions
  * and it can effectively restore old positions.</p>
  *
  * @param {number} size of the board
  * @param {"KO"|"ALL"|"NONE"} repeat (optional, default is "KO") - how to handle repeated position:
- * 
+ *
  * KO - ko is properly handled - position cannot be same like previous position
  * ALL - position cannot be same like any previous position - e.g. it forbids triple ko
  * NONE - position can be repeated
@@ -1166,11 +1166,11 @@ var Game = function(size, repeat) {
 	this.stack[0] = new Position(size);
 	this.stack[0].capCount = {black:0, white:0};
 	this.turn = WGo.B;
-	
+
 	Object.defineProperty(this, "position", {
 		get : function(){ return this.stack[this.stack.length-1]; },
 		set : function(pos){ this[this.stack.length-1] = pos; }
-	});					  
+	});
 }
 
 // function for stone capturing
@@ -1194,12 +1194,12 @@ var check_liberties = function(position, testing, x, y, c) {
 	if(position.get(x,y) == 0) return false;
 	// already tested field or stone of enemy isn't giving us a liberty.
 	if(testing.get(x,y) == true || position.get(x,y) == -c) return true;
-	
+
 	// set this field as tested
 	testing.set(x,y,true);
-	
+
 	// in this case we are checking our stone, if we get 4 trues, it has no liberty
-	return 	check_liberties(position, testing, x, y-1, c) && 
+	return 	check_liberties(position, testing, x, y-1, c) &&
 			check_liberties(position, testing, x, y+1, c) &&
 			check_liberties(position, testing, x-1, y, c) &&
 			check_liberties(position, testing, x+1, y, c);
@@ -1223,143 +1223,143 @@ var check_capturing = function(position, x, y, c) {
 
 // analysing history
 var checkHistory = function(position, x, y) {
-	var flag, stop; 
-	
+	var flag, stop;
+
 	if(this.repeating == "KO" && this.stack.length-2 >= 0) stop = this.stack.length-2;
 	else if(this.repeating == "ALL") stop = 0;
 	else return true;
-	
+
 	for(var i = this.stack.length-2; i >= stop; i--) {
 		if(this.stack[i].get(x,y) == position.get(x,y)) {
 			flag = true;
 			for(var j = 0; j < this.size*this.size; j++) {
 				if(this.stack[i].schema[j] != position.schema[j]) {
-					flag = false; 
+					flag = false;
 					break;
 				}
 			}
 			if(flag) return false;
 		}
 	}
-	
+
 	return true;
 }
 
 Game.prototype = {
-	
+
 	constructor: Game,
-	
+
 	/**
 	 * Gets actual position.
 	 *
 	 * @return {WGo.Position} actual position
 	 */
-	
+
 	getPosition: function() {
 		return this.stack[this.stack.length-1];
 	},
-	
+
 	/**
-	 * Play move. 
+	 * Play move.
 	 *
 	 * @param {number} x coordinate
 	 * @param {number} y coordinate
 	 * @param {(WGo.B|WGo.W)} c color
 	 * @param {boolean} noplay - if true, move isn't played. Used by WGo.Game.isValid.
 	 * @return {number} code of error, if move isn't valid. If it is valid, function returns array of captured stones.
-	 * 
-	 * Error codes: 
+	 *
+	 * Error codes:
 	 * 1 - given coordinates are not on board
 	 * 2 - on given coordinates already is a stone
 	 * 3 - suicide (currently they are forbbiden)
 	 * 4 - repeated position
 	 */
-	
+
 	play: function(x,y,c,noplay) {
 		//check coordinates validity
 		if(!this.isOnBoard(x,y)) return 1;
 		if(this.position.get(x,y) != 0) return 2;
-		
+
 		// clone position
-		if(!c) c = this.turn; 
-		
-		var new_pos = this.position.clone();	
+		if(!c) c = this.turn;
+
+		var new_pos = this.position.clone();
 		new_pos.set(x,y,c);
-		
+
 		// check capturing
 		var captured = check_capturing(new_pos, x-1, y, -c).concat(check_capturing(new_pos, x+1, y, -c), check_capturing(new_pos, x, y-1, -c), check_capturing(new_pos, x, y+1, -c));
-		
+
 		// check suicide
 		if(!captured.length) {
 			var testing = new Position(this.size);
 			if(check_liberties(new_pos, testing, x, y, c)) return 3;
 		}
-		
+
 		// check history
 		if(this.repeating && !checkHistory.call(this, new_pos, x, y)) {
 			return 4;
 		}
-		
+
 		if(noplay) return false;
-		
+
 		// update position info
 		new_pos.color = c;
 		new_pos.capCount = {
-			black: this.position.capCount.black, 
+			black: this.position.capCount.black,
 			white: this.position.capCount.white
 		};
 		if(c == WGo.B) new_pos.capCount.black += captured.length;
 		else new_pos.capCount.white += captured.length;
-		
+
 		// save position
 		this.pushPosition(new_pos);
-		
+
 		// reverse turn
 		this.turn = -c;
-		
+
 		return captured;
-		
+
 	},
-	
+
 	/**
 	 * Play pass.
 	 *
 	 * @param {(WGo.B|WGo.W)} c color
 	 */
-	
+
 	pass: function(c) {
-		if(c) this.turn = -c; 
+		if(c) this.turn = -c;
 		else this.turn = -this.turn;
-		
+
 		this.pushPosition();
 		this.position.color = -this.position.color;
 	},
-	
+
 	/**
-	 * Finds out validity of the move. 
+	 * Finds out validity of the move.
 	 *
 	 * @param {number} x coordinate
 	 * @param {number} y coordinate
 	 * @param {(WGo.B|WGo.W)} c color
 	 * @return {boolean} true if move can be played.
 	 */
-	
+
 	isValid: function(x,y,c) {
 		return typeof this.play(x,y,c,true) != "number";
 	},
-	
+
 	/**
-	 * Controls position of the move. 
+	 * Controls position of the move.
 	 *
 	 * @param {number} x coordinate
 	 * @param {number} y coordinate
 	 * @return {boolean} true if move is on board.
 	 */
-	
+
 	isOnBoard: function(x,y) {
 		return x >= 0 && y >= 0 && x < this.size && y < this.size;
 	},
-	
+
 	/**
 	 * Inserts move into current position. Use for setting position, for example in handicap game. Field must be empty.
 	 *
@@ -1368,7 +1368,7 @@ Game.prototype = {
 	 * @param {(WGo.B|WGo.W)} c color
 	 * @return {boolean} true if operation is successfull.
 	 */
-	
+
 	addStone: function(x,y,c) {
 		if(this.isOnBoard(x,y) && this.position.get(x,y) == 0) {
 			this.position.set(x,y,c || 0);
@@ -1376,15 +1376,15 @@ Game.prototype = {
 		}
 		return false;
 	},
-	
+
 	/**
-	 * Removes move from current position. 
+	 * Removes move from current position.
 	 *
 	 * @param {number} x coordinate
 	 * @param {number} y coordinate
 	 * @return {boolean} true if operation is successfull.
 	 */
-	
+
 	removeStone: function(x,y) {
 		if(this.isOnBoard(x,y) && this.position.get(x,y) != 0) {
 			this.position.set(x,y,0);
@@ -1392,7 +1392,7 @@ Game.prototype = {
 		}
 		return false;
 	},
-	
+
 	/**
 	 * Set or insert move of current position.
 	 *
@@ -1401,7 +1401,7 @@ Game.prototype = {
 	 * @param {(WGo.B|WGo.W)} c color
 	 * @return {boolean} true if operation is successfull.
 	 */
-	
+
 	setStone: function(x,y,c) {
 		if(this.isOnBoard(x,y)) {
 			this.position.set(x,y,c || 0);
@@ -1409,7 +1409,7 @@ Game.prototype = {
 		}
 		return false;
 	},
-	
+
 	/**
 	 * Get stone on given position.
 	 *
@@ -1417,21 +1417,21 @@ Game.prototype = {
 	 * @param {number} y coordinate
 	 * @return {(WGo.B|WGo.W|0)} color
 	 */
-	
+
 	getStone: function(x,y) {
 		if(this.isOnBoard(x,y)) {
 			return this.position.get(x,y);
 		}
 		return 0;
 	},
-	
+
 	/**
 	 * Add position to stack. If position isn't specified current position is cloned and stacked.
 	 * Pointer of actual position is moved to the new position.
 	 *
 	 * @param {WGo.Position} tmp position (optional)
 	 */
-	
+
 	pushPosition: function(pos) {
 		if(!pos) {
 			var pos = this.position.clone();
@@ -1444,27 +1444,27 @@ Game.prototype = {
 		this.stack.push(pos);
 		return this;
 	},
-	
+
 	/**
 	 * Remove current position from stack. Pointer of actual position is moved to the previous position.
 	 */
-	
+
 	popPosition: function() {
 		var old = null;
 		if(this.stack.length > 0) {
 			old = this.stack.pop();
-			
+
 			if(this.stack.length == 0) this.turn = WGo.B;
 			else if(this.position.color) this.turn = -this.position.color;
 			else this.turn = -this.turn;
 		}
 		return old;
 	},
-	
+
 	/**
 	 * Removes all positions.
 	 */
-	
+
 	firstPosition: function() {
 		this.stack = [];
 		this.stack[0] = new Position(this.size);
@@ -1472,32 +1472,32 @@ Game.prototype = {
 		this.turn = WGo.B;
 		return this;
 	},
-	
+
 	/**
 	 * Gets count of captured stones.
 	 *
 	 * @param {(WGo.BLACK|WGo.WHITE)} color
 	 * @return {number} count
 	 */
-	
+
 	getCaptureCount: function(color) {
 		return color == WGo.B ? this.position.capCount.black : this.position.capCount.white;
 	},
-	
+
 	/**
 	 * Validate postion. Position is tested from 0:0 to size:size, if there are some moves, that should be captured, they will be removed.
 	 * You can use this, after insertion of more stones.
 	 *
 	 * @return array removed stones
 	 */
-	 
+
 	validatePosition: function() {
 		var c, p,
-		    white = 0, 
+		    white = 0,
 			black = 0,
 		    captured = [],
 		    new_pos = this.position.clone();
-		
+
 		for(var x = 0; x < this.size; x++) {
 			for(var y = 0; y < this.size; y++) {
 				c = this.position.get(x,y);
@@ -1507,7 +1507,7 @@ Game.prototype = {
 											   check_capturing(new_pos, x+1, y, -c),
 											   check_capturing(new_pos, x, y-1, -c),
 											   check_capturing(new_pos, x, y+1, -c));
-								
+
 					if(c == WGo.B) black += captured-p;
 					else white += captured-p;
 				}
@@ -1516,7 +1516,7 @@ Game.prototype = {
 		this.position.capCount.black += black;
 		this.position.capCount.white += white;
 		this.position.schema = new_pos.schema;
-		
+
 		return captured;
 	},
 };
@@ -1525,7 +1525,6 @@ Game.prototype = {
 WGo.Game = Game;
 
 // register WGo
-window.WGo = WGo; 
+window.WGo = WGo;
 
 })(window);
- 
