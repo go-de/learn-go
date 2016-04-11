@@ -74,14 +74,15 @@
         [:div.problem
          [:h3 title]
          [:div.row
-          [:div.col-md-6.col-lg-5
-           [board-view/board board {:on-click #(play! state %)}]
-           (when (and status (not hide-feedback?))
-             [result-icon status @width])
-           [nav-bar nav-state nav-handlers]]
-          [:div.col-md-6
+          [:div.col-md-6.col-md-push-6
            [:p.problem-text (when-not hide-feedback?
-                              text)]]]]))))
+                             text)]]
+          [:div.col-md-6.col-md-pull-6
+            [board-view/board board {:on-click #(play! state %)}]
+            (when (and status (not hide-feedback?))
+              [result-icon status @width])
+            [nav-bar nav-state nav-handlers]]
+           ]]))))
 
 (defn collection [descriptions]
   (debug "rendering collection")
