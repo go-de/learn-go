@@ -42,10 +42,6 @@ p.status-icon.right {
   margin-top: 5px;
 }
 
-p.problem-text {
-  margin-top: 5px;
-  font-size: 19px;
-}
 
 .navbar-default
 {
@@ -189,6 +185,32 @@ li a span {
     padding-top:4px;
     padding-right:25px;
     padding-bottom:10px;
+}
+
+.board
+{
+  display:inline-block;
+}
+
+.wgo-board
+{
+  box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.25), inset -3px -3px 6px rgba(0,0,0,0.5), inset 3px 3px 6px rgba(255,255,255,1);
+  border-radius: 3px;
+}
+
+.problem h3
+{
+  border-bottom: 2px solid rgba(0,0,0,0.1);
+  padding-left:25px;
+}
+
+.problem-text
+{
+  font-family: 'Body';
+  font-size:15px;
+  padding-left:25px;
+  padding-right:25px;
+  margin-bottom:20px;
 }
 
 @media(max-width:992px)

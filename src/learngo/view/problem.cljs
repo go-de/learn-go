@@ -72,9 +72,9 @@
             {:keys [status text]} @node
             text (get text @i18n/language)]
         [:div.problem
-         [:h3 title]
          [:div.row
           [:div.col-md-6.col-md-push-6
+           [:h3 title]
            [:p.problem-text (when-not hide-feedback?
                              text)]]
           [:div.col-md-6.col-md-pull-6

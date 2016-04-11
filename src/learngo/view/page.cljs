@@ -91,7 +91,7 @@
           (i18n/translate item)]]))]]])
 
 (defn problem-page []
-  [:div {:class "content"}
+  [:div
   [problem-view/collection
    problems/all]])
 
