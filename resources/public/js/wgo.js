@@ -206,6 +206,37 @@ var redraw_layer = function(board, layer) {
 // drawing handlers
 
 Board.drawHandlers = {
+	// handler for image based stones
+	REALISTIC: {
+		stone: {
+			draw: function(args, board) {
+				var xr = board.getX(args.x),
+					yr = board.getY(args.y),
+					sr = board.stoneRadius;
+
+				var redraw = function(){board.redraw()};
+
+        if(args.c == WGo.W) {
+					if(this.whiteStone == undefined) { // We have not loaded the image, yet
+						this.whiteStone = new Image();
+						this.whiteStone.onload = redraw;
+						this.whiteStone.src = board.whiteStoneGraphic;
+					}
+          this.drawImage(this.whiteStone, xr - sr, yr - sr, 2*sr, 2*sr);
+        }
+        else {
+					if(this.blackStone == undefined) {
+						this.blackStone = new Image();
+						this.blackStone.onload = redraw;
+						this.blackStone.src = board.blackStoneGraphic;
+					}
+
+          this.drawImage(this.blackStone, xr - sr, yr - sr, 2*sr, 2*sr);
+        }
+			}
+		},
+	},
+
 	// handler for normal stones
 	NORMAL: {
 		// draw handler for stone layer
@@ -218,40 +249,24 @@ Board.drawHandlers = {
 					sr = board.stoneRadius,
 					radgrad;
 
-        var whiteStone = document.getElementById('stone_white');
-        var blackStone = document.getElementById('stone_black');
+				// set stone texture
+				if(args.c == WGo.W) {
+					radgrad = this.createRadialGradient(xr-2*sr/5,yr-2*sr/5,sr/3,xr-sr/5,yr-sr/5,5*sr/5);
+					radgrad.addColorStop(0, '#fff');
+					//radgrad.addColorStop(1, '#d4d4d4');
+					radgrad.addColorStop(1, '#aaa');
+				}
+				else {
+					radgrad = this.createRadialGradient(xr-2*sr/5,yr-2*sr/5,1,xr-sr/5,yr-sr/5,4*sr/5);
+					radgrad.addColorStop(0, '#666');
+					radgrad.addColorStop(1, '#000');
+				}
 
-        if((whiteStone === null) || (blackStone === null))
-        {
-            // set stone texture
-    				if(args.c == WGo.W) {
-    					radgrad = this.createRadialGradient(xr-2*sr/5,yr-2*sr/5,sr/3,xr-sr/5,yr-sr/5,5*sr/5);
-    					radgrad.addColorStop(0, '#fff');
-    					//radgrad.addColorStop(1, '#d4d4d4');
-    					radgrad.addColorStop(1, '#aaa');
-    				}
-    				else {
-    					radgrad = this.createRadialGradient(xr-2*sr/5,yr-2*sr/5,1,xr-sr/5,yr-sr/5,4*sr/5);
-    					radgrad.addColorStop(0, '#666');
-    					radgrad.addColorStop(1, '#000');
-    				}
-
-    				// paint stone
-    				this.beginPath();
-    				this.fillStyle = radgrad;
-    				this.arc(xr-0.5, yr-0.5, sr-0.5, 0, 2*Math.PI, true);
-    				this.fill();
-        }
-        else
-        {
-          var sizeFix = 0.98;
-          if(args.c == WGo.W) {
-            this.drawImage(whiteStone, xr - sr*sizeFix, yr - sr*sizeFix, 2*sr*sizeFix, 2*sr*sizeFix);
-          }
-          else {
-            this.drawImage(blackStone, xr - sr*sizeFix, yr - sr*sizeFix, 2*sr*sizeFix, 2*sr*sizeFix);
-          }
-        }
+				// paint stone
+				this.beginPath();
+				this.fillStyle = radgrad;
+				this.arc(xr-0.5, yr-0.5, sr-0.5, 0, 2*Math.PI, true);
+				this.fill();
 			}
 		},
 		// adding shadow handler
@@ -1071,7 +1086,9 @@ Board.default = {
 			{x:9, y:9}],
 		9:[{x:4, y:4}],
 	},
-	stoneHandler: Board.drawHandlers.NORMAL,
+	stoneHandler: Board.drawHandlers.REALISTIC,
+	whiteStoneGraphic: WGo.DIR+"../graphics/white_64.png",
+	blackStoneGraphic: WGo.DIR+"../graphics/black_64.png",
 	starSize: 1,
 	shadowSize: 1,
 	stoneSize: 1,
