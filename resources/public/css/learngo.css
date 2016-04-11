@@ -1,5 +1,5 @@
 @font-face {
-  font-family: 'Simonetta';
+    font-family: 'Heading';
     src:  url('../fonts/Simonetta.ttf.woff') format('woff'),
     url('../fonts/Simonetta.ttf.svg#Simonetta') format('svg'),
     url('../fonts/Simonetta.ttf.eot'),
@@ -8,9 +8,17 @@
     font-style: normal;
 }
 
+@font-face {
+  font-family: 'Body';
+  src:  url('../fonts/Muli-LightItalic.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
 body
 {
-	font-family: 'Simonetta';
+	font-family: 'Heading';
 }
 
 .board {
@@ -145,6 +153,8 @@ li a span {
     -webkit-hyphens: auto;
     -ms-hyphens: auto;
     hyphens: auto;
+    font-family: 'Body';
+    font-size:15px;
 }
 
 .btn-header
@@ -159,6 +169,8 @@ li a span {
     display:block;
     text-align:left;
     white-space:normal;
+    font-family: 'Body';
+    font-size:14px;
 }
 
 .flow-left
