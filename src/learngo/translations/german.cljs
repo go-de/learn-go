@@ -2,11 +2,12 @@
 
 (def translate
   {
+   :about-go "Was ist Go?"
    :board-geometry "Brettausschnitt"
    :board-size "Brettgröße"
    :contact "Kontakt"
    :contact-us "Kontaktinformationen"
-   :delete-node "Knoten löschen"
+   :delete-move "Zug löschen"
    :top-cutoff "oben abschneiden"
    :left-cutoff "links abschneiden"
    :bottom-cutoff "unten abschneiden"
@@ -15,8 +16,6 @@
    :dgob "Deutscher Go-Bund"
    :editor "Editor"
    :fork-us-on-github "Auf Github forken"
-   :go-history "Die Geschichte von Go"
-   :history "Geschichte"
    :home "Home"
    :learn-go "Go lernen"
    :or-build-and-send-a-problem "Oder ein Problem bauen und uns schicken"
@@ -32,8 +31,8 @@
    :right "richtig"
    :start-tutorial "Tutorial"
    :start-tutorial-subtext "Go anhand ausgewählter Problemstellungen lernen"
-   :start-history "Geschichte"
-   :start-history-subtext "Hintergünde zum Spiel"
+   :start-about-go "Was ist Go?"
+   :start-about-go-subtext "Hintergünde zum Spiel"
    :tutorial "Tutorial"
    :useful-links "Nützliche Links"
    :welcome-text "Willkommen bei go-lernen.de"

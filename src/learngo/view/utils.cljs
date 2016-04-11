@@ -1,4 +1,4 @@
-(ns learngo.ui-utils
+(ns learngo.view.utils
   (:require [clojure.string :as str]))
 
 (defn classes [& args]

@@ -1,11 +1,14 @@
 (ns learngo.forms-test
   (:require [cljs.test          :refer-macros [is]]
-            [devcards.core      :refer-macros [defcard-rg
-                                               deftest
-                                               start-devcard-ui!]]
-            [learngo.forms      :as forms]
+            [devcards.core      :refer-macros [defcard-rg deftest]]
+            [learngo.view.forms :as forms]
             [reagent.core       :as r]
             [reagent-forms.core :refer [bind-fields]]))
+
+(defcard-rg button-group
+  [forms/button-group [[:foo #(.log js/console "foo") :active]
+                       [:bar #(.log js/console "bar") :disabled]
+                       [:baz #(.log js/console "baz") nil]]])
 
 (defn sample-form []
   (let [state (r/atom {:size 19

@@ -1,4 +1,4 @@
-(ns learngo.forms
+(ns learngo.view.forms
   (:require [learngo.i18n :as i18n]))
 
 (defn size-slider [id caption & {:keys [min max]
@@ -29,6 +29,7 @@
     [:label caption]]
    [:div.col-sm-4
     [:input.form-control {:type "text"
+                          :placeholder caption
                           :value @state
                           :on-change #(reset! state (-> % .-target .-value))}]]])
 
@@ -39,3 +40,16 @@
    [:div.col-sm-4
     [:input.form-control {:field :text
                           :id id}]]])
+
+(defn button [text handler & [status]]
+  [:button.btn.btn-default {:type :button
+                            :class status
+                            :on-click (when (not= status :disabled)
+                                        handler)
+                            :title (i18n/translate text)}
+   (i18n/translate text)])
+
+(defn button-group [buttons]
+  (into [:div.btn-group {:role :group}]
+        (for [btn buttons]
+          (into [button] btn))))

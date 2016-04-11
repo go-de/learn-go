@@ -1,4 +1,4 @@
-(ns learngo.rules)
+(ns learngo.logic.board)
 
 (def other-color {:black :white
                   :white :black})
@@ -118,6 +118,8 @@
         new-board        (if ko
                            (assoc new-board :ko ko)
                            (dissoc new-board :ko))]
+    (when-not size
+      (throw (js/Error. "cannot play on board without size")))
     (when (and ((points size) point)
                (not (get-in board [:stones point]))
                (not (and ko
