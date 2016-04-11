@@ -1,9 +1,9 @@
 @font-face {
   font-family: 'Simonetta';
-    src:  url('fonts/Simonetta.ttf.woff') format('woff'),
-    url('fonts/Simonetta.ttf.svg#Simonetta') format('svg'),
-    url('fonts/Simonetta.ttf.eot'),
-    url('fonts/Simonetta.eot?#iefix') format('embedded-opentype');
+    src:  url('../fonts/Simonetta.ttf.woff') format('woff'),
+    url('../fonts/Simonetta.ttf.svg#Simonetta') format('svg'),
+    url('../fonts/Simonetta.ttf.eot'),
+    url('../fonts/Simonetta.eot?#iefix') format('embedded-opentype');
     font-weight: normal;
     font-style: normal;
 }
