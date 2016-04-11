@@ -73,11 +73,11 @@
             text (get text @i18n/language)]
         [:div.problem
          [:div.row
-          [:div.col-md-6.col-md-push-6
+          [:div.col-md-6.col-md-push-6.col-lg-7
            [:h3 title]
            [:p.problem-text (when-not hide-feedback?
                              text)]]
-          [:div.col-md-6.col-md-pull-6
+          [:div.col-md-6.col-md-pull-6.col-lg-5
             [board-view/board board {:on-click #(play! state %)}]
             (when (and status (not hide-feedback?))
               [result-icon status @width])

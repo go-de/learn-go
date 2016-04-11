@@ -218,24 +218,40 @@ Board.drawHandlers = {
 					sr = board.stoneRadius,
 					radgrad;
 
-				// set stone texture
-				if(args.c == WGo.W) {
-					radgrad = this.createRadialGradient(xr-2*sr/5,yr-2*sr/5,sr/3,xr-sr/5,yr-sr/5,5*sr/5);
-					radgrad.addColorStop(0, '#fff');
-					//radgrad.addColorStop(1, '#d4d4d4');
-					radgrad.addColorStop(1, '#aaa');
-				}
-				else {
-					radgrad = this.createRadialGradient(xr-2*sr/5,yr-2*sr/5,1,xr-sr/5,yr-sr/5,4*sr/5);
-					radgrad.addColorStop(0, '#666');
-					radgrad.addColorStop(1, '#000');
-				}
+        var whiteStone = document.getElementById('stone_white');
+        var blackStone = document.getElementById('stone_black');
 
-				// paint stone
-				this.beginPath();
-				this.fillStyle = radgrad;
-				this.arc(xr-0.5, yr-0.5, sr-0.5, 0, 2*Math.PI, true);
-				this.fill();
+        if((whiteStone === null) || (blackStone === null))
+        {
+            // set stone texture
+    				if(args.c == WGo.W) {
+    					radgrad = this.createRadialGradient(xr-2*sr/5,yr-2*sr/5,sr/3,xr-sr/5,yr-sr/5,5*sr/5);
+    					radgrad.addColorStop(0, '#fff');
+    					//radgrad.addColorStop(1, '#d4d4d4');
+    					radgrad.addColorStop(1, '#aaa');
+    				}
+    				else {
+    					radgrad = this.createRadialGradient(xr-2*sr/5,yr-2*sr/5,1,xr-sr/5,yr-sr/5,4*sr/5);
+    					radgrad.addColorStop(0, '#666');
+    					radgrad.addColorStop(1, '#000');
+    				}
+
+    				// paint stone
+    				this.beginPath();
+    				this.fillStyle = radgrad;
+    				this.arc(xr-0.5, yr-0.5, sr-0.5, 0, 2*Math.PI, true);
+    				this.fill();
+        }
+        else
+        {
+          var sizeFix = 0.98;
+          if(args.c == WGo.W) {
+            this.drawImage(whiteStone, xr - sr*sizeFix, yr - sr*sizeFix, 2*sr*sizeFix, 2*sr*sizeFix);
+          }
+          else {
+            this.drawImage(blackStone, xr - sr*sizeFix, yr - sr*sizeFix, 2*sr*sizeFix, 2*sr*sizeFix);
+          }
+        }
 			}
 		},
 		// adding shadow handler

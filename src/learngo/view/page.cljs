@@ -93,7 +93,9 @@
 (defn problem-page []
   [:div
   [problem-view/collection
-   problems/all]])
+   problems/all]
+  [:img {:src "graphics/white_64.png" :id "stone_white" :class "hidden" }]
+  [:img {:src "graphics/black_64.png" :id "stone_black" :class "hidden"}]])
 
 (defn about-go-page []
   [:div {:class "content"}

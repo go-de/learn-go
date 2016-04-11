@@ -187,9 +187,14 @@ li a span {
     padding-bottom:10px;
 }
 
-.board
+.board-col
 {
-  display:inline-block;
+
+}
+
+.description-col
+{
+  width: 100px;
 }
 
 .wgo-board
@@ -200,16 +205,16 @@ li a span {
 
 .problem h3
 {
+  display:inline-block;
   border-bottom: 2px solid rgba(0,0,0,0.1);
-  padding-left:25px;
+  padding:0 15% 0 3%;
 }
 
 .problem-text
 {
   font-family: 'Body';
   font-size:15px;
-  padding-left:25px;
-  padding-right:25px;
+  padding:0 15% 0 3%;
   margin-bottom:20px;
 }
 
