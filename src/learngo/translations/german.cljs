@@ -15,7 +15,7 @@
    :contribute "Mithelfen"
    :dgob-info "Offizielle Seite des Deutschen Go-Bundes"
    :go-baduk-weiqi-info "Interessante News rund ums Go"
-   :pandanet-info "Ein Go-Server um online gegen andere zu spielen"
+   :pandanet-info "Go-Server um online gegen andere zu spielen"
    :hebsacker-info "Online-Shop für Spielmaterial, Bücher, etc"
    :editor "Editor"
    :fork-us-on-github "Auf Github forken"

@@ -371,3 +371,12 @@ li a span {
 .link-list dd {
   margin-left: 220px;
 }
+
+.footer {
+  margin-top: 50px;
+  width: 100%;
+}
+
+.footer a:hover {
+  cursor:pointer;
+}

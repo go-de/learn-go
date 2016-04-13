@@ -143,6 +143,23 @@ Für alle, die nun Interesse bekommen haben und die Go-Regeln sofort erklärt be
   [:div {:class "content"}
    [:h1 (i18n/translate :contact-us)]])
 
+(defn footer []
+  [:footer.footer
+   [:div.row
+    [:div.col-sm-8 [:p "Powered by "
+                    [:a {:href "https://github.com/clojure/clojurescript"}
+                     "ClojureScript"]
+                    ", "
+                    [:a {:href "https://github.com/reagent-project/reagent"}
+                     "Reagent"]
+                    ", and "
+                    [:a {:href "http://wgo.waltheri.net/"}
+                     "WGo.js"]]]
+    [:div.col-sm-4 [:a {:on-click (fn []
+                                    (navigate :contact)
+                                    false)}
+                    (i18n/translate :contact-us)]]]])
+
 (defn content []
   [:div
    [navbar (i18n/translate :learn-go)
@@ -160,4 +177,5 @@ Für alle, die nun Interesse bekommen haben und die Go-Regeln sofort erklärt be
       :contribute [contribute-page]
       :links [links-page]
       :contact [contact-page]
-      [:h1 "Page not found"])]])
+      [:h1 "Page not found"])]
+   [footer]])
