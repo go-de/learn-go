@@ -44,8 +44,7 @@
               a b))
 
 (def geometry-defaults
-  {:size 9
-   :section {:top 0
+  {:section {:top 0
              :left 0
              :right 0
              :bottom 0}})

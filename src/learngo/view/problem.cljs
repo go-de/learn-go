@@ -53,7 +53,7 @@
 
 (defn problem [definition handlers]
   (debug "rendering problem" definition)
-  (let [state (r/atom definition)
+  (let [state (r/atom (merge {:size 9} definition))
         nav-state (atom nil)
         nav-handlers (merge
                       {:on-nav identity
