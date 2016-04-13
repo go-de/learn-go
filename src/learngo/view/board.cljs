@@ -58,7 +58,7 @@
   (let [bd-ref (atom nil)
         last-state (atom nil)
         geometry (deep-merge geometry-defaults geometry)]
-    (debug "rendering board")
+    (debug "rendering raw board")
     (r/create-class
      {:component-did-mount
       (fn [obj]
@@ -78,7 +78,7 @@
         (reset! last-state @state))
       :reagent-render
       (fn []
-        (debug "updating board" @state)
+        (debug "updating raw board" @state)
         @state
         [:div.board])})))
 
@@ -87,5 +87,7 @@
 
 (defn board [state {:keys [on-click]}]
   (let [geom (r/track #(geometry @state))]
+    (debug "rendering board")
     (fn []
-      [(raw-board @geom state on-click)])))
+      (debug "updating board" @geom)
+      [raw-board @geom state on-click])))
