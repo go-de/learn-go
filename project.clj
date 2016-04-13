@@ -8,10 +8,14 @@
                  [devcards "0.2.1-6"]
                  [reagent "0.6.0-alpha"]
                  [secretary "1.2.3"]
-                 [reagent-forms "0.5.21"]]
+                 [reagent-forms "0.5.21"]
+                 [com.taoensso/timbre "4.3.1"]]
   :plugins [[lein-cljsbuild "1.1.1"]
             [lein-figwheel "0.5.0-1"]
             [lein-externs "0.1.6"]]
+
+  :aliases {"dev"     ["figwheel" "dev" "devcards"]
+            "release" ["cljsbuild" "once" "release"]}
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled"
                                     "target"]
