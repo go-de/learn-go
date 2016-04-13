@@ -124,10 +124,20 @@ Für alle, die nun Interesse bekommen haben und die Go-Regeln sofort erklärt be
    [:h3 (i18n/translate :problem-editor)]
    [editor-view/editor {:size 9}]])
 
+(def links-list
+  [["dgob.de" (i18n/translate :dgob-info)]
+   ["pandanet-igs.com" (i18n/translate :pandanet-info)]
+   ["hebsacker-verlag.de" (i18n/translate :hebsacker-info)]
+   ["go-baduk-weiqi.de" (i18n/translate :go-baduk-weiqi-info)]])
+
 (defn links-page []
   [:div {:class "content"}
    [:h1 (i18n/translate :useful-links)]
-   [:a {:href "http://www.dgob.de"} (i18n/translate :dgob)]])
+   [:dl.dl-horizontal.link-list
+    (->> links-list
+         (mapcat (fn [[url text]]
+                   [[:dt>a {:href (str "http://" url)} url]
+                    [:dd text]])))]])
 
 (defn contact-page []
   [:div {:class "content"}

@@ -363,3 +363,11 @@ li a span {
   30% { transform: rotate(0deg); }
   100% { transform: rotate(0deg); }
 }
+
+.link-list dt {
+  width: 200px;
+}
+
+.link-list dd {
+  margin-left: 220px;
+}
