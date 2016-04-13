@@ -51,9 +51,9 @@
   [:div {:class "content"}
    [:h1 (i18n/translate :welcome-text)]
    [:div {:class "row"}
-     [:div {:class "col-sm-8 justify"}
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla non ex lacinia, euismod turpis vitae, placerat ante. Aenean faucibus diam risus, imperdiet feugiat justo dapibus eget. Vivamus iaculis metus lacus, mollis placerat nisl gravida sed. Nulla facilisi. Sed hendrerit mi porttitor, pharetra leo a, ultricies justo. Mauris quis quam sit amet nibh vehicula accumsan quis eu libero. Duis egestas ipsum eu eros gravida consectetur. Cras molestie erat in metus laoreet aliquam. Nunc blandit ligula nec risus rutrum fermentum. Aenean vitae iaculis turpis."
-     ]
+    [:div {:class "col-sm-8 justify"}
+     [:div.alert.alert-info
+      (i18n/translate :under-construction)]]
      [:div {:class "col-sm-4"}
        [:button.btn.btn-wood.btn-block
         {:type :button :class "attention"
@@ -65,12 +65,7 @@
          {:type :button
           :on-click #(navigate :about-go)}
          [:span {:class "btn-header"}(i18n/translate :start-about-go)]
-         [:span {:class "btn-subtext"} (i18n/translate :start-about-go-subtext)]
-       ]
-     ]
-   ]
-
-  ])
+         [:span {:class "btn-subtext"} (i18n/translate :start-about-go-subtext)]]]]])
 
 (defn navbar [page-name & items]
   [:nav {:class "navbar navbar-default"}
@@ -98,6 +93,11 @@
 
 (defn about-go-page []
   [:div {:class "content"}
+   [:h1 (i18n/translate :about-go)]
+   [:br]
+   [:div.alert.alert-info
+    (i18n/translate :under-construction)]]
+  #_[:div {:class "content"}
    [:h1 (i18n/translate :about-go)]
    [:img {:class "img-rounded flow-right" :src "graphics/external/gostobobo.gif"}]
    [:p {:class "justify"} "Go hat - unter dem Namen 'Wei-qi' - seinen Ursprung im alten China des zweiten vorchristlichen Jahrtausends und ist damit mehr als 4000 Jahre alt. Vor ungefähr 1300 Jahren hat Wei-qi seinen Weg nach Japan gefunden. Seitdem wurde die antike Form des Wei-qi von den Japanern zu der heute vornehmlich bekannten Form des Go verändert und weiterentwickelt. Auch heute haben Go bzw. Wei-qi in Japan und China einen großen Stellenwert, man findet kaum eine Zeitung oder ein Magazin ohne eine Spalte über das Spiel. Ebenso populär ist das Spiel unter dem Namen 'Baduk' in Korea. Außerhalb von China, Japan und Korea wird ebenfalls Go gespielt. Weltweit dürfte die Zahl der Go-Spieler mehrere Millionen betragen."]
@@ -133,6 +133,7 @@ Für alle, die nun Interesse bekommen haben und die Go-Regeln sofort erklärt be
 (defn links-page []
   [:div {:class "content"}
    [:h1 (i18n/translate :useful-links)]
+   [:br]
    [:dl.dl-horizontal.link-list
     (->> links-list
          (mapcat (fn [[url text]]
@@ -141,7 +142,10 @@ Für alle, die nun Interesse bekommen haben und die Go-Regeln sofort erklärt be
 
 (defn contact-page []
   [:div {:class "content"}
-   [:h1 (i18n/translate :contact-us)]])
+   [:h1 (i18n/translate :contact-us)]
+   [:br]
+   [:div.alert.alert-info
+    (i18n/translate :under-construction)]])
 
 (defn footer []
   [:footer.footer

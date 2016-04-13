@@ -16,7 +16,7 @@
    :dgob-info "Offizielle Seite des Deutschen Go-Bundes"
    :go-baduk-weiqi-info "Interessante News rund ums Go"
    :pandanet-info "Go-Server um online gegen andere zu spielen"
-   :hebsacker-info "Online-Shop für Spielmaterial, Bücher, etc"
+   :hebsacker-info "Online-Shop für Spielmaterial, Bücher, etc."
    :editor "Editor"
    :fork-us-on-github "Auf Github forken"
    :home "Home"
@@ -50,4 +50,5 @@
    :win "Richtig"
    :lose "Falsch"
    :any-black "Jeder andere Zug"
+   :under-construction "Diese Seite befindet sich noch im Aufbau ..."
    })

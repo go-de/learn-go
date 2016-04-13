@@ -68,10 +68,11 @@
 
 (defn controls [state]
   [:div
+   [:br]
    [tool-buttons state] [:br]
    [tree-buttons state] [:br]
    [any-buttons state] [:br]
-   [result-buttons state] [:br]
+   [result-buttons state] [:br] [:br]
    [title-input state] [:br]
    [text-input state]])
 
@@ -98,7 +99,7 @@
        [:div.row
         [:div.col-md-6.col-lg-5
          [board state]]
-        [:div.col-md-6.col-sm-8.col-xs-9
+        [:div.col-md-6
          [controls state]]]]]
      [:div.panel.panel-default
       [:div.panel-heading
