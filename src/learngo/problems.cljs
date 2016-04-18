@@ -157,6 +157,106 @@
    :text {:de "Fange die zwei weißen Steine am Rand (3 Züge)"
           :en "Capture the two white stones at the side (3 moves)"}})
 
+(def race
+  {:stones
+   {[5 7] :white,
+    [4 3] :white,
+    [3 4] :black,
+    [1 2] :white,
+    [5 3] :white,
+    [2 2] :black,
+    [3 2] :black,
+    [4 6] :white,
+    [2 4] :black,
+    [4 2] :black,
+    [1 3] :white,
+    [2 3] :black,
+    [5 2] :white,
+    [4 7] :black,
+    [3 1] :white,
+    [5 1] :black,
+    [3 0] :black,
+    [2 7] :white,
+    [4 5] :white,
+    [1 1] :black,
+    [3 3] :white,
+    [2 6] :white,
+    [3 5] :black,
+    [1 4] :white,
+    [4 8] :white,
+    [2 1] :white,
+    [4 1] :white,
+    [3 6] :black,
+    [3 8] :white,
+    [6 1] :black,
+    [3 7] :black,
+    [4 0] :black,
+    [2 5] :white},
+   :size 9,
+   :title {:de "Unübersichtlich"},
+   :player :black,
+   :vars
+   {[4 4] {:reply [5 4], :status :wrong},
+    [2 0] {:status :right},
+    :any {:reply [4 4], :status :wrong}},
+   :text {:de "Schwarz muss sich befreien!"}})
+
+(def race2
+  {:size 9,
+   :title {:de "Tödliche Umarmung"}
+   :stones
+   {[4 3] :white,
+    [3 4] :white,
+    [5 3] :black,
+    [3 2] :white,
+    [2 4] :black,
+    [4 2] :black,
+    [2 3] :black,
+    [5 2] :white,
+    [5 1] :white,
+    [4 5] :black,
+    [5 4] :black,
+    [3 5] :black,
+    [2 1] :white,
+    [4 4] :white},
+   :player :white,
+   :vars
+   {[3 1]
+    {:reply [4 1],
+     :vars
+     {[2 2] {:status :wrong},
+      [3 3] {:reply [4 2], :status :wrong},
+      :any {:status :wrong, :reply [3 3]}}},
+    [3 3] {:status :right},
+    [4 1] {:reply [3 3], :status :wrong},
+    :any {:reply [3 3], :status :wrong}}})
+
+(def race3
+  {:size 9,
+   :player :black,
+   :title {:de "Ins kurze Eck"}
+   :stones
+   {[3 4] :white,
+    [4 6] :white,
+    [0 7] :white,
+    [4 7] :white,
+    [2 7] :white,
+    [0 6] :black,
+    [2 6] :black,
+    [1 4] :black,
+    [1 7] :white,
+    [1 8] :white,
+    [3 6] :white,
+    [3 8] :black,
+    [1 6] :black,
+    [3 7] :black,
+    [2 8] :black},
+   :vars
+   {[0 8] {:status :right},
+    [4 8] {:reply [5 8], :status :wrong},
+    :any {:reply [4 8], :status :wrong}}})
+
+
 (def geta-1
   {:title {:de "Im Netz der Spinne"}
    :text {:de "Fange den mit \"A\" markierten Stein"
@@ -195,6 +295,42 @@
      :status nil},
     :any {:status :wrong, :vars {}}}})
 
+(def stork
+  {:size 9,
+   :title {:de "Storchennest"}
+   :player :black,
+   :stones
+   {[2 4] :white,
+    [7 2] :black,
+    [5 6] :black,
+    [2 3] :white,
+    [5 2] :black,
+    [7 4] :black,
+    [6 3] :white,
+    [6 6] :black,
+    [6 5] :white,
+    [7 5] :black,
+    [4 4] :white,
+    [7 3] :black,
+    [6 2] :black,
+    [6 4] :white,
+    [7 6] :black},
+   :vars
+   {[5 4]
+    {:reply [5 3],
+     :vars
+     {[4 3]
+      {:reply [5 5],
+       :vars
+       {[3 4] {:reply [3 5], :status :wrong},
+        [4 5]
+        {:reply [3 4],
+         :vars
+         {[5 4] {:status :right}, :any {:reply [5 4], :status :wrong}}},
+        :any {:reply [4 5], :status :wrong}}},
+      :any {:status :wrong, :reply [4 3]}}},
+    :any {:reply [5 4], :status :wrong}}})
+
 (def all
   [capture-1
    capture-2
@@ -204,4 +340,8 @@
    capture-side
    capture-side2
    capture-side3
-   geta-1])
+   race
+   race2
+   race3
+   geta-1
+   stork])
