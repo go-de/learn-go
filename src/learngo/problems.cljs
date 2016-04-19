@@ -295,9 +295,9 @@
      :status nil},
     :any {:status :wrong, :vars {}}}})
 
-(def stork
+(def crane
   {:size 9,
-   :title {:de "Storchennest"}
+   :title {:de "Kranichsnest"}
    :player :black,
    :stones
    {[2 4] :white,
@@ -324,9 +324,9 @@
        :vars
        {[3 4] {:reply [3 5], :status :wrong},
         [4 5]
-        {:reply [3 4],
+        {:reply [5 4],
          :vars
-         {[5 4] {:status :right}, :any {:reply [5 4], :status :wrong}}},
+         {[3 4] {:status :right}, :any {:reply [3 4], :status :wrong}}},
         :any {:reply [4 5], :status :wrong}}},
       :any {:status :wrong, :reply [4 3]}}},
     :any {:reply [5 4], :status :wrong}}})
@@ -344,4 +344,4 @@
    race2
    race3
    geta-1
-   stork])
+   crane])
