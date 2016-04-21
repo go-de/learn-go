@@ -151,6 +151,9 @@ var Board = function(elem, config) {
 	// add default theme variables
 	for(var key in Board.themes.default) if(this.theme[key] === undefined) this.theme[key] = Board.themes.default[key];
 
+	// preload stone graphics if specified
+	if(this.stoneGraphicsPreload) this.preload(this);
+
 	// set section if set
 	this.tx = this.section.left;
 	this.ty = this.section.top;
@@ -522,7 +525,7 @@ Board.drawHandlers = {
 						// Redraw the whole board after the image has been loaded.
 						// This prevents 'missing stones' and similar graphical errors
 						// especially on slower internet connections.
-					  stoneGraphic.onload = redraw;
+					    stoneGraphic.onload = redraw;
 						stoneGraphic.src = board.whiteStoneGraphic[idx];
 						board.whiteStoneGraphic[idx] = stoneGraphic;
 					}
@@ -1385,6 +1388,33 @@ Board.prototype = {
 		}
 	},
 
+	preload: function(self) {
+		// preload stone images
+		var update = function() {
+			self.redraw();
+		};
+
+		for(var i = 0; i < this.whiteStoneGraphic.length; i++) {
+			var val = this.whiteStoneGraphic[i];
+			if(typeof val === 'string')	{
+				var stoneGraphic = new Image();
+				stoneGraphic.src = val;
+				stoneGraphic.onload = update;
+				this.whiteStoneGraphic[i] = stoneGraphic;
+			}
+		}
+
+		for(var i = 0; i < this.blackStoneGraphic.length; i++) {
+			var val = this.blackStoneGraphic[i];
+			if(typeof val === 'string')	{
+				var stoneGraphic = new Image();
+				stoneGraphic.src = val;
+				stoneGraphic.onload = update;
+				this.blackStoneGraphic[i] = stoneGraphic;
+			}
+		}
+	},
+
 	/**
 	 * Get absolute X coordinate
 	 *
@@ -1650,6 +1680,8 @@ Board.default = {
 												WGo.DIR + "stones/black02_128.png",
 												WGo.DIR + "stones/black03_128.png"
 										 ],
+	stoneGraphicsPreload: true,
+
 
 	theme: {}
 }
