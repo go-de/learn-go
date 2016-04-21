@@ -57,7 +57,7 @@ li a span {
 {
     background-image: url(../graphics/logo.png);
     background-repeat:no-repeat;
-    width: 263px;
+    width: 269px;
     height:116px;
     margin-top:25px;
 }
@@ -75,9 +75,9 @@ li a span {
 
 .navbar-nav:before
 {
-    width:150px;
+    width:160px;
     position:relative;
-    left:-150px;
+    left:-160px;
     top:31px;
     border-bottom: 2px solid rgba(0,0,0,0.1);
 }
