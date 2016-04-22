@@ -70,6 +70,11 @@
         [forms/atom-input (i18n/translate :node-text)
          (r/cursor node [:text :de])]))))
 
+(defn player-str [player]
+  (if (= player :white)
+    (i18n/translate :white)
+    (i18n/translate :black)))
+
 (defn controls [state]
   [:div
    [:br]
@@ -78,7 +83,8 @@
    [any-buttons state] [:br]
    [result-buttons state] [:br] [:br]
    [title-input state] [:br]
-   [text-input state]])
+   [text-input state] [:br]
+   [:p.lead (player-str (:player @state)) " " (i18n/translate :to-play)]])
 
 (defn preview [state]
   (let [problem (r/track #(editor/->problem @state))]

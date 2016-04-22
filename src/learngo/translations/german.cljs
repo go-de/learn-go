@@ -2,6 +2,9 @@
 
 (def translate
   {
+   :black "Schwarz"
+   :white "Weiß"
+   :to-play "am Zug"
    :about-go "Was ist Go?"
    :board-geometry "Brettausschnitt"
    :board-size "Brettgröße"
