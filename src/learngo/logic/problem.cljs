@@ -23,7 +23,8 @@
 
 (defn child-node [tree move]
   (or (get-in tree [:vars move])
-      (get-in tree [:vars :any])))
+      (get-in tree [:vars :any])
+      {:status :wrong}))
 
 (defn path-node [problem path]
   (reduce child-node problem path))
@@ -62,9 +63,7 @@
     problem))
 
 (defn play-and-disable [problem move]
-  (when-not (or (:disabled? problem)
-                (not (child-node (current-node problem)
-                                 move)))
+  (when-not (:disabled? problem)
     (when (board/play (current-board problem)
                       :black move)
 
