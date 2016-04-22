@@ -77,3 +77,16 @@
   (assoc problem
          :disabled? false
          :hide-feedback? false))
+
+(defn section-around [board center radius]
+  (let [{:keys [size]} board
+        mirrored (- size radius 1)
+        [x y] center
+        x (max x radius)
+        x (min x mirrored)
+        y (max y radius)
+        y (min y mirrored)]
+    {:top (- y radius)
+     :bottom (- mirrored y)
+     :left (- x radius)
+     :right (- mirrored x)}))

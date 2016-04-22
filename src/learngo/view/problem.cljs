@@ -34,13 +34,17 @@
     []
     (partial on-nav :next)]])
 
-(defn result-icon [status board-width]
-  [:p.status-icon {:class status
-                   :style {:margin-left (str (- board-width 40)
-                                             "px")}}
+(defn result-glyphicon [status]
+  [:span.status {:class status}
    [ui/glyphicon (case status
                    :right :ok
                    :wrong :remove)]])
+
+(defn result-icon [status board-width]
+  [:p.status-icon
+   {:style {:margin-left (str (- board-width 40)
+                              "px")}}
+   [result-glyphicon status]])
 
 (def feedback-delay 400)
 

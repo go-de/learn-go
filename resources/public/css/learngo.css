@@ -30,11 +30,11 @@ p.status-icon {
   font-size: 40px;
 }
 
-p.status-icon.wrong {
+.status.wrong {
   color: red;
 }
 
-p.status-icon.right {
+.status.right {
   color: green;
 }
 
@@ -378,5 +378,21 @@ li a span {
 }
 
 .footer a:hover {
-  cursor:pointer;
+  cursor: pointer;
+}
+
+.var-tree td {
+  padding: 2px;
+}
+
+.var-board {
+  padding: 1px 6px 1px 6px;
+}
+
+.var-tree .current {
+  background: #ffe6cc;
+}
+
+.var-node-status {
+  margin-left: 20px;
 }

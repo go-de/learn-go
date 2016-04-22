@@ -46,12 +46,16 @@
              problem/current-moves))))
 
 (deftest current-board
-  (let [problem (assoc probs/capture-1 :marks {[0 0] "A"})]
+  (let [problem (-> probs/capture-1
+                    (select-keys [:stones])
+                    (assoc :marks {[0 0] "A"})
+                    (assoc :size 9))]
     (is (= {:stones {[3 4] :black
                      [5 4] :black
                      [4 5] :black
-                     [4 4] :white}}
-           (-> probs/capture-1
+                     [4 4] :white}
+            :marks {[0 0] "A"}}
+           (-> problem
                problem/current-board
                (select-keys [:stones :marks]))))
     (is (= {:stones {[3 4] :black
@@ -62,3 +66,33 @@
                (assoc :path [[4 3]])
                problem/current-board
                (select-keys [:stones :marks]))))))
+
+(deftest section-around
+  (is (= {:top 0
+          :bottom 0
+          :left 0
+          :right 0}
+         (problem/section-around {:size 9}
+                                 [4 4]
+                                 4)))
+  (is (= {:top 1
+          :bottom 1
+          :left 1
+          :right 1}
+         (problem/section-around {:size 9}
+                                 [4 4]
+                                 3)))
+  (is (= {:top 1
+          :bottom 1
+          :left 0
+          :right 2}
+         (problem/section-around {:size 9}
+                                 [3 4]
+                                 3)))
+  (is (= {:top 2
+          :bottom 0
+          :left 2
+          :right 0}
+         (problem/section-around {:size 9}
+                                 [8 7]
+                                 3))))

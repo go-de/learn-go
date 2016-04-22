@@ -1,5 +1,6 @@
 (ns learngo.view.editor
   (:require [cljs.pprint           :refer [pprint]]
+            [goog.string           :as gstring]
             [learngo.i18n          :as i18n]
             [learngo.logic.board   :as board]
             [learngo.logic.editor  :as editor]
@@ -8,15 +9,10 @@
             [learngo.view.forms    :as forms]
             [learngo.view.layout   :as layout]
             [learngo.view.problem  :as problem-view]
-            [reagent.core          :as r]
-            [reagent.ratom         :refer-macros [reaction]]))
+            [reagent.core          :as r]))
 
 (defn board [state]
-  (let [current-board (r/track #(-> @state
-                                    (assoc :hide-feedback?
-                                           (= (:player @state)
-                                              :white))
-                                    problem/current-board))
+  (let [current-board (r/track #(editor/current-board @state))
         current-width (r/track layout/board-width)
         board (r/track #(assoc @current-board :width @current-width))
         on-click #(swap! state editor/apply-tool %)]
@@ -96,6 +92,69 @@
     (fn []
       [:pre (with-out-str (pprint @problem))])))
 
+(defn var-tree [state]
+  (let [current-path (:path @state)
+        rec-tree (fn rec-tree [move-num board path vars]
+                   [:table
+                    [:thead]
+                    [:tbody
+                     (for [[move {:keys [reply status vars]}] vars]
+                       (let [board (cond-> board
+                                     (not= :any move)
+                                     (-> (board/play :black move)
+                                         (assoc-in [:marks move]
+                                                   (inc move-num)))
+                                     reply
+                                     (-> (board/play :white reply)
+                                         (assoc-in [:marks reply]
+                                                   (+ move-num 2))))
+                             center (or (if-not (= :any move)
+                                          move
+                                          reply)
+                                        [4 4])
+                             path (conj path move)
+                             section (problem/section-around board
+                                                             center
+                                                             3)]
+                         ^{:key move}
+                         [:tr.var-node
+                          [:td
+                           [:div.var-board
+                            {:class (when (= current-path path)
+                                      :current)
+                             :on-click (fn []
+                                         (swap! state assoc
+                                                :path path
+                                                :player (if reply
+                                                          :black
+                                                          :white)))}
+                            [board-view/board (r/atom
+                                               (assoc board
+                                                      :section section))]]
+                           [:span (gstring/unescapeEntities "&nbsp;")
+                            (when status
+                              [problem-view/result-glyphicon
+                               status])
+                            (when (= move :any)
+                              (str " "
+                                   (inc move-num)
+                                   " "
+                                   (i18n/translate :any-black)))]]
+                          [:td
+                           [rec-tree
+                            (+ 2 move-num)
+                            (dissoc board :marks)
+                            path
+                            vars]]]))]])
+        {:keys [path
+                vars]
+         :as editor}  @state
+        board (-> editor
+                  (select-keys [:size :stones])
+                  (assoc :width 120))]
+    [:div.var-tree
+     [rec-tree 0 board [] vars]]))
+
 (defn editor [description]
   (let [state (r/atom (merge {:tool :add-black
                               :size 9}
@@ -111,6 +170,12 @@
          [board state]]
         [:div.col-md-6
          [controls state]]]]]
+     [:div.panel.panel-default
+      [:div.panel-heading
+       [:h4.panel-title
+        [:a (i18n/translate :variation-tree)]]]
+      [:div.panel-body
+       [var-tree state]]]
      [:div.panel.panel-default
       [:div.panel-heading
        [:h4.panel-title

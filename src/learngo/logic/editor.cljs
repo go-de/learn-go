@@ -56,8 +56,15 @@
 (defn play-any [editor]
   (play editor :any))
 
+(defn current-board [editor]
+  (-> editor
+      (assoc :hide-feedback?
+             (= (:player editor)
+                :white))
+      problem/current-board))
+
 (defn play-tool [editor pos]
-  (let [bd (problem/current-board editor)
+  (let [bd (current-board editor)
         playable? (board/play bd (:player editor) pos)]
     (if (and playable?
              (not (:disabled? editor)))

@@ -54,4 +54,5 @@
    :lose "Falsch"
    :any-black "Jeder andere Zug"
    :under-construction "Diese Seite befindet sich noch im Aufbau ..."
+   :variation-tree "Variantenbaum"
    })

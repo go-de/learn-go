@@ -10,7 +10,8 @@
                        (= item :white)    {:c js/WGo.W}
                        (= item :circle)   {:type "CR"}
                        (= item :triangle) {:type "TR"}
-                       (string? item)     {:type "LB" :text item})]
+                       :else              {:type "LB"
+                                           :text (str item)})]
     (clj->js
      (merge pos-map item-map))))
 
