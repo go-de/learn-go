@@ -12,7 +12,11 @@
             [reagent.ratom         :refer-macros [reaction]]))
 
 (defn board [state]
-  (let [current-board (r/track #(problem/current-board @state))
+  (let [current-board (r/track #(-> @state
+                                    (assoc :hide-feedback?
+                                           (= (:player @state)
+                                              :white))
+                                    problem/current-board))
         current-width (r/track layout/board-width)
         board (r/track #(assoc @current-board :width @current-width))
         on-click #(swap! state editor/apply-tool %)]
