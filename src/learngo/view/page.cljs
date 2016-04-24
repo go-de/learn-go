@@ -5,6 +5,7 @@
             [learngo.i18n           :as i18n]
             [learngo.problems       :as problems]
             [learngo.view.editor    :as editor-view]
+            [learngo.view.intro     :as intro-view]
             [learngo.view.problem   :as problem-view]
             [learngo.view.utils     :as ui]
             [reagent.core           :as r]
@@ -86,10 +87,13 @@
           (i18n/translate item)]]))]]])
 
 (defn problem-page []
-  [:div
-  [problem-view/collection
-   problems/all]
-  ])
+  (let [intro? (r/atom true)]
+    (fn []
+      [:div
+       (if @intro?
+         [intro-view/page {:on-next #(reset! intro? false)}]
+         [problem-view/collection
+          problems/all])])))
 
 (defn about-go-page []
   [:div {:class "content"}
