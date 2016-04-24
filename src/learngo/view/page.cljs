@@ -4,6 +4,7 @@
             [goog.history.EventType :as EventType]
             [learngo.i18n           :as i18n]
             [learngo.problems       :as problems]
+            [learngo.view.contact   :as contact-view]
             [learngo.view.editor    :as editor-view]
             [learngo.view.intro     :as intro-view]
             [learngo.view.problem   :as problem-view]
@@ -148,8 +149,8 @@ Für alle, die nun Interesse bekommen haben und die Go-Regeln sofort erklärt be
   [:div {:class "content"}
    [:h1 (i18n/translate :contact-us)]
    [:br]
-   [:div.alert.alert-info
-    (i18n/translate :under-construction)]])
+   [:p (i18n/translate :contact-credits)]
+   [:p (i18n/translate :email) ": " [contact-view/email]]])
 
 (defn footer []
   [:footer.footer

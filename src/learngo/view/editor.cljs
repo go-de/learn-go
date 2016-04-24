@@ -6,6 +6,7 @@
             [learngo.logic.editor  :as editor]
             [learngo.logic.problem :as problem]
             [learngo.view.board    :as board-view]
+            [learngo.view.contact  :as contact-view]
             [learngo.view.forms    :as forms]
             [learngo.view.layout   :as layout]
             [learngo.view.problem  :as problem-view]
@@ -185,6 +186,6 @@
      [:div.panel.panel-default
       [:div.panel-heading
        [:h4.panel-title
-        [:a (i18n/translate :problem-data)]]]
+        [:p (i18n/translate :problem-data) " " [contact-view/email]]]]
       [:div.panel-body
        [data state]]]]))
