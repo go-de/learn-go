@@ -1,9 +1,9 @@
 (ns learngo.problems)
 
 (def capture-1
-  {:title {:de "Aller Anfang ist leicht"}
-   :text {:de "Fange den weißen Stein"
-          :en "Capture the white stone"}
+  {:title {:de "Schlage den weißen Stein"
+           :en "Take the white stone"}
+   :text {:de "Man schlägt Steine, indem man sie von allen vier Seiten umzingelt."}
    :stones {[3 4] :black
             [5 4] :black
             [4 5] :black
