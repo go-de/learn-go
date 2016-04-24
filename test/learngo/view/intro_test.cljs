@@ -25,3 +25,6 @@
 
 (defcard-rg pro-game
   [intro-view/pro-game])
+
+(defcard-rg page
+  [intro-view/page])
