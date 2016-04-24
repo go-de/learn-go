@@ -117,13 +117,18 @@
 Für alle, die nun Interesse bekommen haben und die Go-Regeln sofort erklärt bekommen möchten, findet sich auf dieser Web-Site ein kleiner Go-Kurs mit fünf Lektionen. Wer diese aufmerksam studiert, sollte danach in der Lage sein, mit dem Spielen zu beginnen. Ganz ambitionierte können auch die mit den Studium der japanischen und chinesischen Go-Regeln fortsetzen."]
   ])
 
+(def github-url "github.com/go-de/learn-go")
+
+(defn github-link [text]
+  [:a {:href (str "https://" github-url)}
+   text])
+
 (defn contribute-page []
   [:div
    [:h1 (i18n/translate :contribute)]
    [:ul
     [:li
-     [:a {:href "https://github.com/go-de/learn-go"}
-      (i18n/translate :fork-us-on-github)]]
+     [github-link (i18n/translate :fork-us-on-github)]]
     [:li
      [:p (i18n/translate :or-build-and-send-a-problem) ":"]]]
    [:h3 (i18n/translate :problem-editor)]
@@ -150,12 +155,14 @@ Für alle, die nun Interesse bekommen haben und die Go-Regeln sofort erklärt be
    [:h1 (i18n/translate :contact-us)]
    [:br]
    [:p (i18n/translate :contact-credits)]
-   [:p (i18n/translate :email) ": " [contact-view/email]]])
+   [:br]
+   [:p (i18n/translate :email) ": " [contact-view/email]]
+   [:p "Github: " [github-link github-url]]])
 
 (defn footer []
   [:footer.footer
    [:div.row
-    [:div.col-sm-8 [:p "Powered by "
+    [:div.col-lg-4 [:p "Powered by "
                     [:a {:href "https://github.com/clojure/clojurescript"}
                      "ClojureScript"]
                     ", "
@@ -164,7 +171,8 @@ Für alle, die nun Interesse bekommen haben und die Go-Regeln sofort erklärt be
                     ", and "
                     [:a {:href "http://wgo.waltheri.net/"}
                      "WGo.js"]]]
-    [:div.col-sm-4 [:a {:on-click (fn []
+    [:div.col-lg-4 [github-link "Github"]]
+    [:div.col-lg-4 [:a {:on-click (fn []
                                     (navigate :contact)
                                     false)}
                     (i18n/translate :contact-us)]]]])
