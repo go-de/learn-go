@@ -32,7 +32,7 @@
    :intro-rule-2 "Einmal gesetzte Steine werden nicht mehr bewegt. Sie können aber geschlagen werden (siehe nächste Seite)."
    :intro-rule-3 "Ziel des Spieles ist es, mehr vom Brett zu kontrollieren als der Gegner. Mehr dazu später."
    :intro-game-caption "Eine berühmte Profipartie aus dem alten Japan"
-   :intro-game-description "Shusaki gegen Honinbo Shuwa - gespielt am 15.11.1851"
+   :intro-game-description "Shusaku gegen Honinbo Shuwa - gespielt am 15.11.1851"
    :or-build-and-send-a-problem "Oder ein Problem bauen und uns schicken"
    :links "Links"
    :preview "Vorschau"
