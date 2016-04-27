@@ -331,6 +331,63 @@
       :any {:status :wrong, :reply [4 3]}}},
     :any {:reply [5 4], :status :wrong}}})
 
+(def ladder
+  {:size 9,
+   :stones {[3 4] :black, [4 5] :black, [3 3] :black, [4 4] :white},
+   :player :black,
+   :vars
+   {[5 4]
+    {:reply [4 3],
+     :vars
+     {[4 2]
+      {:reply [5 3],
+       :vars
+       {[6 3]
+        {:reply [5 2],
+         :vars
+         {[5 1]
+          {:reply [6 2],
+           :vars
+           {[7 2]
+            {:reply [6 1],
+             :vars
+             {[7 1]
+              {:reply [6 0],
+               :vars
+               {[7 0]
+                {:reply [5 0],
+                 :vars
+                 {[4 0] {:status :right},
+                  [4 1] {:status :wrong},
+                  :any {:reply [4 1], :status :wrong}}},
+                [5 0]
+                {:reply [6 4],
+                 :vars
+                 {[5 5] {:reply [7 3], :status :wrong},
+                  [7 0] {:status :right},
+                  :any {:reply [5 5], :status :wrong}}}}},
+              [6 0]
+              {:reply [7 1],
+               :vars
+               {[8 1] {:reply [7 0], :vars {[8 0] {:status :right}}},
+                [7 0]
+                {:reply [8 1],
+                 :vars
+                 {[8 2]
+                  {:reply [4 1],
+                   :vars
+                   {[3 2] {:reply [5 0], :status :wrong},
+                    [8 0] {:status :right},
+                    :any {:reply [3 2], :status :wrong}}},
+                  [8 0] {:reply [5 0], :status :wrong}}}}}}},
+            :any {:reply [7 2], :status :wrong}}},
+          :any {:reply [5 1], :status :wrong}}},
+        :any {:reply [6 3], :status :wrong}}},
+      :any {:reply [4 2], :status :wrong}}},
+    :any {:reply [5 4], :status :wrong}},
+   :title {:de "Treppe"},
+   :text {:de "Fange weiß - Achtung viele Züge!"}})
+
 (def all
   [capture-1
    capture-2
@@ -344,4 +401,5 @@
    race2
    race3
    geta-1
-   crane])
+   crane
+   ladder])
