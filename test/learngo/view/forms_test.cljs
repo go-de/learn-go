@@ -1,4 +1,4 @@
-(ns learngo.forms-test
+(ns learngo.view.forms-test
   (:require [cljs.test          :refer-macros [is]]
             [devcards.core      :refer-macros [defcard-rg deftest]]
             [learngo.view.forms :as forms]

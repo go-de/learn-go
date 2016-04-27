@@ -6,15 +6,11 @@
             [learngo.i18n-test]
             [learngo.view.board-test]
             [learngo.view.editor-test]
+            [learngo.view.forms-test]
             [learngo.view.intro-test]
             [learngo.view.layout-test]
+            [learngo.view.page-test]
             [learngo.view.problem-test]
             [taoensso.timbre :as timbre]))
 
 (timbre/set-level! :debug)
-
-;; [learngo.buttons-test]
-;; [learngo.editor-test]
-;; [learngo.forms-test]
-;;
-;; [learngo.page-test]

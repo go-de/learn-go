@@ -1,4 +1,4 @@
-(ns learngo.page-test
+(ns learngo.view.page-test
   (:require [cljs.test         :as t]
             [devcards.core     :refer-macros [defcard-rg
                                               deftest]]
