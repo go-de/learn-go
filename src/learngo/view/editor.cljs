@@ -39,17 +39,33 @@
       [:delete-move #(swap! state editor/delete-current-move) status]]]))
 
 (defn any-buttons [state]
-  (let [player (:player @state)]
+  (let [editor @state
+        player (:player editor)
+        play-tool? (= (:tool editor) :play)
+        any-status (when (or (= player :white)
+                             (not play-tool?))
+                     :disabled)
+        refute-status (cond
+                        (or (not= player :white)
+                            (not play-tool?))
+                        :disabled
+                        (editor/refutes-all-others? editor)
+                        :active)]
+    (println "refute" refute-status)
     [forms/button-group
      [[:any-black
-        #(swap! state editor/play-any)
-        (when (= player :white)
-          :disabled)]
-      [:refutes-other-moves identity nil]]]))
+       #(swap! state editor/play-any)
+       any-status]
+      [:refutes-other-moves
+       #(swap! state editor/refute-all-others)
+       refute-status]]]))
 
 (defn result-buttons [state]
   (let [current-result (editor/status @state)
-        status #(when (= % current-result)
+        status #(cond
+                  (not= (:tool @state) :play)
+                  :disabled
+                  (= % current-result)
                   :active)]
     [forms/button-group
      [[:no-result-yet #(swap! state editor/set-status nil) (status nil)]

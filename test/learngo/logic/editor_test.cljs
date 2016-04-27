@@ -189,3 +189,29 @@
            del-3))
     (is (= del-3
            del-4))))
+
+(deftest refutes-all-others?
+  (let [editor-1 {:vars {[1 1] {}
+                         [2 1] {}
+                         :any {:reply [1 1]
+                               :status :wrong}}
+                  :path [[1 1]]
+                  :player :white}
+        editor-2 (assoc editor-1 :path [])
+        editor-3 (assoc editor-1 :player :black)
+        editor-4 (assoc-in editor-1 [:vars :any :reply] [1 2])]
+    (is (editor/refutes-all-others? editor-1))
+    (is (not (editor/refutes-all-others? editor-2)))
+    (is (not (editor/refutes-all-others? editor-3)))
+    (is (not (editor/refutes-all-others? editor-4)))))
+
+(deftest refute-all-others
+  (let [editor {:vars {[1 1] {}}
+                :path [[1 1]]
+                :player :white}]
+    (is (= {:vars {[1 1] {}
+                   :any {:reply [1 1]
+                         :status :wrong}}
+            :path [[1 1]]
+            :player :white}
+           (editor/refute-all-others editor)))))

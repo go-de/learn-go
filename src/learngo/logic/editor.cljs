@@ -123,3 +123,25 @@
 
 (defn ->problem [editor]
   (dissoc editor :path :tool))
+
+(defn refutes-all-others? [editor]
+  (and
+   (= (:player editor) :white)
+   (seq (:path editor))
+   (let [{:keys [reply status]} (-> editor
+                                    up
+                                    get-var
+                                    :vars
+                                    :any)
+         last-move (last (:path editor))]
+     (and (= last-move reply)
+          (= status :wrong)))))
+
+(defn refute-all-others [editor]
+  (let [last-move (last (:path editor))]
+    (-> editor
+        up
+        (update-var assoc-in [:vars :any] {:reply last-move
+                                           :status :wrong})
+        (assoc :path (:path editor)
+               :player (:player editor)))))
