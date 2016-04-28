@@ -388,6 +388,55 @@
    :title {:de "Treppe"},
    :text {:de "Fange weiß - Achtung viele Züge!"}})
 
+(def yose-hane
+  {:size 9,
+   :title {:de "Endspiel"}
+   :text {:de "Finde die beste Zugfolge"}
+   :stones
+   {[4 3] :white,
+    [3 4] :black,
+    [5 3] :black,
+    [3 2] :white,
+    [4 6] :black,
+    [2 4] :white,
+    [4 2] :black,
+    [5 5] :black,
+    [5 6] :black,
+    [5 2] :black,
+    [4 7] :black,
+    [3 1] :white,
+    [5 1] :black,
+    [2 7] :white,
+    [4 5] :white,
+    [3 3] :white,
+    [5 4] :black,
+    [2 6] :white,
+    [6 3] :black,
+    [3 5] :white,
+    [4 8] :white,
+    [4 1] :white,
+    [3 6] :black,
+    [5 8] :black,
+    [3 8] :white,
+    [4 4] :black,
+    [3 7] :white,
+    [2 5] :white},
+   :player :black,
+   :vars
+   {[2 2] {:reply [2 3], :status :wrong},
+    [2 3] {:reply [2 2], :vars {[1 3] {:reply [1 2], :status :wrong}}},
+    [6 0] {:reply [4 0], :status :wrong},
+    [5 0] {:reply [4 0], :status :wrong},
+    [4 0]
+    {:reply [3 0],
+     :vars
+     {[2 3]
+      {:reply [2 2],
+       :vars {[1 3] {:reply [1 2], :vars {}, :status :wrong}}},
+      [5 0] {:status :right},
+      :any {:reply [5 0], :status :wrong}}},
+    :any {:reply [5 0], :status :wrong}}})
+
 (def all
   [capture-1
    capture-2
@@ -402,4 +451,5 @@
    race3
    geta-1
    crane
-   ladder])
+   ladder
+   yose-hane])
