@@ -5,7 +5,7 @@
             [learngo.view.board  :as board-view]
             [reagent.core        :as reagent]))
 
-(def play-interval 500)
+(def play-interval 4000)
 
 (defn play-seq [board moves]
   (->> moves
