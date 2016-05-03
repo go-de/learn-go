@@ -10,10 +10,14 @@
             [learngo.view.problem   :as problem-view]
             [learngo.view.utils     :as ui]
             [reagent.core           :as r]
-            [secretary.core         :as secretary :refer-macros [defroute]])
+            [secretary.core         :as secretary :refer-macros [defroute]]
+            [taoensso.timbre        :as timbre :refer-macros [debug]])
   (:import goog.History))
 
+(timbre/set-level! :debug)
+
 (defonce current-page (r/atom :home))
+(defonce current-problem (r/atom 0))
 
 (secretary/set-config! :prefix "#")
 
@@ -23,8 +27,10 @@
 (defroute home "/home" []
   (reset! current-page :home))
 
-(defroute tutorial "/tutorial" []
-  (reset! current-page :tutorial))
+(defroute tutorial #"/tutorial(#(\d+))?" [_ problem]
+  (reset! current-page :tutorial)
+  (when problem
+    (reset! current-problem (js/parseInt problem))))
 
 (defroute history "/about-go" []
   (reset! current-page :about-go))
