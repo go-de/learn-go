@@ -1655,7 +1655,7 @@ Board.default = {
 
 	//background: WGo.DIR+"wood1.jpg",    // Original version, tileing
 	//background: WGo.DIR+"wood_512.jpg", // Mobile friendly, low resolution
-	background: WGo.DIR+"wood_1024.jpg",  // High resolution version, use with REALISTIC handler
+	background: WGo.DIR+"wood_used.jpg",  // High resolution version, use with REALISTIC handler
 
 	//whiteStoneGraphic: [ WGo.DIR+"white_128.png" ], // Single image only, hires
 	//blackStoneGraphic: [ WGo.DIR+"black_128.png" ], // Single image only, hires
