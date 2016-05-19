@@ -1,9 +1,9 @@
 (ns learngo.problems)
 
-(def capture-1
-  {:title {:de "Schlage den weißen Stein"
-           :en "Take the white stone"}
-   :text {:de "Man schlägt Steine, indem man sie von allen vier Seiten umzingelt."}
+(def capture-1-a
+  {:title {:de "Schlagen"
+           :en "Capturing"}
+   :text {:de "Schlage den weißen Stein."}
    :stones {[3 4] :black
             [5 4] :black
             [4 5] :black
@@ -11,8 +11,74 @@
    :vars {[4 3] {:status :right
                  :text {:de "Gut gemacht!"}}
           :any  {:status :wrong
-                 :text {:de "Probier's nochmal"}
+                 :text {:de "Probier's nochmal. Man schlägt Steine, indem man sie von allen vier Seiten umzingelt."}
                  :reply  [4 3]}}})
+
+(def capture-1-b
+  {:size 9,
+   :stones
+   {[4 3] :black,
+    [3 4] :black,
+    [3 2] :black,
+    [2 4] :white,
+    [3 3] :white},
+   :player :white,
+   :vars
+   {[2 3] {:text {:de "Korrekt"}, :status :right},
+    :any {:reply [2 3], :status :wrong, :text {:de "Nicht ganz"}}},
+   :title {:de "Schlagen (2)"},
+   :text {:de "Schlage einen weißen Stein"}})
+
+(def capture-1-c
+  {:size 9,
+   :player :black,
+   :stones {[7 2] :black, [8 3] :black, [8 2] :white},
+   :vars
+   {[8 1] {:status :right :text {:de "Richtig"}},
+    :any {:status :wrong, :text {:de "Leider falsch"}}},
+   :title {:de "Schlagen am Rand"},
+   :text {:de "Schlage den weißen Stein"}})
+
+(def capture-1-d
+  {:size 9,
+   :player :white,
+   :stones {[5 7] :white, [4 7] :black, [4 8] :white, [5 8] :black},
+   :title {:de "Schlagen am Rand (2)"},
+   :text {:de "Schlage einen weißen Stein"},
+   :vars
+   {[3 8] {:status :right, :text {:de "Genau!"}},
+    :any {:status :wrong, :text {:de "Falsch"}}}})
+
+(def capture-1-e
+  {:size 9,
+   :player :white,
+   :stones {[8 1] :black, [8 0] :white},
+   :title {:de "Schlagen in der Ecke"},
+   :text {:de "Schlage den Stein"},
+   :vars
+   {[7 0] {:text {:de "Richtig"}, :status :right},
+    :any {:status :wrong, :text {:de "Probiere es nochmal"}}}})
+
+(def capture-1-f
+  {:size 9,
+   :stones
+   {[5 6] :black,
+    [8 8] :white,
+    [7 7] :white,
+    [6 7] :black,
+    [6 5] :white,
+    [7 8] :black,
+    [7 6] :white},
+   :player :white,
+   :title {:de "Schlagen in der Ecke (2)"},
+   :text {:de "Schlage einen Stein"},
+   :vars
+   {[6 8] {:reply [8 7], :status :wrong, :text {:de "Nein"}},
+    [8 7] {:text {:de "Ja, genau so"}, :status :right},
+    :any
+    {:reply [6 8],
+     :text {:de "Nun kann weiß einen Stein schlagen"},
+     :status :wrong}}})
 
 (def capture-2
   {:stones
@@ -438,7 +504,12 @@
     :any {:reply [5 0], :status :wrong}}})
 
 (def all
-  [capture-1
+  [capture-1-a
+   capture-1-b
+   capture-1-c
+   capture-1-d
+   capture-1-e
+   capture-1-f
    capture-2
    capture-3
    capture-4
