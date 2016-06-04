@@ -26,6 +26,7 @@
    :fork-us-on-github "Auf Github forken"
    :home "Home"
    :learn-go "Go lernen"
+   :lesson-overview "Übersicht"
    :intro-title "Spielregeln"
    :intro-rules-text "Für den Einstieg reichen uns drei Spielregeln:"
    :intro-rule-1 "Schwarz und Weiß setzen abwechselnd Steine auf die Schnittpunkte des Brettes. Schwarz beginnt."

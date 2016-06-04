@@ -9,6 +9,7 @@
             [learngo.view.forms-test]
             [learngo.view.intro-test]
             [learngo.view.layout-test]
+            [learngo.view.lessons-test]
             [learngo.view.page-test]
             [learngo.view.problem-test]
             [taoensso.timbre :as timbre]))
