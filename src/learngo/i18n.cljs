@@ -18,3 +18,6 @@
   (let [translate (languages @language)]
     (or (translate key)
         (default-translation key))))
+
+(defn from-map [m]
+  (get m @language))
