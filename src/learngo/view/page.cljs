@@ -1,53 +1,15 @@
 (ns learngo.view.page
-  (:require [clojure.string         :as str]
-            [goog.events            :as events]
-            [goog.history.EventType :as EventType]
-            [learngo.i18n           :as i18n]
-            [learngo.problems       :as problems]
-            [learngo.view.contact   :as contact-view]
-            [learngo.view.editor    :as editor-view]
-            [learngo.view.intro     :as intro-view]
-            [learngo.view.problem   :as problem-view]
-            [learngo.view.utils     :as ui]
-            [reagent.core           :as r]
-            [secretary.core         :as secretary :refer-macros [defroute]])
-  (:import goog.History))
-
-(defonce current-page (r/atom :home))
-
-(secretary/set-config! :prefix "#")
-
-(defroute default "/" []
-  (reset! current-page :home))
-
-(defroute home "/home" []
-  (reset! current-page :home))
-
-(defroute tutorial "/tutorial" []
-  (reset! current-page :tutorial))
-
-(defroute history "/about-go" []
-  (reset! current-page :about-go))
-
-(defroute links "/links" []
-  (reset! current-page :links))
-
-(defroute contribute "/contribute" []
-  (reset! current-page :contribute))
-
-(defroute contact "/contact" []
-  (reset! current-page :contact))
-
-(defroute "*" []
-  (reset! current-page :not-found))
-
-(let [h (History.)]
-  (goog.events/listen h EventType/NAVIGATE #(secretary/dispatch! (.-token %)))
-  (doto h (.setEnabled true))
-  (defn navigate [item]
-    (let [url (str "#/" (-> item name str/lower-case))]
-      (.pushState js/history #js {} "" url)
-      (secretary/dispatch! url))))
+  (:require [clojure.string       :as str]
+            [learngo.i18n         :as i18n]
+            [learngo.navigation   :as navigation]
+            [learngo.problems     :as problems]
+            [learngo.state        :as state]
+            [learngo.view.contact :as contact-view]
+            [learngo.view.editor  :as editor-view]
+            [learngo.view.intro   :as intro-view]
+            [learngo.view.lessons :as lessons-view]
+            [learngo.view.problem :as problem-view]
+            [learngo.view.utils   :as ui]))
 
 (defn home-page []
   [:div {:class "content"}
@@ -59,13 +21,12 @@
      [:div {:class "col-sm-4"}
        [:button.btn.btn-wood.btn-block
         {:type :button :class "attention"
-         :on-click #(navigate :tutorial)}
+         :on-click #(navigation/go :tutorial)}
         [:span {:class "btn-header"}(i18n/translate :start-tutorial)]
-        [:span {:class "btn-subtext"} (i18n/translate :start-tutorial-subtext)]
-       ]
+        [:span {:class "btn-subtext"} (i18n/translate :start-tutorial-subtext)]]
        [:button.btn.btn-default.btn-block
          {:type :button
-          :on-click #(navigate :about-go)}
+          :on-click #(navigation/go :about-go)}
          [:span {:class "btn-header"}(i18n/translate :start-about-go)]
          [:span {:class "btn-subtext"} (i18n/translate :start-about-go-subtext)]]]]])
 
@@ -78,23 +39,21 @@
      (doall
       (for [[item icon] items]
         [:li {:key item
-              :class (when (= @current-page item)
+              :class (when (= @state/current-page item)
                        "active")
               :style {:cursor :pointer}}
-         [:a {:on-click #(navigate item)}
+         [:a {:on-click #(navigation/go item)}
           (when icon
             [ui/glyphicon icon])
           " "
           (i18n/translate item)]]))]]])
 
-(defn problem-page []
-  (let [intro? (r/atom true)]
-    (fn []
-      [:div
-       (if @intro?
-         [intro-view/page {:on-next #(reset! intro? false)}]
-         [problem-view/collection
-          problems/all])])))
+#_(defn problem-page []
+  [:div
+   (if @intro?
+     [intro-view/page {:on-next #(reset! intro? false)}]
+     [problem-view/collection
+      problems/all])])
 
 (defn about-go-page []
   [:div {:class "content"}
@@ -144,11 +103,11 @@ Für alle, die nun Interesse bekommen haben und die Go-Regeln sofort erklärt be
   [:div {:class "content"}
    [:h1 (i18n/translate :useful-links)]
    [:br]
-   [:dl.dl-horizontal.link-list
-    (->> links-list
-         (mapcat (fn [[url text]]
-                   [[:dt>a {:href (str "http://" url)} url]
-                    [:dd text]])))]])
+   (->> links-list
+        (mapcat (fn [[url text]]
+                  [[:dt>a {:href (str "http://" url)} url]
+                   [:dd text]]))
+        (into [:dl.dl-horizontal.link-list]))])
 
 (defn contact-page []
   [:div {:class "content"}
@@ -173,8 +132,7 @@ Für alle, die nun Interesse bekommen haben und die Go-Regeln sofort erklärt be
                      "WGo.js"]]]
     [:div.col-lg-4 [github-link "Github"]]
     [:div.col-lg-4 [:a {:on-click (fn []
-                                    (navigate :contact)
-                                    false)}
+                                    (navigation/go :contact))}
                     (i18n/translate :contact-us)]]]])
 
 (defn content []
@@ -187,9 +145,9 @@ Für alle, die nun Interesse bekommen haben und die Go-Regeln sofort erklärt be
     [:contribute :scissors]
     [:contact :envelope]]
    [:div
-    (case @current-page
+    (case @state/current-page
       :home [home-page]
-      :tutorial [problem-page]
+      :tutorial [lessons-view/component]
       :about-go [about-go-page]
       :contribute [contribute-page]
       :links [links-page]

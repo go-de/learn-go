@@ -32,7 +32,6 @@
 
 (defn page [{:keys [on-next]}]
   [:div
-   [:h1 (i18n/translate :intro-title)]
    [:div.row
     [:div.col-lg-6
      [:div.thumbnail
@@ -48,3 +47,7 @@
       [:li (i18n/translate :intro-rule-3)]]
      [:button.button {:on-click on-next}
       (i18n/translate :next)]]]])
+
+(def data
+  {:title {:de "Einführung"}
+   :problems [[page {}]]})
