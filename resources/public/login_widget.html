@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Einloggen</title>
+    <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/2.5.1/firebase-ui-auth__de.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+      apiKey: "AIzaSyAvCoeVbJrAbhzV9mEXUh_fo35za0NNcz0",
+      authDomain: "learn-go-d865b.firebaseapp.com",
+      databaseURL: "https://learn-go-d865b.firebaseio.com",
+      storageBucket: "learn-go-d865b.appspot.com",
+      messagingSenderId: "286101574671"
+      };
+      firebase.initializeApp(config);
+      </script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css" />
+    <script type="text/javascript">
+      // FirebaseUI config.
+      var uiConfig = {
+        signInFlow: 'popup',
+        signInSuccessUrl: '/',
+        signInOptions: [
+          firebase.auth.EmailAuthProvider.PROVIDER_ID,
+          // firebase.auth.GoogleAuthProvider.PROVIDER_ID
+        ],
+        // Terms of service url.
+        tosUrl: '<your-tos-url>',
+        'callbacks': {
+          'signInSuccess': function(user, credential, redirectUrl) {
+            if (window.opener) {
+              // The widget has been opened in a popup, so close the window
+              // and return false to not redirect the opener.
+              window.close();
+              return false;
+            } else {
+              // The widget has been used in redirect mode, so we redirect to the signInSuccessUrl.
+              return true;
+            }
+          }
+        },
+      };
+
+      // Initialize the FirebaseUI Widget using Firebase.
+      var ui = new firebaseui.auth.AuthUI(firebase.auth());
+      // The start method will wait until the DOM is loaded.
+      ui.start('#firebaseui-auth-container', uiConfig);
+    </script>
+  </head>
+  <body>
+    <!-- The surrounding HTML is left untouched by FirebaseUI.
+         Your app may use that space for branding, controls and other customizations.-->
+    <h1>Wilkommen bei go-lernen.de</h1>
+    <div id="firebaseui-auth-container"></div>
+  </body>
+</html>

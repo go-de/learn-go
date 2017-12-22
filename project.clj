@@ -2,16 +2,17 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
 
-  :dependencies [[org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "1.7.228"]
-                 [philoskim/debux "0.2.0"]
-                 [devcards "0.2.1-6"]
-                 [reagent "0.6.0-alpha"]
+  :dependencies [[org.clojure/clojure "1.9.0"]
+                 [org.clojure/clojurescript "1.9.946"]
+                 [org.clojure/core.async "0.3.465"]
+                 [philoskim/debux "0.4.1"]
+                 [devcards "0.2.4"]
+                 [reagent "0.7.0"]
                  [secretary "1.2.3"]
-                 [reagent-forms "0.5.21"]
-                 [com.taoensso/timbre "4.3.1"]]
-  :plugins [[lein-cljsbuild "1.1.1"]
-            [lein-figwheel "0.5.0-1"]
+                 [reagent-forms "0.5.32"]
+                 [com.taoensso/timbre "4.10.0"]]
+  :plugins [[lein-cljsbuild "1.1.7"]
+            [lein-figwheel "0.5.14"]
             [lein-externs "0.1.6"]]
 
   :aliases {"dev"     ["figwheel" "dev" "devcards"]
@@ -36,7 +37,7 @@
                         :compiler {:main       "learngo.main"
                                    :asset-path "js/compiled/out"
                                    :output-to  "resources/public/js/compiled/learngo.js"
-                                   :output-dir "resources/public/js/compiled/out"
+                                   :output-dir "resources/public/js/compiled/dev_out"
                                    :source-map-timestamp true }}
                        {:id "hostedcards"
                         :source-paths ["src" "test"]
@@ -45,6 +46,7 @@
                                    :externs ["externs/app.js"]
                                    :asset-path "js/compiled/out"
                                    :output-to  "resources/public/js/compiled/learngo_cards.js"
+                                   :output-dir "resources/public/js/compiled/hostedcards_out"
                                    :optimizations :advanced}}
                        {:id "prod"
                         :source-paths ["src"]
@@ -52,5 +54,6 @@
                                    :externs ["externs/app.js"]
                                    :asset-path "js/compiled/out"
                                    :output-to  "resources/public/js/compiled/learngo.js"
+                                   :output-dir "resources/public/js/compiled/prod_out"
                                    :optimizations :advanced}}]}
   :figwheel { :css-dirs ["resources/public/css"] })
