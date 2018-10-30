@@ -10,6 +10,7 @@
                  [reagent "0.7.0"]
                  [secretary "1.2.3"]
                  [reagent-forms "0.5.32"]
+                 [org.clojars.akiel/async-error "0.1"]
                  [com.taoensso/timbre "4.10.0"]]
   :plugins [[lein-cljsbuild "1.1.7"]
             [lein-figwheel "0.5.14"]

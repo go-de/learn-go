@@ -1,6 +1,6 @@
 (ns learngo.cards
   (:require [learngo.db.firestore-test]
-            [learngo.db.user-test]
+            #_[learngo.db.user-test]
             [learngo.logic.board-test]
             [learngo.logic.editor-test]
             [learngo.logic.problem-test]
@@ -13,8 +13,9 @@
             [learngo.view.layout-test]
             [learngo.view.page-test]
             [learngo.view.problem-test]
-            [learngo.view.user-bar-test]
-            [learngo.view.user-list-test]
+            #_[learngo.view.user-bar-test]
+            #_[learngo.view.user-list-test]
+            [tools.firestore-test]
             [taoensso.timbre :as timbre]))
 
 (timbre/set-level! :debug)
